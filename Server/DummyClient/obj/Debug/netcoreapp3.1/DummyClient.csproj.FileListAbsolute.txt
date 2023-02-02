@@ -1,0 +1,14 @@
+D:\Project\TheWeakest\Server\DummyClient\bin\Debug\netcoreapp3.1\DummyClient.exe
+D:\Project\TheWeakest\Server\DummyClient\bin\Debug\netcoreapp3.1\DummyClient.deps.json
+D:\Project\TheWeakest\Server\DummyClient\bin\Debug\netcoreapp3.1\DummyClient.runtimeconfig.json
+D:\Project\TheWeakest\Server\DummyClient\bin\Debug\netcoreapp3.1\DummyClient.runtimeconfig.dev.json
+D:\Project\TheWeakest\Server\DummyClient\bin\Debug\netcoreapp3.1\DummyClient.dll
+D:\Project\TheWeakest\Server\DummyClient\bin\Debug\netcoreapp3.1\DummyClient.pdb
+D:\Project\TheWeakest\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.csproj.AssemblyReference.cache
+D:\Project\TheWeakest\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\TheWeakest\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.AssemblyInfoInputs.cache
+D:\Project\TheWeakest\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.AssemblyInfo.cs
+D:\Project\TheWeakest\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.csproj.CoreCompileInputs.cache
+D:\Project\TheWeakest\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.dll
+D:\Project\TheWeakest\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.pdb
+D:\Project\TheWeakest\Server\DummyClient\obj\Debug\netcoreapp3.1\DummyClient.genruntimeconfig.cache

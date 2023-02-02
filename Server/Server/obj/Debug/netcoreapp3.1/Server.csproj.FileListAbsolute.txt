@@ -1,0 +1,14 @@
+D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\Server.exe
+D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\Server.dll
+D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\Server.pdb
+D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.AssemblyReference.cache
+D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.dll
+D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.pdb
+D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache
