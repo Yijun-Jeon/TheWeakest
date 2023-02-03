@@ -7,6 +7,31 @@ namespace ServerCore
 {
     internal class Program
     {
+        static Listener _listener = new Listener();
+
+        static void onAcceptHandler(Socket clientSocket)
+        {
+            try
+            {
+                // Receive
+                byte[] recvBuff = new byte[1024];
+                int recvBytes = clientSocket.Receive(recvBuff);
+                string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
+                Console.WriteLine($"[From Client] {recvData}");
+
+                // Send
+                byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to TheWeakest Server!");
+                clientSocket.Send(sendBuff);
+
+                clientSocket.Shutdown(SocketShutdown.Both);
+                clientSocket.Close();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
         static void Main(string[] args)
         {
             // DNS
@@ -17,37 +42,12 @@ namespace ServerCore
 
             // Tcp 소켓 생성
             Socket listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            _listener.Init(endPoint, onAcceptHandler);
 
-            try
+            Console.WriteLine("Listening...");
+            while (true)
             {
-                // 소켓 바인드
-                listenSocket.Bind(endPoint);
-                // TODO : backlog
-                listenSocket.Listen(10);
-
-                while (true)
-                {
-                    Console.WriteLine("Listening...");
-
-                    Socket clientSocket = listenSocket.Accept();
-
-                    // Receive
-                    byte[] recvBuff = new byte[1024];
-                    int recvBytes = clientSocket.Receive(recvBuff);
-                    string recvData = Encoding.UTF8.GetString(recvBuff,0,recvBytes);
-                    Console.WriteLine($"[From Client] {recvData}");
-
-                    // Send
-                    byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to TheWeakest Server!");
-                    clientSocket.Send(sendBuff);
-
-                    clientSocket.Shutdown(SocketShutdown.Both);
-                    clientSocket.Close();
-                }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.ToString());  
+                ;
             }
         }
     }
