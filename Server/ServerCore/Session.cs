@@ -15,7 +15,6 @@ namespace ServerCore
 
         SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs();
         Queue<byte[]> _sendQueue = new Queue<byte[]>();
-        bool _pending = false;
 
         List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
 
@@ -58,7 +57,7 @@ namespace ServerCore
             {
                 _sendQueue.Enqueue(sendBuff);
                 // 전송 가능
-                if (_pending == false)
+                if (_pendingList.Count == 0)
                     RegisterSend();
             }
         }
@@ -97,9 +96,6 @@ namespace ServerCore
 
         public void RegisterSend()
         {
-            // 전송 중으로 변경
-            _pending = true;
-
             while(_sendQueue.Count > 0)
             {
                 byte[] buff = _sendQueue.Dequeue();
@@ -130,8 +126,6 @@ namespace ServerCore
 
                         if (_sendQueue.Count > 0)
                             RegisterSend();
-                        //else
-                        //    _pending = false; // 전송 가능으로 변경
                     }
                     catch (Exception e)
                     {
