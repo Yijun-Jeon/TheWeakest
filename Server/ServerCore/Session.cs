@@ -16,6 +16,8 @@ namespace ServerCore
         Queue<byte[]> _sendQueue = new Queue<byte[]>();
         bool _pending = false;
 
+        List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
+
         public void Start(Socket socket)
         {
             _socket = socket;
@@ -92,8 +94,13 @@ namespace ServerCore
             // 전송 중으로 변경
             _pending = true;
 
-            byte[] buff = _sendQueue.Dequeue();
-            _sendArgs.SetBuffer(buff,0,buff.Length);
+            while(_sendQueue.Count > 0)
+            {
+                byte[] buff = _sendQueue.Dequeue();
+                _pendingList.Add(new ArraySegment<byte>(buff,0,buff.Length));
+            }
+
+            _sendArgs.BufferList = _pendingList;
 
             bool pending = _socket.SendAsync(_sendArgs);
             // 전송 가능
@@ -110,10 +117,15 @@ namespace ServerCore
                 {
                     try
                     {
+                        args.BufferList = null;
+                        _pendingList.Clear();
+
+                        Console.WriteLine($"Transferred bytes : {_sendArgs.BytesTransferred}");
+
                         if (_sendQueue.Count > 0)
                             RegisterSend();
-                        else
-                            _pending = false; // 전송 가능으로 변경
+                        //else
+                        //    _pending = false; // 전송 가능으로 변경
                     }
                     catch (Exception e)
                     {
