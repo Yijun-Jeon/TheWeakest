@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace ServerCore
 {
@@ -13,18 +14,15 @@ namespace ServerCore
         {
             try
             {
-                // Receive
-                byte[] recvBuff = new byte[1024];
-                int recvBytes = clientSocket.Receive(recvBuff);
-                string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
-                Console.WriteLine($"[From Client] {recvData}");
+                Session session = new Session();
+                session.Start(clientSocket);
 
                 // Send
                 byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to TheWeakest Server!");
                 clientSocket.Send(sendBuff);
 
-                clientSocket.Shutdown(SocketShutdown.Both);
-                clientSocket.Close();
+                Thread.Sleep(100);
+                session.Disconnect();
             }
             catch(Exception ex)
             {
