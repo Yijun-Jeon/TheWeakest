@@ -19,7 +19,7 @@ namespace ServerCore
 
                 // Send
                 byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to TheWeakest Server!");
-                clientSocket.Send(sendBuff);
+                session.Send(sendBuff);
 
                 Thread.Sleep(100);
                 session.Disconnect();
