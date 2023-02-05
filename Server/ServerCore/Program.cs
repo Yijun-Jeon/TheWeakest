@@ -3,32 +3,45 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ServerCore
 {
+    class GameSession : Session
+    {
+        public override void OnConnected(EndPoint endPoint)
+        {
+            Console.WriteLine($"OnConnected: {endPoint}");
+
+            // Send
+            byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to TheWeakest Server!");
+            Send(sendBuff);
+
+            Thread.Sleep(100);
+            Disconnect();
+        }
+
+        public override void OnDisconnected(EndPoint endPoint)
+        {
+            Console.WriteLine($"OnDisconnected: {endPoint}");
+
+        }
+
+        public override void OnRecv(ArraySegment<byte> buffer)
+        {
+            string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
+            Console.WriteLine($"[From Client] {recvData}");
+        }
+
+        public override void OnSend(int numOfBytes)
+        {
+            Console.WriteLine($"Transferred bytes : {numOfBytes}");
+        }
+    }
+
     internal class Program
     {
         static Listener _listener = new Listener();
-
-        static void onAcceptHandler(Socket clientSocket)
-        {
-            try
-            {
-                Session session = new Session();
-                session.Start(clientSocket);
-
-                // Send
-                byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to TheWeakest Server!");
-                session.Send(sendBuff);
-
-                Thread.Sleep(100);
-                session.Disconnect();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
 
         static void Main(string[] args)
         {
@@ -38,9 +51,7 @@ namespace ServerCore
             IPAddress ipAddr = ipHost.AddressList[1];
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7000);
 
-            // Tcp 소켓 생성
-            Socket listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            _listener.Init(endPoint, onAcceptHandler);
+            _listener.Init(endPoint, () => { return new GameSession(); });
 
             Console.WriteLine("Listening...");
             while (true)
