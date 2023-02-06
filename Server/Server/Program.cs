@@ -8,37 +8,33 @@ using System.Threading;
 
 namespace Server
 {
-    // TEST Class
-    class Zombie
+    // TEST Packet
+    class Packet
     {
-        public ushort rank;
-        public double speed;
-        public string name;
-        public List<int> kills;
+        public ushort size;
+        public ushort packetId;
     }
 
-    class GameSession : Session
+    class GameSession : PacketSession
     {
         public override void OnConnected(EndPoint endPoint)
         {
-            Console.WriteLine($"OnConnected: {endPoint}");
+            Console.WriteLine($"[Server] OnConnected: {endPoint}");
 
-            Zombie zombie = new Zombie()
-            {
-                rank = 1,
-                speed = 3.1f,
-                name = "Yijun",
-                kills = new List<int>() { 1, 2, 3 }
-            };
+            //Packet packet = new Packet()
+            //{
+            //    size = 4,
+            //    packetId = 7
+            //};
 
-            ArraySegment<byte> openSegment = SendBufferHelper.Open(4096);
-            byte[] rankBuffer = BitConverter.GetBytes(zombie.rank);
-            byte[] speedBuffer = BitConverter.GetBytes(zombie.speed);
-            Array.Copy(rankBuffer,0,openSegment.Array,openSegment.Offset,rankBuffer.Length);
-            Array.Copy(speedBuffer, 0,openSegment.Array,openSegment.Offset + rankBuffer.Length, speedBuffer.Length);
-            ArraySegment<byte> sendBuff = SendBufferHelper.Close(rankBuffer.Length + speedBuffer.Length);
+            //ArraySegment<byte> openSegment = SendBufferHelper.Open(4096);
+            //byte[] sizeBuffer = BitConverter.GetBytes(packet.size);
+            //byte[] idBuffer = BitConverter.GetBytes(packet.packetId);
+            //Array.Copy(sizeBuffer, 0, openSegment.Array, openSegment.Offset, sizeBuffer.Length);
+            //Array.Copy(idBuffer, 0, openSegment.Array, openSegment.Offset + sizeBuffer.Length, idBuffer.Length);
+            //ArraySegment<byte> sendBuff = SendBufferHelper.Close(sizeBuffer.Length + idBuffer.Length);
 
-            Send(sendBuff);
+            //Send(sendBuff);
 
             Thread.Sleep(100);
             Disconnect();
@@ -46,20 +42,21 @@ namespace Server
 
         public override void OnDisconnected(EndPoint endPoint)
         {
-            Console.WriteLine($"OnDisconnected: {endPoint}");
+            Console.WriteLine($"[Server] OnDisconnected: {endPoint}");
         }
 
-        public override int OnRecv(ArraySegment<byte> buffer)
+        public override void OnRecvPacket(ArraySegment<byte> buffer)
         {
-            string recvData = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
-            Console.WriteLine($"[From Client] {recvData}");
+            // 패킷 데이터 추출
+            ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+            ushort packetId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + sizeof(ushort));
 
-            return buffer.Count;
+            Console.WriteLine($"[From Client] packetId({packetId}) size({size})");
         }
 
         public override void OnSend(int numOfBytes)
         {
-            Console.WriteLine($"Transferred bytes : {numOfBytes}");
+            Console.WriteLine($"[To Client] Transferred bytes : {numOfBytes}");
         }
     }
 

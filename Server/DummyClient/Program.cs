@@ -7,41 +7,55 @@ using ServerCore;
 
 namespace DummyClient
 {
-    class GameSession : Session
+    // TEST Packet
+    class Packet
+    {
+        public ushort size;
+        public ushort packetId;
+    }
+
+    class GameSession : PacketSession
     {
         public override void OnConnected(EndPoint endPoint)
         {
-            Console.WriteLine($"Connected To {endPoint}");
+            Console.WriteLine($"[Client] Connected To {endPoint}");
 
-            // TEST
-            for(int i=0; i < 5; i++)
+            Packet packet = new Packet()
             {
-                // Send
-                byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello Server I'm DummyClient {i} ");
+                size = 4,
+                packetId = 7
+            };
+
+            for (int i = 0; i < 5; i++)
+            {
+                ArraySegment<byte> openSegment = SendBufferHelper.Open(4096);
+                byte[] sizeBuffer = BitConverter.GetBytes(packet.size);
+                byte[] idBuffer = BitConverter.GetBytes(packet.packetId);
+                Array.Copy(sizeBuffer, 0, openSegment.Array, openSegment.Offset, sizeBuffer.Length);
+                Array.Copy(idBuffer, 0, openSegment.Array, openSegment.Offset + sizeBuffer.Length, idBuffer.Length);
+                ArraySegment<byte> sendBuff = SendBufferHelper.Close(sizeBuffer.Length + idBuffer.Length);
+
                 Send(sendBuff);
             }
         }
 
         public override void OnDisconnected(EndPoint endPoint)
         {
-            Console.WriteLine($"OnDisconnected: {endPoint}");
+            Console.WriteLine($"[Client] OnDisconnected: {endPoint}");
         }
 
-        public override int OnRecv(ArraySegment<byte> buffer)
+        public override void OnRecvPacket(ArraySegment<byte> buffer)
         {
-            ushort rank = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
-            double speed = BitConverter.ToDouble(buffer.Array,buffer.Offset + sizeof(ushort));
-            
-            //string recvData = Encoding.UTF8.GetString(buffer.Array,buffer.Offset,buffer.Count);
-            
-            Console.WriteLine($"[From Server] rank({rank}) speed({speed})");
+            // 패킷 데이터 추출
+            ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+            ushort packetId = BitConverter.ToUInt16(buffer.Array, buffer.Offset + sizeof(ushort));
 
-            return buffer.Count;
+            Console.WriteLine($"[From Server] packetId({packetId}) size({size})");
         }
 
         public override void OnSend(int numOfBytes)
         {
-            Console.WriteLine($"Transferred bytes : {numOfBytes}");
+            Console.WriteLine($"[To Server] Transferred bytes : {numOfBytes}");
         }
     }
 
