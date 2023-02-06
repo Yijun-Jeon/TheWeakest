@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 
@@ -23,6 +24,38 @@ namespace Server
     {
         public long playerId;
         public string name;
+        public struct SkillInfo
+        {
+            public int id;
+            public short level;
+            public float duration;
+
+            public void Read(ReadOnlySpan<byte> s, ref ushort count)
+            {
+                this.id = BitConverter.ToInt32(s.Slice(count, s.Length - count));
+                count += sizeof(int);
+                this.level = BitConverter.ToInt16(s.Slice(count, s.Length - count));
+                count += sizeof(short);
+                this.duration = BitConverter.ToSingle(s.Slice(count, s.Length - count));
+                count += sizeof(float);
+            }
+
+            public bool Write(Span<byte> s, ref ushort count)
+            {
+                bool success = true;
+
+                success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.id);
+                count += sizeof(int);
+                success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.level);
+                count += sizeof(short);
+                success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), this.duration);
+                count += sizeof(float);
+
+                return success;
+            }
+        }
+
+        public List<SkillInfo> skills = new List<SkillInfo>();
 
         public PlayerInfoReq()
         {
@@ -31,7 +64,7 @@ namespace Server
 
         public override void Read(ArraySegment<byte> segment)
         {
-            Span<byte> s = new Span<byte>(segment.Array,segment.Offset, segment.Count);
+            Span<byte> s = new Span<byte>(segment.Array, segment.Offset, segment.Count);
             ushort count = 0;
 
             // 패킷 데이터 추출
@@ -48,6 +81,17 @@ namespace Server
             count += sizeof(ushort);
             this.name = Encoding.Unicode.GetString(segment.Array, count, nameLen);
             count += nameLen;
+
+            // struct
+            skills.Clear();
+            ushort skillLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
+            count += sizeof(ushort);
+            for (int i = 0; i < skillLen; i++)
+            {
+                SkillInfo skill = new SkillInfo();
+                skill.Read(s, ref count);
+                skills.Add(skill);
+            }
         }
 
         public override ArraySegment<byte> Write()
@@ -71,6 +115,15 @@ namespace Server
             count += sizeof(ushort);
             Array.Copy(Encoding.Unicode.GetBytes(this.name), 0, segment.Array, count, nameLen);
             count += nameLen;
+
+            // struct
+            ushort skillLen = (ushort)skills.Count;
+            success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), skillLen);
+            count += sizeof(ushort);
+            foreach (SkillInfo skill in skills)
+            {
+                success &= skill.Write(s, ref count);
+            }
 
             // size
             success &= BitConverter.TryWriteBytes(s, count);
@@ -120,9 +173,16 @@ namespace Server
                         PlayerInfoReq p = new PlayerInfoReq();
                         p.Read(buffer);
                         Console.WriteLine($"[From Client] PlayerInfoReq : Id({p.playerId}) name({p.name})");
+
+                        foreach(PlayerInfoReq.SkillInfo skill in p.skills)
+                        {
+                            Console.WriteLine($"[From Client] SkillInfo : Id({skill.id}) Level({skill.level}) Duration({skill.duration})");
+                        }
                     }
                     break;
             }
+
+            Console.WriteLine($"[From Client] RecvPacketId: {id}, Size: {size}");
         }
 
         public override void OnSend(int numOfBytes)
