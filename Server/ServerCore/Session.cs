@@ -41,7 +41,7 @@ namespace ServerCore
 
         public void Disconnect()
         {
-            // 중복 처리 방지
+            // 중복 처리 방지 
             if (Interlocked.Exchange(ref _disconnected, 1) == 1)
                 return;
 
