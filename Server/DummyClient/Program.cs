@@ -17,7 +17,7 @@ namespace DummyClient
             for(int i=0; i < 5; i++)
             {
                 // Send
-                byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello Server I'm DummyClient {i}\n");
+                byte[] sendBuff = Encoding.UTF8.GetBytes($"Hello Server I'm DummyClient {i} ");
                 Send(sendBuff);
             }
         }
@@ -29,8 +29,12 @@ namespace DummyClient
 
         public override int OnRecv(ArraySegment<byte> buffer)
         {
-            string recvData = Encoding.UTF8.GetString(buffer.Array,buffer.Offset,buffer.Count);
-            Console.WriteLine($"[From Server] {recvData}");
+            ushort rank = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+            double speed = BitConverter.ToDouble(buffer.Array,buffer.Offset + sizeof(ushort));
+            
+            //string recvData = Encoding.UTF8.GetString(buffer.Array,buffer.Offset,buffer.Count);
+            
+            Console.WriteLine($"[From Server] rank({rank}) speed({speed})");
 
             return buffer.Count;
         }

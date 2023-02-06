@@ -1,19 +1,43 @@
 ﻿using ServerCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 
 namespace Server
 {
+    // TEST Class
+    class Zombie
+    {
+        public ushort rank;
+        public double speed;
+        public string name;
+        public List<int> kills;
+    }
+
     class GameSession : Session
     {
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"OnConnected: {endPoint}");
 
-            // Send
-            byte[] sendBuff = Encoding.UTF8.GetBytes("Welcome to TheWeakest Server!");
+            Zombie zombie = new Zombie()
+            {
+                rank = 1,
+                speed = 3.1f,
+                name = "Yijun",
+                kills = new List<int>() { 1, 2, 3 }
+            };
+
+            ArraySegment<byte> openSegment = SendBufferHelper.Open(4096);
+            byte[] rankBuffer = BitConverter.GetBytes(zombie.rank);
+            byte[] speedBuffer = BitConverter.GetBytes(zombie.speed);
+            Array.Copy(rankBuffer,0,openSegment.Array,openSegment.Offset,rankBuffer.Length);
+            Array.Copy(speedBuffer, 0,openSegment.Array,openSegment.Offset + rankBuffer.Length, speedBuffer.Length);
+            ArraySegment<byte> sendBuff = SendBufferHelper.Close(rankBuffer.Length + speedBuffer.Length);
+
             Send(sendBuff);
 
             Thread.Sleep(100);
@@ -23,7 +47,6 @@ namespace Server
         public override void OnDisconnected(EndPoint endPoint)
         {
             Console.WriteLine($"OnDisconnected: {endPoint}");
-
         }
 
         public override int OnRecv(ArraySegment<byte> buffer)
