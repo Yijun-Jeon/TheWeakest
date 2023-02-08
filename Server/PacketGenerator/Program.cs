@@ -9,6 +9,10 @@ namespace PacketGenerator
         // output 파일
         static string genPackets;
 
+        // enum
+        static ushort packetId;
+        static string packetEnums;
+
         static void Main(string[] args)
         {
             XmlReaderSettings settings = new XmlReaderSettings()
@@ -29,7 +33,9 @@ namespace PacketGenerator
                         ParsePacket(r);
                 }
 
-                File.WriteAllText("GenPacket.cs", genPackets);
+                // {0} : 패킷 이름/번호 목록, {1} : 패킷 목록
+                string fileText = string.Format(PacketFormat.fileFormat, packetEnums, genPackets);
+                File.WriteAllText("GenPacket.cs", fileText);
             }
         }
 
@@ -57,6 +63,10 @@ namespace PacketGenerator
             // {0} : packet 이름, {1} : 멤버 변수들, {2} : 멤버 변수 Read, {3} : 멤버 변수 Write
             genPackets += string.Format(PacketFormat.packetFormat,
                 packetName,t.Item1, t.Item2,t.Item3);
+
+            // {0} : 패킷 이름, {1} : 패킷 번호
+            packetEnums += string.Format(PacketFormat.packetEnumFormat, packetName, ++packetId);
+            packetEnums += Environment.NewLine + "\t";
         }
 
         public static Tuple<string, string, string> ParseMembers(XmlReader r)
@@ -115,6 +125,13 @@ namespace PacketGenerator
                         break;
                     case "byte":
                     case "sbyte":
+                        // {0} : 변수 형식, {1} : 변수 이름
+                        memberCode += string.Format(PacketFormat.memberFormat, memberType, memberName);
+                        // {0} : 변수 이름, {1} : 변수 형식
+                        readCode += string.Format(PacketFormat.readByteFormat, memberName, memberType);
+                        // {0} : 변수 이름, {1} : 변수 형식
+                        writeCode += string.Format(PacketFormat.writeByteFormat, memberName, memberType);
+                        break;
                     default:
                         break;
                 }
