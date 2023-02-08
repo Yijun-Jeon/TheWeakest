@@ -15,13 +15,19 @@ namespace PacketGenerator
 
         static void Main(string[] args)
         {
+            // default 경로 값
+            string pdlPath = "../PDL.xml";
+
             XmlReaderSettings settings = new XmlReaderSettings()
             {
                 IgnoreComments = true,
                 IgnoreWhitespace = true
             };
 
-            using (XmlReader r = XmlReader.Create("../../../PDL.xml", settings))
+            if(args.Length >= 1)
+                pdlPath = args[0];
+
+            using (XmlReader r = XmlReader.Create(pdlPath, settings))
             {
                 // 내용 부분으로 이동
                 r.MoveToContent();
