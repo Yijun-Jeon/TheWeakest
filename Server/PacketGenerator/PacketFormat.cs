@@ -18,6 +18,13 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
+interface IPacket
+{{
+	ushort Protocol {{ get; }}
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
+}}
+
 // 패킷 분류 ID
 public enum PacketID
 {{
@@ -38,9 +45,11 @@ public enum PacketID
         // {3} : 멤버 변수 Write
         public static string packetFormat =
 @"
-class {0}
+class {0} : IPacket
 {{
     {1}
+
+    public ushort Protocol {{ get {{ return (ushort)PacketID.{0}; }} }}    
 
     public void Read(ArraySegment<byte> segment)
     {{

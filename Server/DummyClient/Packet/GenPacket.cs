@@ -5,6 +5,13 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
+interface IPacket
+{
+	ushort Protocol { get; }
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
+}
+
 // 패킷 분류 ID
 public enum PacketID
 {
@@ -14,7 +21,7 @@ public enum PacketID
 }
 
 
-class PlayerInfoReq
+class PlayerInfoReq : IPacket
 {
     public long playerId;
 	public string name;
@@ -103,6 +110,8 @@ class PlayerInfoReq
 	public List<Skill> skills = new List<Skill>();
 	
 
+    public ushort Protocol { get { return (ushort)PacketID.PlayerInfoReq; } }    
+
     public void Read(ArraySegment<byte> segment)
     {
         Span<byte> s = new Span<byte>(segment.Array, segment.Offset, segment.Count);
@@ -184,10 +193,12 @@ class PlayerInfoReq
         return SendBufferHelper.Close(count);
     }
 }
-class Test
+class Test : IPacket
 {
     public int testInt;
 	
+
+    public ushort Protocol { get { return (ushort)PacketID.Test; } }    
 
     public void Read(ArraySegment<byte> segment)
     {
