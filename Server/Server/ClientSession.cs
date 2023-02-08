@@ -14,7 +14,7 @@ namespace Server
     {
         public long playerId;
         public string name;
-        public struct SkillInfo
+        public struct Skill
         {
             public int id;
             public short level;
@@ -45,7 +45,7 @@ namespace Server
             }
         }
 
-        public List<SkillInfo> skills = new List<SkillInfo>();
+        public List<Skill> skills = new List<Skill>();
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -73,7 +73,7 @@ namespace Server
             count += sizeof(ushort);
             for (int i = 0; i < skillLen; i++)
             {
-                SkillInfo skill = new SkillInfo();
+                Skill skill = new Skill();
                 skill.Read(s, ref count);
                 skills.Add(skill);
             }
@@ -105,7 +105,7 @@ namespace Server
             ushort skillLen = (ushort)skills.Count;
             success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), skillLen);
             count += sizeof(ushort);
-            foreach (SkillInfo skill in skills)
+            foreach (Skill skill in skills)
             {
                 success &= skill.Write(s, ref count);
             }
@@ -159,7 +159,7 @@ namespace Server
                         p.Read(buffer);
                         Console.WriteLine($"[From Client] PlayerInfoReq : Id({p.playerId}) name({p.name})");
 
-                        foreach(PlayerInfoReq.SkillInfo skill in p.skills)
+                        foreach(PlayerInfoReq.Skill skill in p.skills)
                         {
                             Console.WriteLine($"[From Client] SkillInfo : Id({skill.id}) Level({skill.level}) Duration({skill.duration})");
                         }

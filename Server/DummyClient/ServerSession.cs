@@ -12,7 +12,7 @@ namespace DummyClient
     {
         public long playerId;
         public string name;
-        public struct SkillInfo
+        public struct Skill
         {
             public int id;
             public short level;
@@ -43,7 +43,7 @@ namespace DummyClient
             }
         }
 
-        public List<SkillInfo> skills = new List<SkillInfo>();
+        public List<Skill> skills = new List<Skill>();
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -71,7 +71,7 @@ namespace DummyClient
             count += sizeof(ushort);
             for (int i = 0; i < skillLen; i++)
             {
-                SkillInfo skill = new SkillInfo();
+                Skill skill = new Skill();
                 skill.Read(s, ref count);
                 skills.Add(skill);
             }
@@ -103,7 +103,7 @@ namespace DummyClient
             ushort skillLen = (ushort)skills.Count;
             success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), skillLen);
             count += sizeof(ushort);
-            foreach (SkillInfo skill in skills)
+            foreach (Skill skill in skills)
             {
                 success &= skill.Write(s, ref count);
             }
@@ -131,11 +131,11 @@ namespace DummyClient
             Console.WriteLine($"[Client] Connected To {endPoint}");
 
             PlayerInfoReq packet = new PlayerInfoReq() { playerId = 10000, name="Yijun" };
-            packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 101, level = 1, duration = 3.0f });
-            packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 201, level = 2, duration = 4.0f });
-            packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 301, level = 3, duration = 5.0f });
-            packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 401, level = 4, duration = 6.0f });
-            packet.skills.Add(new PlayerInfoReq.SkillInfo() { id = 501, level = 5, duration = 7.0f });
+            packet.skills.Add(new PlayerInfoReq.Skill() { id = 101, level = 1, duration = 3.0f });
+            packet.skills.Add(new PlayerInfoReq.Skill() { id = 201, level = 2, duration = 4.0f });
+            packet.skills.Add(new PlayerInfoReq.Skill() { id = 301, level = 3, duration = 5.0f });
+            packet.skills.Add(new PlayerInfoReq.Skill() { id = 401, level = 4, duration = 6.0f });
+            packet.skills.Add(new PlayerInfoReq.Skill() { id = 501, level = 5, duration = 7.0f });
 
             ArraySegment<byte> sendBuff = packet.Write();
             if(sendBuff != null)
