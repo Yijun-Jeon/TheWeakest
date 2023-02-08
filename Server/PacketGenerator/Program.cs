@@ -6,12 +6,16 @@ namespace PacketGenerator
 {
     internal class Program
     {
-        // output 파일
+        // GenPacket
         static string genPackets;
 
-        // enum
+        // packet enum
         static ushort packetId;
         static string packetEnums;
+
+        // PacketManager
+        static string clientRegister;
+        static string serverRegister;
 
         static void Main(string[] args)
         {
@@ -42,6 +46,13 @@ namespace PacketGenerator
                 // {0} : 패킷 이름/번호 목록, {1} : 패킷 목록
                 string fileText = string.Format(PacketFormat.fileFormat, packetEnums, genPackets);
                 File.WriteAllText("GenPacket.cs", fileText);
+
+                // server
+                string clientManagerText = string.Format(PacketFormat.managerFormat, clientRegister);
+                File.WriteAllText("ClientPacketManager.cs", clientManagerText);
+                // client
+                string serverManagerText = string.Format(PacketFormat.managerFormat, serverRegister);
+                File.WriteAllText("ServerPacketManager.cs",serverManagerText);
             }
         }
 
@@ -73,6 +84,21 @@ namespace PacketGenerator
             // {0} : 패킷 이름, {1} : 패킷 번호
             packetEnums += string.Format(PacketFormat.packetEnumFormat, packetName, ++packetId);
             packetEnums += Environment.NewLine + "\t";
+
+            // 클라 -> 서버 Register
+            if(packetName.StartsWith("C") || packetName.StartsWith("c"))
+            {
+                // {0} : 패킷 이름
+                serverRegister += string.Format(PacketFormat.registerFormat, packetName);
+                serverRegister += Environment.NewLine;
+            }
+            // 서버 -> 클라 Register
+            else if(packetName.StartsWith("S") || packetName.StartsWith("s"))
+            {
+                // {0} : 패킷 이름
+                clientRegister += string.Format(PacketFormat.registerFormat, packetName);
+                clientRegister += Environment.NewLine;
+            }
         }
 
         public static Tuple<string, string, string> ParseMembers(XmlReader r)

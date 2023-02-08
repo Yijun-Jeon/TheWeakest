@@ -1,8 +1,7 @@
-﻿using ServerCore;
+
+using ServerCore;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 
 namespace Server.Packet
 {
@@ -30,8 +29,10 @@ namespace Server.Packet
         // 멀티쓰레드가 개입되기 전에 가장 먼저 실행 필요
         public void Register()
         {
-            _onRecv.Add((ushort)PacketID.PlayerInfoReq, MakePacket<PlayerInfoReq>);
-            _handler.Add((ushort)PacketID.PlayerInfoReq, PacketHandler.PlayerInfoReqHandler);
+            
+            _onRecv.Add((ushort)PacketID.S_Test, MakePacket<S_Test>);
+            _handler.Add((ushort)PacketID.S_Test, PacketHandler.S_TestHandler);
+
         }
 
         public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
