@@ -1,5 +1,4 @@
-﻿using Server.Packet;
-using ServerCore;
+﻿using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -10,16 +9,23 @@ namespace Server
 {
     class ClientSession : PacketSession
     {
+        public int SessionId { get; set; }
+        public GameRoom Room { get; set; }
+
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"[Server] OnConnected: {endPoint}");
 
-            Thread.Sleep(100);
-            Disconnect();
+            Program.Room.Enter(this);
         }
 
         public override void OnDisconnected(EndPoint endPoint)
         {
+            if(Room != null)
+            {
+                Room.Leave(this);
+                Room = null;
+            }
             Console.WriteLine($"[Server] OnDisconnected: {endPoint}");
         }
 
