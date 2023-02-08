@@ -1,0 +1,14 @@
+D:\Project\TheWeakest\Server\PacketGenerator\bin\PacketGenerator.exe
+D:\Project\TheWeakest\Server\PacketGenerator\bin\PacketGenerator.deps.json
+D:\Project\TheWeakest\Server\PacketGenerator\bin\PacketGenerator.runtimeconfig.json
+D:\Project\TheWeakest\Server\PacketGenerator\bin\PacketGenerator.runtimeconfig.dev.json
+D:\Project\TheWeakest\Server\PacketGenerator\bin\PacketGenerator.dll
+D:\Project\TheWeakest\Server\PacketGenerator\bin\PacketGenerator.pdb
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.AssemblyReference.cache
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.AssemblyInfoInputs.cache
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.AssemblyInfo.cs
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.CoreCompileInputs.cache
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.dll
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.pdb
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.genruntimeconfig.cache

@@ -1,0 +1,14 @@
+D:\Project\TheWeakest\Server\PacketGenerator\bin\Debug\netcoreapp3.1\PacketGenerator.exe
+D:\Project\TheWeakest\Server\PacketGenerator\bin\Debug\netcoreapp3.1\PacketGenerator.deps.json
+D:\Project\TheWeakest\Server\PacketGenerator\bin\Debug\netcoreapp3.1\PacketGenerator.runtimeconfig.json
+D:\Project\TheWeakest\Server\PacketGenerator\bin\Debug\netcoreapp3.1\PacketGenerator.runtimeconfig.dev.json
+D:\Project\TheWeakest\Server\PacketGenerator\bin\Debug\netcoreapp3.1\PacketGenerator.dll
+D:\Project\TheWeakest\Server\PacketGenerator\bin\Debug\netcoreapp3.1\PacketGenerator.pdb
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.csproj.AssemblyReference.cache
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.AssemblyInfoInputs.cache
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.AssemblyInfo.cs
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.csproj.CoreCompileInputs.cache
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.dll
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.pdb
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\netcoreapp3.1\PacketGenerator.genruntimeconfig.cache
