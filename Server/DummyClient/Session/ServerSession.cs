@@ -16,7 +16,7 @@ namespace DummyClient
         }
 
         public override void OnDisconnected(EndPoint endPoint)
-        {
+        {            
             Console.WriteLine($"[Client] OnDisconnected: {endPoint}");
         }
 

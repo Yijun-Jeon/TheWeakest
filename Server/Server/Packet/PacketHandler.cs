@@ -16,6 +16,8 @@ class PacketHandler
         //Console.WriteLine($"[From Client] RecvPacketId: {packet.Protocol}");
         Console.WriteLine($"[From Client] playerId({clientSession.SessionId}) chat({p.chat})");
 
-        clientSession.Room.BroadCast(clientSession, p.chat);
+        GameRoom room = clientSession.Room;
+
+        room.Push(() => { room.BroadCast(clientSession, p.chat); });
     }
 }

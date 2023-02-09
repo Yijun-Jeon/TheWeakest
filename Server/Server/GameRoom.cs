@@ -1,31 +1,26 @@
-﻿using System;
+﻿using ServerCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Server
 {
-    internal class GameRoom
+    internal class GameRoom : IJobQueue
     {
         List<ClientSession> _sessions = new List<ClientSession>();
         object _lock = new object();
+        JobQueue _jobQueue = new JobQueue();
 
         // 입장
         public void Enter(ClientSession session)
         {
-            lock (_lock)
-            {
-                _sessions.Add(session);
-                session.Room = this;
-            }
+            _sessions.Add(session);
+            session.Room = this;
         }
         // 퇴장
         public void Leave(ClientSession session)
         {
-            lock (_lock)
-            {
-                _sessions.Remove(session);
-            }
-
+            _sessions.Remove(session);
         }
 
         // 모든 클라에게 채팅 전달
@@ -36,11 +31,13 @@ namespace Server
             packet.chat = chat;
             ArraySegment<byte> sendBuff = packet.Write();
 
-            lock (_lock)
-            {
-                foreach (ClientSession s in _sessions)
-                    s.Send(sendBuff);
-            }
+            foreach (ClientSession s in _sessions)
+                s.Send(sendBuff);
+        }
+
+        public void Push(Action job)
+        {
+            _jobQueue.Push(job);
         }
     }
 }
