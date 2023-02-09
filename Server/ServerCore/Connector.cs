@@ -10,19 +10,22 @@ namespace ServerCore
     {
         Func<Session> _sessionFactory;
 
-        public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory)
+        public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory, int count = 1)
         {
-            Socket socket = new Socket(endPoint.AddressFamily,SocketType.Stream, ProtocolType.Tcp);
-            _sessionFactory = sessionFactory;
+            for(int i=0;i<count; i++)
+            {
+                Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                _sessionFactory = sessionFactory;
 
-            SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-            args.Completed += new EventHandler<SocketAsyncEventArgs>(OnConnectCompleted);
-            args.RemoteEndPoint = endPoint;
+                SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+                args.Completed += new EventHandler<SocketAsyncEventArgs>(OnConnectCompleted);
+                args.RemoteEndPoint = endPoint;
 
-            // UserToken으로 소켓 넘겨줌
-            args.UserToken = socket;
+                // UserToken으로 소켓 넘겨줌
+                args.UserToken = socket;
 
-            RegisterConnect(args);
+                RegisterConnect(args);
+            }
         }
 
         void RegisterConnect(SocketAsyncEventArgs args)

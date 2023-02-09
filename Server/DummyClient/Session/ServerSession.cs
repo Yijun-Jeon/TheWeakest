@@ -1,26 +1,23 @@
-﻿using Server.Packet;
-using ServerCore;
+﻿using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 
-namespace Server
+namespace DummyClient
 {
-    class ClientSession : PacketSession
+    class ServerSession : PacketSession
     {
         public override void OnConnected(EndPoint endPoint)
         {
-            Console.WriteLine($"[Server] OnConnected: {endPoint}");
-
-            Thread.Sleep(100);
-            Disconnect();
+            Console.WriteLine($"[Client] Connected To {endPoint}");
         }
 
         public override void OnDisconnected(EndPoint endPoint)
-        {
-            Console.WriteLine($"[Server] OnDisconnected: {endPoint}");
+        {            
+            Console.WriteLine($"[Client] OnDisconnected: {endPoint}");
         }
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
@@ -30,7 +27,7 @@ namespace Server
 
         public override void OnSend(int numOfBytes)
         {
-            Console.WriteLine($"[To Client] Transferred bytes : {numOfBytes}");
+            //Console.WriteLine($"[To Server] Transferred bytes : {numOfBytes}");
         }
     }
 }

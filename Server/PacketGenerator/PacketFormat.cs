@@ -15,68 +15,62 @@ using ServerCore;
 using System;
 using System.Collections.Generic;
 
-namespace Server.Packet
+public class PacketManager
 {{
-    public class PacketManager
+    #region SingleTon
+    static PacketManager _instance = new PacketManager();
+    public static PacketManager Instance {{ get {{ return _instance; }} }}
+    #endregion
+
+    PacketManager()
     {{
-        #region SingleTon
-        static PacketManager _instance;
-        public static PacketManager Instance
-        {{
-            get
-            {{
-                if (_instance == null)
-                    _instance = new PacketManager();
-                return _instance;
-            }}
-        }}
-        #endregion
+        Register();
+    }}
 
-        // Protocol Id, 특정 패킷으로 변경
-        Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>>();
-        // Protocol Id, PacketHandler 특정 패킷 대상 함수
-        Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new Dictionary<ushort, Action<PacketSession, IPacket>>();
+    // Protocol Id, 특정 패킷으로 변경
+    Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>>();
+    // Protocol Id, PacketHandler 특정 패킷 대상 함수
+    Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new Dictionary<ushort, Action<PacketSession, IPacket>>();
 
-        // 모든 Protocol의 행동들을 Dic에 미리 등록하는 작업
-        // 멀티쓰레드가 개입되기 전에 가장 먼저 실행 필요
-        public void Register()
-        {{
-            {0}
-        }}
+    // 모든 Protocol의 행동들을 Dic에 미리 등록하는 작업
+    // 멀티쓰레드가 개입되기 전에 가장 먼저 실행 필요
+    void Register()
+    {{
+        {0}
+    }}
 
-        public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
-        {{
-            ushort count = 0;
+    public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
+    {{
+        ushort count = 0;
 
-            // 패킷 정보 추출
-            ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
-            count += sizeof(ushort);
-            ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
-            count += sizeof(ushort);
+        // 패킷 정보 추출
+        ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+        count += sizeof(ushort);
+        ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
+        count += sizeof(ushort);
 
-            Action<PacketSession, ArraySegment<byte>> action = null;
-            if (_onRecv.TryGetValue(id, out action))
-                action.Invoke(session, buffer);
-        }}
+        Action<PacketSession, ArraySegment<byte>> action = null;
+        if (_onRecv.TryGetValue(id, out action))
+            action.Invoke(session, buffer);
+    }}
 
-        // Packet을 만들고 handler를 호출해 주는 작업
-        void MakePacket<T>(PacketSession session, ArraySegment<byte> buffer) where T : IPacket, new()
-        {{   
-            T packet = new T();
-            packet.Read(buffer);
+    // Packet을 만들고 handler를 호출해 주는 작업
+    void MakePacket<T>(PacketSession session, ArraySegment<byte> buffer) where T : IPacket, new()
+    {{   
+        T packet = new T();
+        packet.Read(buffer);
 
-            // PacketHandler 대상 함수 _handler에서 pakcet에 맞는 Protocol을 찾은 뒤 해당 action 추출
-            Action<PacketSession, IPacket> action = null;
-            if (_handler.TryGetValue(packet.Protocol, out action))
-                action.Invoke(session, packet);
-        }}
+        // PacketHandler 대상 함수 _handler에서 pakcet에 맞는 Protocol을 찾은 뒤 해당 action 추출
+        Action<PacketSession, IPacket> action = null;
+        if (_handler.TryGetValue(packet.Protocol, out action))
+            action.Invoke(session, packet);
     }}
 }}";
         // {0} : 패킷 이름
         public static string registerFormat =
 @"
-            _onRecv.Add((ushort)PacketID.{0}, MakePacket<{0}>);
-            _handler.Add((ushort)PacketID.{0}, PacketHandler.{0}Handler);";
+        _onRecv.Add((ushort)PacketID.{0}, MakePacket<{0}>);
+        _handler.Add((ushort)PacketID.{0}, PacketHandler.{0}Handler);";
 
         #endregion
         #region File_Packet
@@ -186,7 +180,7 @@ count += sizeof({1});
 // string
 ushort {0}Len = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
 count += sizeof(ushort);
-this.{0} = Encoding.Unicode.GetString(segment.Array, count, {0}Len);
+this.{0} = Encoding.Unicode.GetString(s.Slice(count,{0}Len));
 count += {0}Len;
 ";
 
@@ -194,10 +188,9 @@ count += {0}Len;
         public static string writeStringFormat =
 @"
 // string
-ushort {0}Len = (ushort)Encoding.Unicode.GetByteCount(this.{0});
+ushort {0}Len = (ushort)Encoding.Unicode.GetBytes(this.{0}, 0, this.{0}.Length, segment.Array, segment.Offset + count + sizeof(ushort));
 success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), {0}Len);
 count += sizeof(ushort);
-Array.Copy(Encoding.Unicode.GetBytes(this.{0}), 0, segment.Array, count, {0}Len);
 count += {0}Len;
 ";
 

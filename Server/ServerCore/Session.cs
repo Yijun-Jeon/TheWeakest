@@ -15,6 +15,7 @@ namespace ServerCore
         public sealed override int OnRecv(ArraySegment<byte> buffer)
         {
             int processLen = 0;
+            int packetCount = 0;
 
             while (true)
             {
@@ -28,13 +29,15 @@ namespace ServerCore
 
                 // 패킷 조립 가능
                 OnRecvPacket(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));
+                packetCount++;
 
                 processLen += dataSize;
 
                 // 다음 패킷으로 버퍼 변경
                 buffer = new ArraySegment<byte>(buffer.Array, buffer.Offset + dataSize, buffer.Count - dataSize);
             }
-
+            if(packetCount > 1)
+                Console.WriteLine($"Multiple Packet Recv : {packetCount}");
             return processLen;
         }
 
@@ -58,7 +61,16 @@ namespace ServerCore
         public abstract void OnSend(int numOfBytes);
         public abstract void OnDisconnected(EndPoint endPoint);
 
-        RecvBuffer _recvBuffer = new RecvBuffer(1024);
+        RecvBuffer _recvBuffer = new RecvBuffer(65535);
+
+        public void Clear()
+        {
+            lock (_lock)
+            {
+                _sendQueue.Clear();
+                _pendingList.Clear();
+            }
+        }
 
         public void Start(Socket socket)
         {
@@ -81,6 +93,8 @@ namespace ServerCore
             OnDisconnected(_socket.RemoteEndPoint);
             _socket.Shutdown(SocketShutdown.Both);
             _socket.Close();
+
+            Clear();
         }
 
         // Receive 와 달리 요청시 바로 처리
@@ -95,17 +109,45 @@ namespace ServerCore
             }
         }
 
+        // GameRoom에서 패킷을 모아보내기 위한 Send
+        public void Send(List<ArraySegment<byte>> sendBuffList)
+        {
+            if (sendBuffList.Count == 0)
+                return;
+
+            lock (_lock)
+            {
+                foreach (ArraySegment<byte> sendBuff in sendBuffList)
+                    _sendQueue.Enqueue(sendBuff);
+
+                // 전송 가능
+                if (_pendingList.Count == 0)
+                    RegisterSend();
+            }
+        }
+
         #region Network
 
         public void RegisterRecv()
         {
+            if (_disconnected == 1)
+                return;
+
             _recvBuffer.Clean();
             ArraySegment<byte> segment = _recvBuffer.WriteSegment;
             _recvArgs.SetBuffer(segment.Array,segment.Offset, segment.Count);
 
-            bool pending = _socket.ReceiveAsync(_recvArgs);
-            if (pending == false)
-                OnRecvCompleted(null, _recvArgs);
+            try
+            {
+                bool pending = _socket.ReceiveAsync(_recvArgs);
+                if (pending == false)
+                    OnRecvCompleted(null, _recvArgs);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Session RegisterRecv Failed {e}");
+            }
+            
         }
 
         public void OnRecvCompleted(object sender, SocketAsyncEventArgs args)
@@ -142,7 +184,7 @@ namespace ServerCore
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Session OnRecvCompleted Failed {e.ToString()}");
+                    Console.WriteLine($"Session OnRecvCompleted Failed {e}");
                 }
             }
             else
@@ -153,6 +195,9 @@ namespace ServerCore
 
         public void RegisterSend()
         {
+            if (_disconnected == 1)
+                return;
+
             while(_sendQueue.Count > 0)
             {
                 ArraySegment<byte> buff = _sendQueue.Dequeue();
@@ -161,10 +206,17 @@ namespace ServerCore
 
             _sendArgs.BufferList = _pendingList;
 
-            bool pending = _socket.SendAsync(_sendArgs);
-            // 전송 가능
-            if(pending == false)
-                OnSendCompleted(null, _sendArgs);
+            try
+            {
+                bool pending = _socket.SendAsync(_sendArgs);
+                // 전송 가능
+                if (pending == false)
+                    OnSendCompleted(null, _sendArgs);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Session RegisterSend Failed {e}");
+            }
         }
 
         public void OnSendCompleted(object sender, SocketAsyncEventArgs args)
