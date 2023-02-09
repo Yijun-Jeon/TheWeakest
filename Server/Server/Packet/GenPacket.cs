@@ -41,7 +41,7 @@ class C_Chat : IPacket
 		// string
 		ushort chatLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
 		count += sizeof(ushort);
-		this.chat = Encoding.Unicode.GetString(segment.Array, count, chatLen);
+		this.chat = Encoding.Unicode.GetString(s.Slice(count,chatLen));
 		count += chatLen;
 		
     }
@@ -60,10 +60,9 @@ class C_Chat : IPacket
 
         
 		// string
-		ushort chatLen = (ushort)Encoding.Unicode.GetByteCount(this.chat);
+		ushort chatLen = (ushort)Encoding.Unicode.GetBytes(this.chat, 0, this.chat.Length, segment.Array, segment.Offset + count + sizeof(ushort));
 		success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), chatLen);
 		count += sizeof(ushort);
-		Array.Copy(Encoding.Unicode.GetBytes(this.chat), 0, segment.Array, count, chatLen);
 		count += chatLen;
 		
         // size
@@ -99,7 +98,7 @@ class S_Chat : IPacket
 		// string
 		ushort chatLen = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
 		count += sizeof(ushort);
-		this.chat = Encoding.Unicode.GetString(segment.Array, count, chatLen);
+		this.chat = Encoding.Unicode.GetString(s.Slice(count,chatLen));
 		count += chatLen;
 		
     }
@@ -121,10 +120,9 @@ class S_Chat : IPacket
 		count += sizeof(int);
 		
 		// string
-		ushort chatLen = (ushort)Encoding.Unicode.GetByteCount(this.chat);
+		ushort chatLen = (ushort)Encoding.Unicode.GetBytes(this.chat, 0, this.chat.Length, segment.Array, segment.Offset + count + sizeof(ushort));
 		success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), chatLen);
 		count += sizeof(ushort);
-		Array.Copy(Encoding.Unicode.GetBytes(this.chat), 0, segment.Array, count, chatLen);
 		count += chatLen;
 		
         // size

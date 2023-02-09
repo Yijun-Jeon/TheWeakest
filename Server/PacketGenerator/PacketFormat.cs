@@ -18,17 +18,14 @@ using System.Collections.Generic;
 public class PacketManager
 {{
     #region SingleTon
-    static PacketManager _instance;
-    public static PacketManager Instance
-    {{
-        get
-        {{
-            if (_instance == null)
-                _instance = new PacketManager();
-            return _instance;
-        }}
-    }}
+    static PacketManager _instance = new PacketManager();
+    public static PacketManager Instance {{ get {{ return _instance; }} }}
     #endregion
+
+    PacketManager()
+    {{
+        Register();
+    }}
 
     // Protocol Id, 특정 패킷으로 변경
     Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>>();
@@ -37,7 +34,7 @@ public class PacketManager
 
     // 모든 Protocol의 행동들을 Dic에 미리 등록하는 작업
     // 멀티쓰레드가 개입되기 전에 가장 먼저 실행 필요
-    public void Register()
+    void Register()
     {{
         {0}
     }}
@@ -183,7 +180,7 @@ count += sizeof({1});
 // string
 ushort {0}Len = BitConverter.ToUInt16(s.Slice(count, s.Length - count));
 count += sizeof(ushort);
-this.{0} = Encoding.Unicode.GetString(segment.Array, count, {0}Len);
+this.{0} = Encoding.Unicode.GetString(s.Slice(count,{0}Len));
 count += {0}Len;
 ";
 
@@ -191,10 +188,9 @@ count += {0}Len;
         public static string writeStringFormat =
 @"
 // string
-ushort {0}Len = (ushort)Encoding.Unicode.GetByteCount(this.{0});
+ushort {0}Len = (ushort)Encoding.Unicode.GetBytes(this.{0}, 0, this.{0}.Length, segment.Array, segment.Offset + count + sizeof(ushort));
 success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), {0}Len);
 count += sizeof(ushort);
-Array.Copy(Encoding.Unicode.GetBytes(this.{0}), 0, segment.Array, count, {0}Len);
 count += {0}Len;
 ";
 

@@ -6,17 +6,14 @@ using System.Collections.Generic;
 public class PacketManager
 {
     #region SingleTon
-    static PacketManager _instance;
-    public static PacketManager Instance
-    {
-        get
-        {
-            if (_instance == null)
-                _instance = new PacketManager();
-            return _instance;
-        }
-    }
+    static PacketManager _instance = new PacketManager();
+    public static PacketManager Instance { get { return _instance; } }
     #endregion
+
+    PacketManager()
+    {
+        Register();
+    }
 
     // Protocol Id, 특정 패킷으로 변경
     Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>>();
@@ -25,7 +22,7 @@ public class PacketManager
 
     // 모든 Protocol의 행동들을 Dic에 미리 등록하는 작업
     // 멀티쓰레드가 개입되기 전에 가장 먼저 실행 필요
-    public void Register()
+    void Register()
     {
         
         _onRecv.Add((ushort)PacketID.C_Chat, MakePacket<C_Chat>);

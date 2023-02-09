@@ -12,7 +12,7 @@ class PacketHandler
         ServerSession serverSession = session as ServerSession;
         S_Chat p = packet as S_Chat;
 
-        Console.WriteLine($"[From Server] RecvPacketId: {packet.Protocol}");
+        //Console.WriteLine($"[From Server] RecvPacketId: {packet.Protocol}");
         Console.WriteLine($"[From Server] playerId({p.playerId}) chat({p.chat})");
     }
 }

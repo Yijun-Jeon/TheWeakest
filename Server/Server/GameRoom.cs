@@ -31,13 +31,13 @@ namespace Server
         // 모든 클라에게 채팅 전달
         public void BroadCast(ClientSession session, string chat)
         {
+            S_Chat packet = new S_Chat();
+            packet.playerId = session.SessionId;
+            packet.chat = chat;
+            ArraySegment<byte> sendBuff = packet.Write();
+
             lock (_lock)
             {
-                S_Chat packet = new S_Chat();
-                packet.playerId = session.SessionId;
-                packet.chat = chat;
-                ArraySegment<byte> sendBuff = packet.Write();
-
                 foreach (ClientSession s in _sessions)
                     s.Send(sendBuff);
             }

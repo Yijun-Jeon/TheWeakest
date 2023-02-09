@@ -11,8 +11,6 @@ namespace DummyClient
     {
         static void Main(string[] args)
         {
-            PacketManager.Instance.Register();
-
             // DNS
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
@@ -20,14 +18,15 @@ namespace DummyClient
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7000);
 
             Connector connector = new Connector();
-            connector.Connect(endPoint, () => { return new ServerSession(); });
+            connector.Connect(endPoint, () => { return SessionManager.Instance.Generate(); },100);
          
 
             while (true)
             {
                 try
                 {
-
+                    // 서버쪽으로 모든 클라가 메시지를 보냄
+                    SessionManager.Instance.SendForEach();
                 }
                 catch (Exception e)
                 {
@@ -35,7 +34,7 @@ namespace DummyClient
                 }
 
                 // TEST
-                Thread.Sleep(1000);
+                Thread.Sleep(250);
             }
         }
     }

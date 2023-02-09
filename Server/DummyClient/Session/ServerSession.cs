@@ -13,13 +13,6 @@ namespace DummyClient
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"[Client] Connected To {endPoint}");
-
-            C_Chat packet = new C_Chat();
-            packet.chat = "Hi Server!";
-
-            ArraySegment<byte> sendBuff = packet.Write();
-            if(sendBuff != null)
-                Send(sendBuff);
         }
 
         public override void OnDisconnected(EndPoint endPoint)

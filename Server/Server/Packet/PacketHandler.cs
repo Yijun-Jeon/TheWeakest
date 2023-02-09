@@ -13,7 +13,7 @@ class PacketHandler
         if (clientSession.Room == null)
             return;
 
-        Console.WriteLine($"[From Client] RecvPacketId: {packet.Protocol}");
+        //Console.WriteLine($"[From Client] RecvPacketId: {packet.Protocol}");
         Console.WriteLine($"[From Client] playerId({clientSession.SessionId}) chat({p.chat})");
 
         clientSession.Room.BroadCast(clientSession, p.chat);
