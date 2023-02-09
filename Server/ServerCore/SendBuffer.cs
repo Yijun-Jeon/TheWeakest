@@ -10,7 +10,7 @@ namespace ServerCore
         // SendBuffer의 인스턴스가 저장되는 전역변수
         public static ThreadLocal<SendBuffer> CurrentBuffer = new ThreadLocal<SendBuffer>(() => { return null; });
         // 만들어지는 buffer의 크기
-        public static int ChunkSize { get; set; } = 4096 * 100;
+        public static int ChunkSize { get; set; } = 65535 * 100;
 
         public static ArraySegment<byte> Open(int reserveSize)
         {

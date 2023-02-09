@@ -27,7 +27,7 @@ namespace DummyClient
 
         public override void OnSend(int numOfBytes)
         {
-            Console.WriteLine($"[To Server] Transferred bytes : {numOfBytes}");
+            //Console.WriteLine($"[To Server] Transferred bytes : {numOfBytes}");
         }
     }
 }

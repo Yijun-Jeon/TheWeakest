@@ -11,6 +11,8 @@ namespace Server
         object _lock = new object();
         JobQueue _jobQueue = new JobQueue();
 
+        List<ArraySegment<byte>> _pendingList = new List<ArraySegment<byte>>();
+
         // 입장
         public void Enter(ClientSession session)
         {
@@ -31,13 +33,21 @@ namespace Server
             packet.chat = chat;
             ArraySegment<byte> sendBuff = packet.Write();
 
-            foreach (ClientSession s in _sessions)
-                s.Send(sendBuff);
+            _pendingList.Add(sendBuff);
         }
 
         public void Push(Action job)
         {
             _jobQueue.Push(job);
+        }
+
+        public void Flush()
+        {
+            foreach (ClientSession s in _sessions)
+                s.Send(_pendingList);
+
+            Console.WriteLine($"[Server] Flushed {_pendingList.Count} items");
+            _pendingList.Clear();
         }
     }
 }

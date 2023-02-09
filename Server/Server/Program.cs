@@ -26,7 +26,9 @@ namespace Server
             Console.WriteLine("Listening...");
             while (true)
             {
-                ;
+                Room.Push(() => { Room.Flush(); });
+                Thread.Sleep(250); // 0.25초마다 JobQueue Flush
+                Console.WriteLine(SessionManager.Instance.Count());
             }
         }
     }

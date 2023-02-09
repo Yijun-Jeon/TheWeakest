@@ -14,7 +14,7 @@ class PacketHandler
             return;
 
         //Console.WriteLine($"[From Client] RecvPacketId: {packet.Protocol}");
-        Console.WriteLine($"[From Client] playerId({clientSession.SessionId}) chat({p.chat})");
+        //Console.WriteLine($"[From Client] playerId({clientSession.SessionId}) chat({p.chat})");
 
         GameRoom room = clientSession.Room;
 

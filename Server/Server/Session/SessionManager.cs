@@ -18,6 +18,11 @@ namespace Server
         // 발급 번호
         int _sessionId = 0;
 
+        public int Count()
+        {
+            return _sessions.Count;
+        }
+
         // Session 생성 인터페이스
         public ClientSession Generate()
         {
