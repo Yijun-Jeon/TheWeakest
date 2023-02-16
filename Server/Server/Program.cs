@@ -32,6 +32,7 @@ namespace Server
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
             IPAddress ipAddr = ipHost.AddressList[1];
+            // 로컬 서버 IP 주소 -> 포트포워드 설정 필요
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7000);
 
             _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });

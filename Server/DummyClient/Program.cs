@@ -15,7 +15,9 @@ namespace DummyClient
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
             IPAddress ipAddr = ipHost.AddressList[1];
-            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7000);
+            
+            // 서버 공용 IP 주소
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("61.102.132.68"), 7000);
 
             Connector connector = new Connector();
             connector.Connect(endPoint, () => { return SessionManager.Instance.Generate(); },10);
