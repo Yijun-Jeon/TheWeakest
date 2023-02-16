@@ -30,14 +30,14 @@ public class PacketQueue
 
     public List<IPacket> PopAll()
     {
+        List<IPacket> list = new List<IPacket>();
+
         lock (_lock)
         {
-            List<IPacket> list = new List<IPacket>();
-
             while(_pacektQueue.Count > 0 )
                 list.Add(_pacektQueue.Dequeue());
-
-            return list;
         }
+
+        return list;
     }
 }
