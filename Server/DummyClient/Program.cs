@@ -26,7 +26,7 @@ namespace DummyClient
                 try
                 {
                     // 서버쪽으로 모든 클라가 메시지를 보냄
-                    //SessionManager.Instance.SendForEach();
+                    SessionManager.Instance.SendForEach();
                 }
                 catch (Exception e)
                 {
