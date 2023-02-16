@@ -16,7 +16,7 @@ public class PacketManager
     }
 
     // Protocol Id, 특정 패킷으로 변경
-    Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>> _onRecv = new Dictionary<ushort, Action<PacketSession, ArraySegment<byte>>>();
+    Dictionary<ushort, Func<PacketSession, ArraySegment<byte>, IPacket>> _makeFunc = new Dictionary<ushort, Func<PacketSession, ArraySegment<byte>, IPacket>>();
     // Protocol Id, PacketHandler 특정 패킷 대상 함수
     Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new Dictionary<ushort, Action<PacketSession, IPacket>>();
 
@@ -25,12 +25,21 @@ public class PacketManager
     void Register()
     {
         
-        _onRecv.Add((ushort)PacketID.S_Chat, MakePacket<S_Chat>);
-        _handler.Add((ushort)PacketID.S_Chat, PacketHandler.S_ChatHandler);
+        _makeFunc.Add((ushort)PacketID.S_BroadcastEnterGame, MakePacket<S_BroadcastEnterGame>);
+        _handler.Add((ushort)PacketID.S_BroadcastEnterGame, PacketHandler.S_BroadcastEnterGameHandler);
+
+        _makeFunc.Add((ushort)PacketID.S_BroadcastLeaveGame, MakePacket<S_BroadcastLeaveGame>);
+        _handler.Add((ushort)PacketID.S_BroadcastLeaveGame, PacketHandler.S_BroadcastLeaveGameHandler);
+
+        _makeFunc.Add((ushort)PacketID.S_PlayerList, MakePacket<S_PlayerList>);
+        _handler.Add((ushort)PacketID.S_PlayerList, PacketHandler.S_PlayerListHandler);
+
+        _makeFunc.Add((ushort)PacketID.S_BroadcastMove, MakePacket<S_BroadcastMove>);
+        _handler.Add((ushort)PacketID.S_BroadcastMove, PacketHandler.S_BroadcastMoveHandler);
 
     }
 
-    public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
+    public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer, Action<PacketSession, IPacket> onRecvCallback = null)
     {
         ushort count = 0;
 
@@ -40,18 +49,30 @@ public class PacketManager
         ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
         count += sizeof(ushort);
 
-        Action<PacketSession, ArraySegment<byte>> action = null;
-        if (_onRecv.TryGetValue(id, out action))
-            action.Invoke(session, buffer);
+        Func<PacketSession, ArraySegment<byte>, IPacket> func = null;
+        if (_makeFunc.TryGetValue(id, out func))
+        {
+            // packet 만드는 부분
+            IPacket packet = func.Invoke(session, buffer);
+            if (onRecvCallback != null)
+                onRecvCallback.Invoke(session, packet); // 실제로 지정한 Action 실행
+            else
+                HandlePacket(session, packet); // default로 정한 Handler 실행
+        }  
     }
 
-    // Packet을 만들고 handler를 호출해 주는 작업
-    void MakePacket<T>(PacketSession session, ArraySegment<byte> buffer) where T : IPacket, new()
+    // Packet을 만듦
+    T MakePacket<T>(PacketSession session, ArraySegment<byte> buffer) where T : IPacket, new()
     {   
         T packet = new T();
         packet.Read(buffer);
+        return packet;
+    }
 
-        // PacketHandler 대상 함수 _handler에서 pakcet에 맞는 Protocol을 찾은 뒤 해당 action 추출
+    // 특정 Packet 대상 Handler 호출
+    public void HandlePacket(PacketSession session, IPacket packet)
+    {
+        // PacketHandler 대상 함수 _handler에서 packet에 맞는 Protocol을 찾은 뒤 해당 action 추출
         Action<PacketSession, IPacket> action = null;
         if (_handler.TryGetValue(packet.Protocol, out action))
             action.Invoke(session, packet);

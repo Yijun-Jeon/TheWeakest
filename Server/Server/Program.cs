@@ -18,7 +18,12 @@ namespace Server
             Room.Push(() => { Room.Flush(); });
             // 0.25초마다 JobQueue Flush 예약
             JobTimer.Instance.Push(FlushRoom, 250);
+        }
+
+        static void CountClient()
+        {
             Console.WriteLine(SessionManager.Instance.Count());
+            JobTimer.Instance.Push(CountClient, 1000);
         }
 
         static void Main(string[] args)
@@ -34,6 +39,7 @@ namespace Server
             Console.WriteLine("Listening...");
 
             FlushRoom();
+            CountClient();
             while (true)
             {
                 // 실행할 일감이 있는지만 계속 검사

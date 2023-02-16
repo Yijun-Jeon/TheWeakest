@@ -13,6 +13,7 @@ namespace DummyClient
 
         List<ServerSession> _sessions = new List<ServerSession>();
         object _lock = new object();
+        Random _rand = new Random();
 
         // Session 생성
         public ServerSession Generate()
@@ -32,11 +33,12 @@ namespace DummyClient
             {
                 foreach (ServerSession session in _sessions)
                 {
-                    C_Chat packet = new C_Chat();
-                    packet.chat = "Hi Server!";
+                    C_Move movePacket = new C_Move();
+                    movePacket.posX = _rand.Next(-9, 9);
+                    movePacket.posY = _rand.Next(-4, 4);
+                    movePacket.posZ = 0;
 
-                    ArraySegment<byte> sendBuff = packet.Write();
-                    session.Send(sendBuff);
+                    session.Send(movePacket.Write());
                 }
             }
         }
