@@ -18,7 +18,7 @@ namespace DummyClient
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7000);
 
             Connector connector = new Connector();
-            connector.Connect(endPoint, () => { return SessionManager.Instance.Generate(); },200);
+            connector.Connect(endPoint, () => { return SessionManager.Instance.Generate(); },10);
          
 
             while (true)
@@ -26,7 +26,7 @@ namespace DummyClient
                 try
                 {
                     // 서버쪽으로 모든 클라가 메시지를 보냄
-                    SessionManager.Instance.SendForEach();
+                    //SessionManager.Instance.SendForEach();
                 }
                 catch (Exception e)
                 {

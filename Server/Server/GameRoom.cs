@@ -46,7 +46,7 @@ namespace Server
             foreach (ClientSession s in _sessions)
                 s.Send(_pendingList);
 
-            Console.WriteLine($"[Server] Flushed {_pendingList.Count} items");
+            //Console.WriteLine($"[Server] Flushed {_pendingList.Count} items");
             _pendingList.Clear();
         }
     }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using UnityEngine;
 
 class PacketHandler
 {
@@ -12,7 +13,16 @@ class PacketHandler
         ServerSession serverSession = session as ServerSession;
         S_Chat p = packet as S_Chat;
 
-        //Console.WriteLine($"[From Server] RecvPacketId: {packet.Protocol}");
-        //Console.WriteLine($"[From Server] playerId({p.playerId}) chat({p.chat})");
+        //if (p.playerId == 1)
+        {
+            Debug.Log(p.chat);
+
+            GameObject go = GameObject.Find("Player");
+            if (go != null)
+                Debug.Log("Player found");
+            else
+                Debug.Log("Player not found");
+        }
+            
     }
 }

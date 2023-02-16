@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-interface IPacket
+public interface IPacket
 {
 	ushort Protocol { get; }
 	void Read(ArraySegment<byte> segment);
