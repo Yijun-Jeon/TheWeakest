@@ -5,60 +5,60 @@ using UnityEngine;
 public class PlayerManager
 {
     MyPlayer _myPlayer;
-    // ÇÃ·¹ÀÌ¾îµé ¸ñ·Ï
+    // í”Œë ˆì´ì–´ë“¤ ëª©ë¡ 
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
     public static PlayerManager Instance { get; } = new PlayerManager();
 
-    // ÇÃ·¹ÀÌ¾î ¸®½ºÆ® »ı¼º & °»½Å »óÈ²
+    // í”Œë ˆì´ì–´ ë¦¬ìŠ¤íŠ¸ ìƒì„± & ê°±ì‹  ìƒí™© 
     public void Add(S_PlayerList packet)
     {
-        Object obj = Resources.Load("Prefabs/Creature/Player"); // Resources »êÇÏÀÇ Player Prefab load
+        Object obj = Resources.Load("Prefabs/Creature/Player"); // Resources ì‚°í•˜ì˜ Player Prefab load
 
         foreach (S_PlayerList.Player p in packet.players)
         {
-            GameObject go = Object.Instantiate(obj) as GameObject; // ÀÎ°ÔÀÓ »ó¿¡ Å¬·Ğ »ı¼º
+            GameObject go = Object.Instantiate(obj) as GameObject; // ì¸ê²Œì„ ìƒì— í´ë¡  ìƒì„± 
 
             if (p.isSelf) // Me
             {
                 MyPlayer myPlayer = go.AddComponent<MyPlayer>();
                 myPlayer.PlayerId = p.playerId;
-                myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ); // À§Ä¡ ¼¼ÆÃ
+                myPlayer.transform.position = new Vector3(p.posX, p.posY, p.posZ); // ìœ„ì¹˜ ì„¸íŒ… 
                 _myPlayer = myPlayer;
             }
             else // Other
             {
                 Player player = go.AddComponent<Player>();
                 player.PlayerId = p.playerId;
-                player.transform.position = new Vector3(p.posX, p.posY, p.posZ); // À§Ä¡ ¼¼ÆÃ
+                player.transform.position = new Vector3(p.posX, p.posY, p.posZ); // ìœ„ì¹˜ ì„¸íŒ… 
                 _players.Add(p.playerId, player);
             }
         }
     }
 
-    // ³ª È¤Àº ´©±º°¡°¡ »õ·Î Á¢¼ÓÇÑ »óÈ²
+    // ë‚˜ í˜¹ì€ ëˆ„êµ°ê°€ê°€ ìƒˆë¡œ ì ‘ì†í•œ ìƒí™© 
     public void EnterGame(S_BroadcastEnterGame packet)
     {
-        if (_myPlayer.PlayerId == packet.playerId) // ³»°¡ µé¾î¿È - ÀÌÁßÃ³¸® ¹æÁö
+        if (_myPlayer.PlayerId == packet.playerId) // ë‚´ê°€ ë“¤ì–´ì˜´ - ì´ì¤‘ì²˜ë¦¬ ë°©ì§€ 
             return;
 
         Object obj = Resources.Load("Prefabs/Creature/Player");
         GameObject go = Object.Instantiate(obj) as GameObject;
 
         Player player = go.AddComponent<Player>();
-        player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ); // À§Ä¡ ¼¼ÆÃ
+        player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ); // ìœ„ì¹˜ ì„¸íŒ… 
         _players.Add(packet.playerId, player);
     }
 
-    // ³ª È¤Àº ´©±º°¡°¡ °ÔÀÓÀ» ¶°³­ »óÈ²
+    // ë‚˜ í˜¹ì€ ëˆ„êµ°ê°€ê°€ ê²Œì„ì„ ë– ë‚œ ìƒí™© 
     public void LeaveGame(S_BroadcastLeaveGame packet)
     {
-        if (_myPlayer.PlayerId == packet.playerId) // ³»°¡ ³ª°¨
+        if (_myPlayer.PlayerId == packet.playerId) // ë‚´ê°€ ë‚˜ê° 
         {
             GameObject.Destroy(_myPlayer.gameObject);
             _myPlayer = null;
         }
-        else // ´Ù¸¥ÀÌ°¡ ³ª°¨
+        else // ë‹¤ë¥¸ì´ê°€ ë‚˜ê° 
         {
             Player player = null;
             if (_players.TryGetValue(packet.playerId, out player))
@@ -69,15 +69,15 @@ public class PlayerManager
         }
     }
 
-    // ³ª È¤Àº ´©±º°¡°¡ ¿òÁ÷ÀÓ
+    // ë‚˜ í˜¹ì€ ëˆ„êµ°ê°€ê°€ ì›€ì§ì„ 
     public void Move(S_BroadcastMove packet)
     {
-        // ¼­¹öÂÊ¿¡¼­ ´©±º°¡°¡ ÀÌµ¿ÇÑ´Ù´Â OK pacektÀÌ ¿ÔÀ» ¶§ ±×Á¦¼­¾ß ÀÌµ¿
-        if (_myPlayer.PlayerId == packet.playerId) // ³»°¡ ÀÌµ¿
+        // ì„œë²„ ìª½ì—ì„œ ëˆ„êµ°ê°€ê°€ ì´ë™í•œë‹¤ëŠ” OK Packetì´ ì™”ì„ ë•Œ ê·¸ì œì„œì•¼ ì´ë™ 
+        if (_myPlayer.PlayerId == packet.playerId) // ë‚´ê°€ ì´ë™ 
         {
             _myPlayer.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
         }
-        else // ´Ù¸¥ÀÌ°¡ ÀÌµ¿
+        else // ë‹¤ë¥¸ì´ê°€ ì´ë™ 
         {
             Player player = null;
             if (_players.TryGetValue(packet.playerId, out player))

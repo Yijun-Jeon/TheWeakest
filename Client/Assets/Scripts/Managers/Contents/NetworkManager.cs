@@ -13,11 +13,11 @@ public class NetworkManager : MonoBehaviour
     void Start()
     {
         // DNS
-        /*string host = Dns.GetHostName();
-        IPHostEntry ipHost = Dns.GetHostEntry(host);
-        IPAddress ipAddr = ipHost.AddressList[1];*/
+        //string host = Dns.GetHostName();
+        //IPHostEntry ipHost = Dns.GetHostEntry(host);
+        //IPAddress ipAddr = ipHost.AddressList[1];
 
-        // ¼­¹ö °ø¿ë IP ÁÖ¼Ò
+        // ì„œë²„ ê³µìš© IP ì£¼ì†Œ 
         IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("61.102.132.68"), 7000);
 
         Connector connector = new Connector();
