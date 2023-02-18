@@ -8,6 +8,10 @@ public class Define
         Down,
         Left,
         Right,
+        UpLeft,
+        UpRight,
+        DownLeft,
+        DownRight,
     }
 
     public enum Scene
