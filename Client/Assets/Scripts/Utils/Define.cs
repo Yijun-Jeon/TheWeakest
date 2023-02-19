@@ -26,7 +26,7 @@ public class Define
     {
         Bgm,
         Effect,
-        Max
+        MaxCount
     }
 
     public enum UIEvent
