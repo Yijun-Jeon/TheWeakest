@@ -8,6 +8,10 @@ public class Define
         Down,
         Left,
         Right,
+        UpLeft,
+        UpRight,
+        DownLeft,
+        DownRight,
     }
 
     public enum Scene
@@ -22,7 +26,7 @@ public class Define
     {
         Bgm,
         Effect,
-        Max
+        MaxCount
     }
 
     public enum UIEvent
