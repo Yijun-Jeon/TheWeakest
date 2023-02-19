@@ -97,6 +97,12 @@ public class PlayerController : MonoBehaviour
         UpdateIsMoving();
     }
 
+    // 카메라 제어의 경우 LateUpdate에서 주로 설정
+    void LateUpdate()
+    {
+        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);    
+    }
+
     void GetDirInput()
     {
         // Left, A -> x = -1
