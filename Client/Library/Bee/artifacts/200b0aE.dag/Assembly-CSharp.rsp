@@ -373,6 +373,7 @@
 "Assets/Scripts/Controllers/MyPlayer.cs"
 "Assets/Scripts/Controllers/Player.cs"
 "Assets/Scripts/Controllers/PlayerController.cs"
+"Assets/Scripts/Managers/Contents/MapManager.cs"
 "Assets/Scripts/Managers/Contents/NetworkManager.cs"
 "Assets/Scripts/Managers/Contents/PlayerManager.cs"
 "Assets/Scripts/Managers/Core/DataManager.cs"

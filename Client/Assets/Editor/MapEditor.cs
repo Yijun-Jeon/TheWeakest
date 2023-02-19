@@ -23,10 +23,10 @@ public class MapEditor : MonoBehaviour
 
         foreach(GameObject go in gameObjects)
         {
-            Tilemap tm = Util.FindChild<Tilemap>(go, "Tilemap_wall1", true);
+            Tilemap tm = Util.FindChild<Tilemap>(go, "Tilemap_up", true);
 
             // 파일 포맷 - binnary or text
-            using (var writter = File.CreateText($"Assets/Resources/Map/{go.name}.txt"))
+            using (var writter = File.CreateText($"Assets/Resources/Map/{go.name}_up.txt"))
             {
                 writter.WriteLine(tm.cellBounds.xMin);
                 writter.WriteLine(tm.cellBounds.xMax);

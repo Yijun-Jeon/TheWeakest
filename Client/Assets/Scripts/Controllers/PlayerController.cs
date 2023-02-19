@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     
     // 좌표 상의 실제 위치 
     Vector3Int _cellPos = new Vector3Int(0, 0, 0);
-    MoveDir _dir = MoveDir.Down;
+    MoveDir _dir = MoveDir.Idle;
     bool _isMoving = false;
 
     float _speed = 10.0f;
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        Vector3 pos = _grid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.6f);
+        Vector3 pos = Managers.Map.CurrentGrid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.6f);
         transform.position = pos;
     }
     
@@ -149,28 +149,25 @@ public class PlayerController : MonoBehaviour
     // 실제로 스르르 이동 
     void UpdatePosition()
     {
+
         if (_isMoving == false)
             return;
 
+        Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.6f);
+        // 방향 vector - 2가지의 정보 : 실제 이동하는 방향, 이동하려는 목적지까지의 크기
+        Vector3 moveDir = destPos - transform.position;
 
-        // 방향 Vector - 2가지의 정보 : 실제 이동하는 방향, 이동하려는 목적지까지의 크기
-        moveDirection = new Vector3(X, Y, 0);
-
-        Vector3 destPos = transform.position + moveDirection;
-
-        //도착 여부 체크
-        float dist = moveDirection.magnitude;
+        // 도착 여부 체크
+        float dist = moveDir.magnitude;
         if (dist < _speed * Time.deltaTime)
         {
-            // 도착함 
             transform.position = destPos;
             _isMoving = false;
         }
         else
         {
             // 스르르 움직이게 처리
-            // 기기마다 Frame이 다를 수 있기 때문에 deltaTime을 곱해서 모든 머신에서 같게 보이게 함 
-            transform.position += moveDirection * Speed * Time.deltaTime;
+            transform.position += moveDir.normalized * _speed * Time.deltaTime;
             _isMoving = true;
         }
     }
@@ -179,47 +176,45 @@ public class PlayerController : MonoBehaviour
     // 이동 가능한 상태일 때 실제 좌표 이동
     void UpdateIsMoving()
     {
-
-        if(_isMoving == false)
+        if(_isMoving == false && Dir != MoveDir.Idle)
         {
+            Vector3Int desPos = _cellPos;
             switch (_dir)
             {
                 case MoveDir.Up:
-                    _cellPos += Vector3Int.down;
-                    _isMoving = true;
+                    desPos += Vector3Int.up;
                     break;
                 case MoveDir.UpRight:
-                    _cellPos += Vector3Int.down;
-                    _cellPos += Vector3Int.right;
-                    _isMoving = true;
+                    desPos += Vector3Int.up;
+                    desPos += Vector3Int.right;
                     break;
                 case MoveDir.UpLeft:
-                    _cellPos += Vector3Int.down;
-                    _cellPos += Vector3Int.left;
-                    _isMoving = true;
+                    desPos += Vector3Int.up;
+                    desPos += Vector3Int.left;
                     break;
                 case MoveDir.Down:
-                    _cellPos += Vector3Int.down;
-                    _isMoving = true;
+                    desPos += Vector3Int.down;
                     break;
                 case MoveDir.DownRight:
-                    _cellPos += Vector3Int.down;
-                    _cellPos += Vector3Int.right;
-                    _isMoving = true;
+                    desPos += Vector3Int.down;
+                    desPos += Vector3Int.right;
                     break;
                 case MoveDir.DownLeft:
-                    _cellPos += Vector3Int.down;
-                    _cellPos += Vector3Int.left;
-                    _isMoving = true;
+                    desPos += Vector3Int.down;
+                    desPos += Vector3Int.left;
                     break;
                 case MoveDir.Left:
-                    _cellPos += Vector3Int.left;
-                    _isMoving = true;
+                    desPos += Vector3Int.left;
                     break;
                 case MoveDir.Right:
-                    _cellPos += Vector3Int.right;
-                    _isMoving = true;
+                    desPos += Vector3Int.right;
                     break;
+            }
+
+            if(Managers.Map.CanGo(desPos))
+            {
+                _cellPos = desPos;
+                _isMoving = true;
             }
         }
     }
