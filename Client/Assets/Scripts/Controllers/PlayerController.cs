@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_dir == value)
                 return;
+
             if(value == MoveDir.Idle)
             {
                 _animator.Play("Idle");
@@ -80,6 +81,7 @@ public class PlayerController : MonoBehaviour
                 _animator.Play("Walk");
             }
             _dir = value;
+            Debug.Log(_dir.ToString());
         }
     }
 
