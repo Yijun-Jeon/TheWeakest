@@ -71,8 +71,12 @@ public class PlayerController : MonoBehaviour
         {
             if (_dir == value)
                 return;
-
-            if(value == MoveDir.Idle)
+            _dir = value;
+            if(_isSkill)
+            {
+                return;
+            }
+            if (value == MoveDir.Idle)
             {
                 _animator.Play("Idle");
             }
@@ -80,7 +84,7 @@ public class PlayerController : MonoBehaviour
             {
                 _animator.Play("Walk");
             }
-            _dir = value;
+            
             Debug.Log(_dir.ToString());
         }
     }
@@ -97,12 +101,28 @@ public class PlayerController : MonoBehaviour
         GetDirInput();
         UpdatePosition();
         UpdateIsMoving();
+        GetSkiilInput();
     }
 
     // 카메라 제어의 경우 LateUpdate에서 주로 설정
     void LateUpdate()
     {
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);    
+    }
+
+    Coroutine _coSkill;
+    bool _isSkill = false;
+
+    void GetSkiilInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (_isSkill == true)
+                return;
+            _isSkill = true;
+            _animator.Play("Bigger");
+            _coSkill = StartCoroutine("CoStartBigger");            
+        }
     }
 
     void GetDirInput()
@@ -157,7 +177,6 @@ public class PlayerController : MonoBehaviour
     // 실제로 스르르 이동 
     void UpdatePosition()
     {
-
         if (_isMoving == false)
             return;
 
@@ -225,5 +244,18 @@ public class PlayerController : MonoBehaviour
                 _isMoving = true;
             }
         }
+    }
+
+    IEnumerator CoStartBigger()
+    {
+        // TODO : 피격 판정
+
+        yield return new WaitForSeconds(1.2f);
+        if(_isMoving == true)
+            _animator.Play("Walk");
+        else
+            _animator.Play("Idle");
+        _coSkill = null;
+        _isSkill = false;
     }
 }
