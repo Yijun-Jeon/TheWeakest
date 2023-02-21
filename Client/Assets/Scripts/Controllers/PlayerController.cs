@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
             if (_dir == value)
                 return;
             _dir = value;
-            if(_isSkill)
+            if(_isAttack)
             {
                 return;
             }
@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        if (_isFake == true)
+            return;
         GetDirInput();
         UpdatePosition();
         UpdateIsMoving();
@@ -111,17 +113,26 @@ public class PlayerController : MonoBehaviour
     }
 
     Coroutine _coSkill;
-    bool _isSkill = false;
+    bool _isAttack = false;
+    bool _isFake = false;
 
     void GetSkiilInput()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_isSkill == true)
+            if (_isAttack == true)
                 return;
-            _isSkill = true;
+            _isAttack = true;
             _animator.Play("Bigger");
             _coSkill = StartCoroutine("CoStartBigger");            
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (_isAttack == true)
+                return;
+            _isFake = true;
+            _animator.Play("Fake");
+            _coSkill = StartCoroutine("CoStartFake");
         }
     }
 
@@ -256,6 +267,16 @@ public class PlayerController : MonoBehaviour
         else
             _animator.Play("Idle");
         _coSkill = null;
-        _isSkill = false;
+        _isAttack = false;
+    }
+
+    IEnumerator CoStartFake()
+    {
+        // TODO : 컨트롤 제한
+
+        yield return new WaitForSeconds(5f);
+        _animator.Play("Idle");
+        _coSkill = null;
+        _isFake = false;
     }
 }
