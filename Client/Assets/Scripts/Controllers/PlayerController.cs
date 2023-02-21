@@ -128,8 +128,8 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (_isAttack == true)
-                return;
+            //if (_isAttack == true)
+            //    StopCoroutine("CoStartAttack");
             _isFake = true;
             _animator.Play("Fake");
             _coSkill = StartCoroutine("CoStartFake");
@@ -262,10 +262,13 @@ public class PlayerController : MonoBehaviour
         // TODO : 피격 판정
 
         yield return new WaitForSeconds(1.2f);
-        if(_isMoving == true)
-            _animator.Play("Walk");
-        else
-            _animator.Play("Idle");
+        if (_isFake == false)
+        {
+            if (_isMoving == true)
+                _animator.Play("Walk");
+            else
+                _animator.Play("Idle");
+        }
         _coSkill = null;
         _isAttack = false;
     }
