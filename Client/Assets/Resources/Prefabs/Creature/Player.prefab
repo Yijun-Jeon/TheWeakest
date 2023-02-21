@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 1787790250258489724}
   - component: {fileID: 771873365721193316}
   - component: {fileID: -1748193108312682240}
+  - component: {fileID: 2046994028000460223}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -232,7 +233,7 @@ Animator:
   m_GameObject: {fileID: 1787790250258489727}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9ea5ea25ad4a441d6adf04e85ba4e0e4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -250,6 +251,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787790250258489727}
   m_CullTransparentMesh: 1
+--- !u!114 &2046994028000460223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787790250258489727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0c7f3e9629a4826ab84712b013b94f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grid: {fileID: 0}
 --- !u!1 &4099612160197852055
 GameObject:
   m_ObjectHideFlags: 0

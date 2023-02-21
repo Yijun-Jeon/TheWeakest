@@ -11,6 +11,11 @@ public class GameScene : BaseScene
         SceneType = Define.Scene.Game;
 
         Managers.Map.LoadMap(1);
+
+        // 플레이어 등록
+        GameObject player = Managers.Resource.Instantiate("Creature/Player");
+        player.name = "Player";
+
         //Managers.UI.ShowSceneUI<UI_Inven>();
         //Dictionary<int, Data.Stat> dict = Managers.Data.StatDict;
         //gameObject.GetOrAddComponent<CursorController>();
