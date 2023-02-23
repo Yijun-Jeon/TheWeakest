@@ -385,6 +385,7 @@
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEngine.TestRunner.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Editor/MapEditor.cs"
+"Assets/Editor/MultiplayerBuildAndRun.cs"
 -langversion:9.0
 
 /deterministic
