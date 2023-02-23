@@ -15,3 +15,4 @@ D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.genruntimecon
 D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.dll
 D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\ServerCore.pdb
 D:\Project\TheWeakest\Server\Server\obj\Debug\netcoreapp3.1\Server.csproj.CopyComplete
+D:\Project\TheWeakest\Server\Server\bin\Debug\netcoreapp3.1\Google.Protobuf.dll

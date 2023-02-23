@@ -1,90 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
 
 namespace PacketGenerator
 {
     class PacketFormat
     {
-        #region File_PacketManager
-        // {0} : 패킷 reigster
+        #region Google Protobuf
+        // {0} : 패킷 등록
         public static string managerFormat =
-@"
+@"using Google.Protobuf;
+using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
 using System.Collections.Generic;
 
-public class PacketManager
+class PacketManager
 {{
-    #region SingleTon
-    static PacketManager _instance = new PacketManager();
-    public static PacketManager Instance {{ get {{ return _instance; }} }}
-    #endregion
+	#region Singleton
+	static PacketManager _instance = new PacketManager();
+	public static PacketManager Instance {{ get {{ return _instance; }} }}
+	#endregion
 
-    PacketManager()
-    {{
-        Register();
-    }}
-
-    // Protocol Id, 특정 패킷으로 변경
-    Dictionary<ushort, Func<PacketSession, ArraySegment<byte>, IPacket>> _makeFunc = new Dictionary<ushort, Func<PacketSession, ArraySegment<byte>, IPacket>>();
-    // Protocol Id, PacketHandler 특정 패킷 대상 함수
-    Dictionary<ushort, Action<PacketSession, IPacket>> _handler = new Dictionary<ushort, Action<PacketSession, IPacket>>();
-
-    // 모든 Protocol의 행동들을 Dic에 미리 등록하는 작업
+	PacketManager()
+	{{
+		Register();
+	}}
+	
+	// Protocol Id, 특정 패킷으로 변경
+	Dictionary<ushort, Action<PacketSession, ArraySegment<byte>, ushort>> _onRecv = new Dictionary<ushort, Action<PacketSession, ArraySegment<byte>, ushort>>();
+	// Protocol Id, PacketHandler 특정 패킷 대상 함수
+	Dictionary<ushort, Action<PacketSession, IMessage>> _handler = new Dictionary<ushort, Action<PacketSession, IMessage>>();
+	
+	// 모든 Protocol의 행동들을 Dic에 미리 등록하는 작업
     // 멀티쓰레드가 개입되기 전에 가장 먼저 실행 필요
-    void Register()
-    {{
-        {0}
-    }}
+	public void Register()
+	{{{0}
+	}}
 
-    public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer, Action<PacketSession, IPacket> onRecvCallback = null)
-    {{
-        ushort count = 0;
+	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
+	{{
+		ushort count = 0;
 
-        // 패킷 정보 추출
-        ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
-        count += sizeof(ushort);
-        ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
-        count += sizeof(ushort);
+		// 패킷 정보 추출
+		ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
+		count += 2;
+		ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
+		count += 2;
 
-        Func<PacketSession, ArraySegment<byte>, IPacket> func = null;
-        if (_makeFunc.TryGetValue(id, out func))
-        {{
-            // packet 만드는 부분
-            IPacket packet = func.Invoke(session, buffer);
-            if (onRecvCallback != null)
-                onRecvCallback.Invoke(session, packet); // 실제로 지정한 Action 실행
-            else
-                HandlePacket(session, packet); // default로 정한 Handler 실행
-        }}  
-    }}
+		Action<PacketSession, ArraySegment<byte>, ushort> action = null;
+		if (_onRecv.TryGetValue(id, out action))
+			action.Invoke(session, buffer, id);
+	}}
 
-    // Packet을 만듦
-    T MakePacket<T>(PacketSession session, ArraySegment<byte> buffer) where T : IPacket, new()
-    {{   
-        T packet = new T();
-        packet.Read(buffer);
-        return packet;
-    }}
+	// Packet을 만듦
+	void MakePacket<T>(PacketSession session, ArraySegment<byte> buffer, ushort id) where T : IMessage, new()
+	{{
+		T pkt = new T();
+		pkt.MergeFrom(buffer.Array, buffer.Offset + 4, buffer.Count - 4);
+		Action<PacketSession, IMessage> action = null;
+		if (_handler.TryGetValue(id, out action))
+			action.Invoke(session, pkt);
+	}}
 
-    // 특정 Packet 대상 Handler 호출
-    public void HandlePacket(PacketSession session, IPacket packet)
-    {{
-        // PacketHandler 대상 함수 _handler에서 packet에 맞는 Protocol을 찾은 뒤 해당 action 추출
-        Action<PacketSession, IPacket> action = null;
-        if (_handler.TryGetValue(packet.Protocol, out action))
-            action.Invoke(session, packet);
-    }}
+	// 특정 Packet 대상 Handler 호출
+	public Action<PacketSession, IMessage> GetPacketHandler(ushort id)
+	{{
+		Action<PacketSession, IMessage> action = null;
+		if (_handler.TryGetValue(id, out action))
+			return action;
+		return null;
+	}}
 }}";
-        // {0} : 패킷 이름
-        public static string registerFormat =
-@"
-        _makeFunc.Add((ushort)PacketID.{0}, MakePacket<{0}>);
-        _handler.Add((ushort)PacketID.{0}, PacketHandler.{0}Handler);";
 
+        // {0} : MsgId
+        // {1} : 패킷 이름
+        public static string managerRegisterFormat =
+@"		
+		_onRecv.Add((ushort)MsgId.{0}, MakePacket<{1}>);
+		_handler.Add((ushort)MsgId.{0}, PacketHandler.{1}Handler);";
         #endregion
+        #region Personal Packet
         #region File_Packet
         // {0} : 패킷 이름/번호 목록
         // {1} : 패킷 목록
@@ -112,7 +108,7 @@ public enum PacketID
 {1}";
         // {0} : 패킷 이름
         // {1} : 패킷 번호
-        public static string packetEnumFormat = 
+        public static string packetEnumFormat =
 @"{0} = {1},";
 
         #endregion
@@ -165,7 +161,7 @@ public class {0} : IPacket
 }}";
         // {0} : 변수 형식
         // {1} : 변수 이름
-        public static string memberFormat = 
+        public static string memberFormat =
 @"public {0} {1};
 ";
 
@@ -263,7 +259,7 @@ foreach ({0} {1} in {1}s)
 
         // {0} : 변수 이름
         // {1} : 변수 형식
-        public static string readByteFormat = 
+        public static string readByteFormat =
 @"
 // byte
 this.{0} = ({1})segment.Array[segment.Offset + count];
@@ -278,6 +274,7 @@ count += sizeof({1});
 segment.Array[segment.Offset + count] = ({1})this.{0};
 count += sizeof({1});
 ";
+        #endregion
         #endregion
     }
 }

@@ -1,4 +1,5 @@
-using DummyClient;
+using Google.Protobuf;
+using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
 using System.Collections;
@@ -10,7 +11,7 @@ public class NetworkManager : MonoBehaviour
 {
     ServerSession _session = new ServerSession();
 
-    void Start()
+    public void Init()
     {
         // DNS
         //string host = Dns.GetHostName();
@@ -29,12 +30,14 @@ public class NetworkManager : MonoBehaviour
         _session.Send(sendBuff);
     }
 
-    void Update()
+    public void Update()
     {
-        IPacket packet = PacketQueue.Instance.Pop();
-        if(packet != null)
+        List<PacketMessage> list = PacketQueue.Instance.PopAll();
+        foreach (PacketMessage packet in list)
         {
-            PacketManager.Instance.HandlePacket(_session, packet);
+            Action<PacketSession, IMessage> handler = PacketManager.Instance.GetPacketHandler(packet.Id);
+            if (handler != null)
+                handler.Invoke(_session, packet.Message);
         }
     }
 }

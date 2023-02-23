@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "O1/6VQ0thGhQDaA6NsdqA+qcdVmlGWRxOihzxlYWLFtNBV5IsUNpOrwGTkI4EWuOXUC+xpnmh6IVyIkOKZuBcA==",
+  "dgSpecHash": "dGijvNUQZwbeoP2NFDdkjG3a0yG9+YmCbVODdGnVeC8e3FhY3RoELQ85QQdOUXar0QQ9de89CLR4myIlfUjPrg==",
   "success": true,
   "projectFilePath": "D:\\Project\\TheWeakest\\Server\\PacketGenerator\\PacketGenerator.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\jhobb\\.nuget\\packages\\google.protobuf\\3.22.0\\google.protobuf.3.22.0.nupkg.sha512",
+    "C:\\Users\\jhobb\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\jhobb\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
+  ],
   "logs": []
 }
