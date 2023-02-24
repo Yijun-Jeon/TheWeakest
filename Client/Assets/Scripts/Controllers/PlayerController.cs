@@ -137,7 +137,6 @@ public class PlayerController : MonoBehaviour
 
         State = PlayerState.Alive;
         Dir = MoveDir.Idle;
-        CellPos = new Vector3Int(0, 0, 0);
         UpdateLocalScale();
     }
     
@@ -269,5 +268,12 @@ public class PlayerController : MonoBehaviour
         _animator.Play("Idle");
         _coSkill = null;
         _isFake = false;
+    }
+
+    // 초기 접속시 위치 싱크 
+    public void SyncsPos()
+    {
+        Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.6f);
+        transform.position = destPos;
     }
 }
