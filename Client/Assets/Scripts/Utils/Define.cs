@@ -1,19 +1,6 @@
 
 public class Define 
 {
-    public enum MoveDir
-    {
-        Idle,
-        Up,
-        Down,
-        Left,
-        Right,
-        UpLeft,
-        UpRight,
-        DownLeft,
-        DownRight,
-    }
-
     public enum Scene
     {
         Unknown,

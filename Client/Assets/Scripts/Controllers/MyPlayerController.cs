@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Google.Protobuf.Protocol;
 using UnityEngine;
 using static Define;
 
@@ -49,11 +50,11 @@ public class MyPlayerController : PlayerController
 
         if (X == 1 && Y == 1)
         {
-            Dir = MoveDir.UpRight;
+            Dir = MoveDir.Upright;
         }
         else if (X == 1 && _y == -1)
         {
-            Dir = MoveDir.DownRight;
+            Dir = MoveDir.Downright;
         }
         else if (X == 1 && Y == 0)
         {
@@ -61,11 +62,11 @@ public class MyPlayerController : PlayerController
         }
         else if (X == -1 && Y == 1)
         {
-            Dir = MoveDir.UpLeft;
+            Dir = MoveDir.Upleft;
         }
         else if (X == -1 && Y == -1)
         {
-            Dir = MoveDir.DownLeft;
+            Dir = MoveDir.Downleft;
         }
         else if (X == -1 && Y == 0)
         {
@@ -82,6 +83,72 @@ public class MyPlayerController : PlayerController
         else if (X == 0 && Y == 0)
         {
             Dir = MoveDir.Idle;
+        }
+    }
+
+    protected override void UpdateIsMoving()
+    {
+        if(Dir == MoveDir.Idle)
+        {
+            CheckUpdatedFlag();
+            return;
+        }
+
+        if (_isMoving == false && Dir != MoveDir.Idle)
+        {
+            Vector3Int desPos = CellPos;
+            switch (Dir)
+            {
+                case MoveDir.Up:
+                    desPos += Vector3Int.up;
+                    break;
+                case MoveDir.Upright:
+                    desPos += Vector3Int.up;
+                    desPos += Vector3Int.right;
+                    break;
+                case MoveDir.Upleft:
+                    desPos += Vector3Int.up;
+                    desPos += Vector3Int.left;
+                    break;
+                case MoveDir.Down:
+                    desPos += Vector3Int.down;
+                    break;
+                case MoveDir.Downright:
+                    desPos += Vector3Int.down;
+                    desPos += Vector3Int.right;
+                    break;
+                case MoveDir.Downleft:
+                    desPos += Vector3Int.down;
+                    desPos += Vector3Int.left;
+                    break;
+                case MoveDir.Left:
+                    desPos += Vector3Int.left;
+                    break;
+                case MoveDir.Right:
+                    desPos += Vector3Int.right;
+                    break;
+            }
+
+            if (Managers.Map.CanGo(desPos))
+            {
+                CellPos = desPos;
+                _isMoving = true;
+            }
+        }
+
+        // 상태가 변하였다면 이동 패킷 전송 
+        CheckUpdatedFlag();
+    }
+
+    // 상태가 변하였다면 이동 패킷 전송 
+    void CheckUpdatedFlag()
+    {
+        if (_updated)
+        {
+            C_Move movePacket = new C_Move();
+            movePacket.PosInfo = PosInfo;
+            Managers.Network.Send(movePacket);
+            _updated = false;
         }
     }
 }
