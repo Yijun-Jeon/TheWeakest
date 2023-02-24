@@ -52,7 +52,7 @@ class PacketManager
 			action.Invoke(session, buffer, id);
 	}
 
-	public Action<PacketSession, IMessage, ushort> CustomHandler { get; set; }
+    public Action<PacketSession,IMessage,ushort> CustomHandler { get; set; }
 
 	// Packet을 만듦
 	void MakePacket<T>(PacketSession session, ArraySegment<byte> buffer, ushort id) where T : IMessage, new()
@@ -60,7 +60,7 @@ class PacketManager
 		T pkt = new T();
 		pkt.MergeFrom(buffer.Array, buffer.Offset + 4, buffer.Count - 4);
 
-		//Unity 클라이언트의 경우 커스텀 핸들러로 넘김
+		// Unity 클라이언트의 경우 커스텀 핸들러로 넘김
 		if(CustomHandler != null)
 		{
 			CustomHandler.Invoke(session, pkt, id);

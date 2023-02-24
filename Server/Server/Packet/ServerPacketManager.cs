@@ -44,30 +44,30 @@ class PacketManager
 			action.Invoke(session, buffer, id);
 	}
 
-    public Action<PacketSession, IMessage, ushort> CustomHandler { get; set; }
+    public Action<PacketSession,IMessage,ushort> CustomHandler { get; set; }
 
-    // Packet을 만듦
-    void MakePacket<T>(PacketSession session, ArraySegment<byte> buffer, ushort id) where T : IMessage, new()
-    {
-        T pkt = new T();
-        pkt.MergeFrom(buffer.Array, buffer.Offset + 4, buffer.Count - 4);
+	// Packet을 만듦
+	void MakePacket<T>(PacketSession session, ArraySegment<byte> buffer, ushort id) where T : IMessage, new()
+	{
+		T pkt = new T();
+		pkt.MergeFrom(buffer.Array, buffer.Offset + 4, buffer.Count - 4);
 
-        //Unity 클라이언트의 경우 커스텀 핸들러로 넘김
-        if (CustomHandler != null)
-        {
-            CustomHandler.Invoke(session, pkt, id);
-        }
-        // 서버의 경우 기존 핸들러로 처리 
-        else
-        {
+		// Unity 클라이언트의 경우 커스텀 핸들러로 넘김
+		if(CustomHandler != null)
+		{
+			CustomHandler.Invoke(session, pkt, id);
+		}
+		// 서버의 경우 기존 핸들러로 처리 
+		else
+		{
             Action<PacketSession, IMessage> action = null;
             if (_handler.TryGetValue(id, out action))
                 action.Invoke(session, pkt);
         }
-    }
+	}
 
-    // 특정 Packet 대상 Handler 호출
-    public Action<PacketSession, IMessage> GetPacketHandler(ushort id)
+	// 특정 Packet 대상 Handler 호출
+	public Action<PacketSession, IMessage> GetPacketHandler(ushort id)
 	{
 		Action<PacketSession, IMessage> action = null;
 		if (_handler.TryGetValue(id, out action))

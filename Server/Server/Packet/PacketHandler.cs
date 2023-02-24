@@ -11,23 +11,18 @@ class PacketHandler
         C_Move movePacket = packet as C_Move;
         ClientSession clientSession = session as ClientSession;
 
-        if (clientSession.MyPlayer == null)
+        // 멀티쓰레드 대비
+        // MyPlayer가 도중에 null로 바뀌어도 무방함
+        Player player = clientSession.MyPlayer;
+        if (player == null)
             return;
 
-        if (clientSession.MyPlayer.Room == null)
+        // 멀티쓰레드 대비
+        // MyPlayer가 도중에 LeaveGame 하여 GameRoom이 null로 바뀌어도 무방함
+        GameRoom room = player.Room;
+        if (room == null)
             return;
 
-        // TODO : 검증
-
-        // 일단 서버에서 좌표 이동
-        PlayerInfo info = clientSession.MyPlayer.Info;
-        info.PosInfo = movePacket.PosInfo;
-
-        // 다른 플레이어들에게 이동을 알려줌
-        S_Move resMovePacket = new S_Move();
-        resMovePacket.PlayerId = clientSession.MyPlayer.Info.PlayerId;
-        resMovePacket.PosInfo = movePacket.PosInfo;
-
-        clientSession.MyPlayer.Room.Broadcast(resMovePacket);
+        room.HandleMove(player,movePacket);
     }
 }

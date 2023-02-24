@@ -91,5 +91,29 @@ namespace Server
                 }
             }
         }
+
+        // 플레이어 이동 처리
+        public void HandleMove(Player player,C_Move movePacket)
+        {
+            if (player == null)
+                return;
+
+            // 실질적인 정보 수정은 한 쓰레드만 실행되도록
+            lock (_lock)
+            {
+                // TODO : 검증
+
+                // 일단 서버에서 좌표 이동
+                PlayerInfo info = player.Info;
+                info.PosInfo = movePacket.PosInfo;
+
+                // 다른 플레이어들에게 이동을 알려줌
+                S_Move resMovePacket = new S_Move();
+                resMovePacket.PlayerId = player.Info.PlayerId;
+                resMovePacket.PosInfo = movePacket.PosInfo;
+
+                Broadcast(resMovePacket);
+            }
+        }
     }
 }
