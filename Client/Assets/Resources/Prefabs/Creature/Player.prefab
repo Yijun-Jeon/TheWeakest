@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2215634688881028353
 RectTransform:
   m_ObjectHideFlags: 0
@@ -432,7 +432,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC774\uB984"
+  m_text: "\uC801"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ebaf7272c13154378a9256770e79d2f8, type: 2}
   m_sharedMaterial: {fileID: -3308143284109774829, guid: ebaf7272c13154378a9256770e79d2f8, type: 2}
@@ -441,8 +441,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279631616
-  m_fontColor: {r: 0, g: 1, b: 0.083981514, a: 1}
+    rgba: 4278911231
+  m_fontColor: {r: 1, g: 0, b: 0.041718483, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

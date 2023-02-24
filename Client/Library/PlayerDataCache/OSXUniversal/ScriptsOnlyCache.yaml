@@ -2,20 +2,27 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - GameScene
-    - NetworkManager
+    - MyPlayerController
     - PlayerController
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
     - UnityEditor.U2D.IK.IKEditorManager
     Unity.2D.Tilemap.Editor.dll:
+    - UnityEditor.Tilemaps.GridBrush
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
     - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
+    - UnityEditor.Tilemaps.TilemapEditorToolPreferences
     - UnityEditor.Tilemaps.TilemapPrefabStageHelper
+    Unity.2D.Tilemap.Extras.Editor.dll:
+    - UnityEditor.Tilemaps.GameObjectBrush
+    - UnityEditor.Tilemaps.GroupBrush
+    - UnityEditor.Tilemaps.LineBrush
+    - UnityEditor.Tilemaps.RandomBrush
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     Unity.TextMeshPro.dll:
@@ -95,33 +102,33 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: -598}
     - Class: 114
-      Script: {instanceID: 680}
+      Script: {instanceID: 690}
     - Class: 114
-      Script: {instanceID: 1570}
+      Script: {instanceID: 1580}
     - Class: 114
-      Script: {instanceID: 1572}
+      Script: {instanceID: 1582}
     - Class: 114
-      Script: {instanceID: 2350}
+      Script: {instanceID: 2362}
     - Class: 114
-      Script: {instanceID: 2864}
+      Script: {instanceID: 2876}
     - Class: 114
-      Script: {instanceID: 3420}
+      Script: {instanceID: 3434}
     - Class: 114
-      Script: {instanceID: 3916}
+      Script: {instanceID: 4670}
     - Class: 114
-      Script: {instanceID: 4652}
+      Script: {instanceID: 4810}
     - Class: 114
-      Script: {instanceID: 4792}
+      Script: {instanceID: 5152}
     - Class: 114
-      Script: {instanceID: 5134}
+      Script: {instanceID: 6084}
     - Class: 114
-      Script: {instanceID: 6068}
+      Script: {instanceID: 6836}
     - Class: 114
-      Script: {instanceID: 6820}
+      Script: {instanceID: 7044}
     - Class: 114
-      Script: {instanceID: 7028}
+      Script: {instanceID: 7070}
     - Class: 114
-      Script: {instanceID: 7054}
+      Script: {instanceID: 34666}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -906,12 +913,6 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Player
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnDeselectMessageListener
@@ -1029,12 +1030,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.SpriteShape.Runtime.dll
     namespaceName: UnityEngine.U2D
     className: SpriteShapeController
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: MyPlayer
   - hash:
       serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
@@ -1347,6 +1342,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: d694a61a57feb56b8d97a6dc1f9b213e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MyPlayerController
   platform: 2
   scenePathNames:
   - Assets/Scenes/SampleScene.unity

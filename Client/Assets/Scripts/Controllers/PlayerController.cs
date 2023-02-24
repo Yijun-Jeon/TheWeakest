@@ -6,10 +6,12 @@ using static Define;
 
 public class PlayerController : MonoBehaviour
 {
+    public int Id { get; set; }
+
     public Grid _grid; // map grid
     
     // 좌표 상의 실제 위치 
-    Vector3Int _cellPos = new Vector3Int(0, 0, 0);
+    public Vector3Int CellPos { get; set; } = new Vector3Int(0, 0, 0);
     MoveDir _dir = MoveDir.Idle;
     bool _isMoving = false;
 
@@ -27,8 +29,8 @@ public class PlayerController : MonoBehaviour
 
     Vector3 moveDirection;
 
-    float _x = 1;
-    float _y = 0;
+    protected float _x = 1;
+    protected float _y = 0;
 
     public float X
     {
@@ -62,7 +64,7 @@ public class PlayerController : MonoBehaviour
     public float Y { get { return _y; } set { _y = value; } }
 
 
-    Animator _animator;
+    protected Animator _animator;
     // 플레이어의 방향을 바꿀 때 바로 애니메이션도 같이 처리
     public MoveDir Dir
     {
@@ -90,98 +92,26 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        Vector3 pos = Managers.Map.CurrentGrid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.6f);
+        Vector3 pos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.6f);
         transform.position = pos;
     }
     
     void Update()
     {
-        if (_isFake == true)
-            return;
-        GetDirInput();
+        if(_isFake == false)
+            UpdateController();
+    }
+
+    protected virtual void UpdateController()
+    {
         UpdatePosition();
         UpdateIsMoving();
-        GetSkiilInput();
     }
 
-    // 카메라 제어의 경우 LateUpdate에서 주로 설정
-    void LateUpdate()
-    {
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);    
-    }
+    protected Coroutine _coSkill;
+    protected bool _isAttack = false;
+    protected bool _isFake = false;
 
-    Coroutine _coSkill;
-    bool _isAttack = false;
-    bool _isFake = false;
-
-    void GetSkiilInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (_isAttack == true)
-                return;
-            _isAttack = true;
-            _animator.Play("Bigger");
-            _coSkill = StartCoroutine("CoStartBigger");            
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            //if (_isAttack == true)
-            //    StopCoroutine("CoStartAttack");
-            _isFake = true;
-            _animator.Play("Fake");
-            _coSkill = StartCoroutine("CoStartFake");
-        }
-    }
-
-    void GetDirInput()
-    {
-        // Left, A -> x = -1
-        // Right, D -> x = 1
-        // None -> x = 0
-        X = Input.GetAxisRaw("Horizontal");
-        // Down, S -> y = -1
-        // Up, W -> y = 1
-        // None -> y = 0
-        Y = Input.GetAxisRaw("Vertical");
-
-        if(X == 1 && Y == 1)
-        {
-            Dir = MoveDir.UpRight;
-        }
-        else if(X == 1 && _y == -1)
-        {
-            Dir = MoveDir.DownRight;
-        }
-        else if (X == 1 && Y == 0)
-        {
-            Dir = MoveDir.Right;
-        }
-        else if (X == -1 && Y == 1)
-        {
-            Dir = MoveDir.UpLeft;
-        }
-        else if (X == -1 && Y == -1)
-        {
-            Dir = MoveDir.DownLeft;
-        }
-        else if (X == -1 && Y == 0)
-        {
-            Dir = MoveDir.Left;
-        }
-        else if (X == 0 && Y == 1)
-        {
-            Dir = MoveDir.Up;
-        }
-        else if (X == 0 && Y == -1)
-        {
-            Dir = MoveDir.Down;
-        }
-        else if (X == 0 && Y == 0)
-        {
-            Dir = MoveDir.Idle;
-        }
-    }
 
     // 실제로 스르르 이동 
     void UpdatePosition()
@@ -189,7 +119,7 @@ public class PlayerController : MonoBehaviour
         if (_isMoving == false)
             return;
 
-        Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(_cellPos) + new Vector3(0.5f, 0.6f);
+        Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.6f);
         // 방향 vector - 2가지의 정보 : 실제 이동하는 방향, 이동하려는 목적지까지의 크기
         Vector3 moveDir = destPos - transform.position;
 
@@ -214,7 +144,7 @@ public class PlayerController : MonoBehaviour
     {
         if(_isMoving == false && Dir != MoveDir.Idle)
         {
-            Vector3Int desPos = _cellPos;
+            Vector3Int desPos = CellPos;
             switch (_dir)
             {
                 case MoveDir.Up:
@@ -249,7 +179,7 @@ public class PlayerController : MonoBehaviour
 
             if(Managers.Map.CanGo(desPos))
             {
-                _cellPos = desPos;
+                CellPos = desPos;
                 _isMoving = true;
             }
         }

@@ -32,7 +32,8 @@ namespace Server
                     S_Spawn spawnPacket = new S_Spawn();
                     foreach(Player p in _players)
                     {
-                        spawnPacket.Players.Add(p.Info);
+                        if(newPlayer != p)
+                            spawnPacket.Players.Add(p.Info);
                     }
                     newPlayer.Session.Send(spawnPacket);
 

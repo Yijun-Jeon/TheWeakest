@@ -9,6 +9,12 @@ public class ServerSession : PacketSession
     public override void OnConnected(EndPoint endPoint)
     {
         Debug.Log($"[Client] Connected To {endPoint}");
+
+        // Unity Main Thread로 일감을 넘김 
+        PacketManager.Instance.CustomHandler = (s, m, i) =>
+        {
+            PacketQueue.Instance.Push(i, m);
+        };
     }
 
     public override void OnDisconnected(EndPoint endPoint)
