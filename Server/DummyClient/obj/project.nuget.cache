@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "9lpbmBkXPDqR8BLK7ZvurbBkBvxbfdCf1wIyxmaEWthbqcf45+EyhQdVNrHrqcOKMxxhr14UpBIpvEdn79MoYA==",
+  "dgSpecHash": "0LFFlia16nXDjpXwWwD6QmExnF++0zaVfThQRgiGriyfjNPYn0nJ6wjwBnhQXM+Rz6O5NrxikM4KLC+IfQ3vrQ==",
   "success": true,
   "projectFilePath": "D:\\Project\\TheWeakest\\Server\\DummyClient\\DummyClient.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\jhobb\\.nuget\\packages\\google.protobuf\\3.22.0\\google.protobuf.3.22.0.nupkg.sha512",
+    "C:\\Users\\jhobb\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\jhobb\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
+  ],
   "logs": []
 }

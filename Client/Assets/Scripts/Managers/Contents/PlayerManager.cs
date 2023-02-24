@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager
 {
-    MyPlayer _myPlayer;
+    /*MyPlayer _myPlayer;
     // 플레이어들 목록 
     Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
@@ -85,5 +85,5 @@ public class PlayerManager
                 player.transform.position = new Vector3(packet.posX, packet.posY, packet.posZ);
             }
         }
-    }
+    }*/
 }

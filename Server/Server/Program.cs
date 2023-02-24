@@ -1,21 +1,22 @@
-﻿using ServerCore;
+﻿using Google.Protobuf;
+using Google.Protobuf.Protocol;
+using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
+using static Google.Protobuf.Protocol.Person.Types;
 
 namespace Server
 {
     internal class Program
     {
         static Listener _listener = new Listener();
-        public static GameRoom Room = new GameRoom();
 
         static void FlushRoom()
         {
-            Room.Push(() => { Room.Flush(); });
             // 0.25초마다 JobQueue Flush 예약
             JobTimer.Instance.Push(FlushRoom, 250);
         }

@@ -12,3 +12,5 @@ D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.Co
 D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.dll
 D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.pdb
 D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.genruntimeconfig.cache
+D:\Project\TheWeakest\Server\PacketGenerator\bin\Google.Protobuf.dll
+D:\Project\TheWeakest\Server\PacketGenerator\obj\Debug\PacketGenerator.csproj.CopyComplete

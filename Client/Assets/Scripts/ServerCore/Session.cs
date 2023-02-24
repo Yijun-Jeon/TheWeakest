@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 
 namespace ServerCore
 {
@@ -15,7 +16,6 @@ namespace ServerCore
         public sealed override int OnRecv(ArraySegment<byte> buffer)
         {
             int processLen = 0;
-            int packetCount = 0;
 
             while (true)
             {
@@ -29,15 +29,13 @@ namespace ServerCore
 
                 // 패킷 조립 가능
                 OnRecvPacket(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));
-                packetCount++;
 
                 processLen += dataSize;
 
                 // 다음 패킷으로 버퍼 변경
                 buffer = new ArraySegment<byte>(buffer.Array, buffer.Offset + dataSize, buffer.Count - dataSize);
             }
-            if(packetCount > 1)
-                Console.WriteLine($"Multiple Packet Recv : {packetCount}");
+
             return processLen;
         }
 
@@ -145,7 +143,7 @@ namespace ServerCore
             }
             catch(Exception e)
             {
-                Console.WriteLine($"Session RegisterRecv Failed {e}");
+                Debug.Log($"Session RegisterRecv Failed {e}");
             }
             
         }
@@ -184,7 +182,7 @@ namespace ServerCore
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Session OnRecvCompleted Failed {e}");
+                    Debug.Log($"Session OnRecvCompleted Failed {e}");
                 }
             }
             else
@@ -215,7 +213,7 @@ namespace ServerCore
             }
             catch(Exception e)
             {
-                Console.WriteLine($"Session RegisterSend Failed {e}");
+                Debug.Log($"Session RegisterSend Failed {e}");
             }
         }
 
@@ -238,7 +236,7 @@ namespace ServerCore
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"Session OnSendCompleted Failed {e}");
+                        Debug.Log($"Session OnSendCompleted Failed {e}");
                     }
                 }
                 else

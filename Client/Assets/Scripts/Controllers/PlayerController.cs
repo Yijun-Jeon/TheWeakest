@@ -84,8 +84,6 @@ public class PlayerController : MonoBehaviour
             {
                 _animator.Play("Walk");
             }
-            
-            Debug.Log(_dir.ToString());
         }
     }
 

@@ -1,4 +1,6 @@
-﻿using ServerCore;
+﻿using Google.Protobuf;
+using Google.Protobuf.Protocol;
+using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -10,41 +12,52 @@ namespace Server
     class ClientSession : PacketSession
     {
         public int SessionId { get; set; }
-        public GameRoom Room { get; set; }
 
-        public float PosX { get; set; }
-        public float PosY { get; set; }
-        public float PosZ { get; set; }
+        public void Send(IMessage packet)
+        {
+            // MsgId 추출
+            string msgName = packet.Descriptor.Name.Replace("_", string.Empty);
+            MsgId msgId = (MsgId)Enum.Parse(typeof(MsgId), msgName);
+
+            ushort size = (ushort)packet.CalculateSize();
+            byte[] sendBuffer = new byte[size + 4];
+            Array.Copy(BitConverter.GetBytes(size + 4), 0, sendBuffer, 0, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes((ushort)msgId), 0, sendBuffer, 2, sizeof(ushort));
+            Array.Copy(packet.ToByteArray(), 0, sendBuffer, 4, size);
+
+            Send(new ArraySegment<byte>(sendBuffer));
+        }
 
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"[Server] OnConnected: {endPoint}");
 
-            Program.Room.Push(() => { Program.Room.Enter(this); });
+            // PROTO TEST
+            S_Chat chat = new S_Chat()
+            {
+                Context = "Hello, Protobuf"
+            };
+
+            Send(chat);
+
+            //Program.Room.Push(() => { Program.Room.Enter(this); });
         }
 
         public override void OnDisconnected(EndPoint endPoint)
         {
             SessionManager.Instance.Remove(this);
 
-            if(Room != null)
-            {
-                GameRoom room = Room;
-
-                room.Push(() => { room.Leave(this); });
-                Room = null;
-            }
             Console.WriteLine($"[Server] OnDisconnected: {endPoint}");
         }
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
         {
-            PacketManager.Instance.OnRecvPacket(this, buffer);
+           PacketManager.Instance.OnRecvPacket(this, buffer);
         }
 
         public override void OnSend(int numOfBytes)
         {
-            //Console.WriteLine($"[To Client] Transferred bytes : {numOfBytes}");
+            Console.WriteLine($"[To Client] Transferred bytes : {numOfBytes}");
         }
     }
 }

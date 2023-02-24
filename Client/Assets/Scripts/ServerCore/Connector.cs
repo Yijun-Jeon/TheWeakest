@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using UnityEngine;
 
 namespace ServerCore
 {
@@ -51,7 +52,7 @@ namespace ServerCore
             }
             else
             {
-                Console.WriteLine($"Connector OnConnectCompleted Failed: {args.SocketError}");
+                Debug.Log($"Connector OnConnectCompleted Failed: {args.SocketError}");
             }
         }
     }
