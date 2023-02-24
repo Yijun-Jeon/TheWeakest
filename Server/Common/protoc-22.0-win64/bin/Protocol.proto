@@ -12,6 +12,25 @@ enum MsgId {
   S_MOVE = 5;
 }
 
+enum PlayerState{
+	READY = 0;
+	ALIVE = 1;
+	FAKE = 2;
+	DEAD = 3;
+}
+
+enum MoveDir{
+	IDLE = 0;
+	UP = 1;
+	DOWN = 2;
+	LEFT = 3;
+	RIGHT = 4;
+	UPLEFT = 5;
+	UPRIGHT = 6;
+	DOWNLEFT = 7;
+	DOWNRIGHT= 8;
+}
+
 message S_EnterGame {
   PlayerInfo player = 1;
 }
@@ -29,19 +48,23 @@ message S_Despawn{
 }
 
 message C_Move{
-	int32 posX = 1;
-	int32 posY = 2;
+	PositionInfo posInfo = 1;
 }
 
 message S_Move{
 	int32 playerId = 1;
-	int32 posX = 2;
-	int32 posY = 3;
+	PositionInfo posInfo = 2;
 }
 
 message PlayerInfo{
 	int32 playerId = 1;
 	string name = 2;
+	PositionInfo posInfo = 3;
+}
+
+message PositionInfo{
+	PlayerState state = 1;
+	MoveDir moveDir = 2;
 	int32 posX = 3;
 	int32 posY = 4;
 }

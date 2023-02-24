@@ -1,4 +1,5 @@
-﻿using Google.Protobuf.Protocol;
+﻿using Google.Protobuf;
+using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -76,6 +77,17 @@ namespace Server
                         if (player != p)
                             p.Session.Send(despawnPacket);
                     }
+                }
+            }
+        }
+
+        public void Broadcast(IMessage packet)
+        {
+            lock (_lock)
+            {
+                foreach(Player p in _players)
+                {
+                    p.Session.Send(packet);
                 }
             }
         }
