@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Google.Protobuf.Protocol;
+using Google.Protobuf.WellKnownTypes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static Define;
@@ -8,8 +9,7 @@ using static Define;
 public class PlayerController : MonoBehaviour
 {
     public int Id { get; set; }
-    // 움직이고 있는지 여부 
-    protected bool _isMoving = false;
+   
     // 공격 쿨타임 
     protected Coroutine _coSkill;
     // 공격 중인지 여부 
@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
             CellPos = new Vector3Int(value.PosX, value.PosY);
             State = value.State;
             Dir = value.MoveDir;
+            _updated = true;
         }
     }
     
@@ -87,17 +88,9 @@ public class PlayerController : MonoBehaviour
 
             PosInfo.MoveDir = value;
             UpdateLocalScale();
-            if (_isAttack)
+            if (_isAttack == false)
             {
-                return;
-            }
-            if (value == MoveDir.Idle)
-            {
-                _animator.Play("Idle");
-            }
-            else
-            {
-                _animator.Play("Walk");
+                UpdateAnimation();
             }
             _updated = true;
         }
@@ -123,7 +116,7 @@ public class PlayerController : MonoBehaviour
     // Down, S -> y = -1
     // Up, W -> y = 1
     // None -> y = 0
-    public float Y { get { return _y; } set { _y = value; } }
+    public float Y { get { return _y; } set { _y = value;} }
 
 
     protected Animator _animator;
@@ -146,18 +139,26 @@ public class PlayerController : MonoBehaviour
             UpdateController();
     }
 
+    void UpdateAnimation()
+    {
+        if (Dir == MoveDir.Idle)
+        {
+            _animator.Play("Idle");
+        }
+        else
+        {
+            _animator.Play("Walk");
+        }
+    }
+
     protected virtual void UpdateController()
     {
         UpdatePosition();
-        UpdateIsMoving();
     }
 
     // 실제로 스르르 이동 
     void UpdatePosition()
     {
-        if (_isMoving == false)
-            return;
-
         Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.6f);
         // 방향 vector - 2가지의 정보 : 실제 이동하는 방향, 이동하려는 목적지까지의 크기
         Vector3 moveDir = destPos - transform.position;
@@ -167,13 +168,12 @@ public class PlayerController : MonoBehaviour
         if (dist < _speed * Time.deltaTime)
         {
             transform.position = destPos;
-            _isMoving = false;
+            UpdateIsMoving();
         }
         else
         {
             // 스르르 움직이게 처리
             transform.position += moveDir.normalized * _speed * Time.deltaTime;
-            _isMoving = true;
         }
     }
 
@@ -181,47 +181,6 @@ public class PlayerController : MonoBehaviour
     // 이동 가능한 상태일 때 실제 좌표 이동
     protected virtual void UpdateIsMoving()
     {
-        if (_isMoving == false && Dir != MoveDir.Idle)
-        {
-            Vector3Int desPos = CellPos;
-            switch (Dir)
-            {
-                case MoveDir.Up:
-                    desPos += Vector3Int.up;
-                    break;
-                case MoveDir.Upright:
-                    desPos += Vector3Int.up;
-                    desPos += Vector3Int.right;
-                    break;
-                case MoveDir.Upleft:
-                    desPos += Vector3Int.up;
-                    desPos += Vector3Int.left;
-                    break;
-                case MoveDir.Down:
-                    desPos += Vector3Int.down;
-                    break;
-                case MoveDir.Downright:
-                    desPos += Vector3Int.down;
-                    desPos += Vector3Int.right;
-                    break;
-                case MoveDir.Downleft:
-                    desPos += Vector3Int.down;
-                    desPos += Vector3Int.left;
-                    break;
-                case MoveDir.Left:
-                    desPos += Vector3Int.left;
-                    break;
-                case MoveDir.Right:
-                    desPos += Vector3Int.right;
-                    break;
-            }
-
-            if (Managers.Map.CanGo(desPos))
-            {
-                CellPos = desPos;
-                _isMoving = true;
-            }
-        }
     }
 
     // 좌우 방향에 따라 플레이어 대칭 처리 
@@ -251,10 +210,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         if (_isFake == false)
         {
-            if (_isMoving == true)
-                _animator.Play("Walk");
-            else
-                _animator.Play("Idle");
+            UpdateAnimation();
         }
         _coSkill = null;
         _isAttack = false;

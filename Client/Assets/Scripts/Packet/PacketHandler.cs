@@ -34,9 +34,6 @@ class PacketHandler
         {
             Managers.Object.Add(player, myPlayer: false);
         }
-
-        Debug.Log("S_SpawnHandler");
-        Debug.Log(spawnPacket.Players.ToString());
     }
 
     public static void S_DespawnHandler(PacketSession session, IMessage packet)
@@ -48,8 +45,6 @@ class PacketHandler
         {
             Managers.Object.Remove(id);
         }
-
-        Debug.Log("S_DespawnHandler");
     }
 
     public static void S_MoveHandler(PacketSession session, IMessage packet)

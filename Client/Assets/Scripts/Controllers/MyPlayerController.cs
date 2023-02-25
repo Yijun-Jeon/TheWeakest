@@ -26,12 +26,15 @@ public class MyPlayerController : PlayerController
             if (_isAttack == true)
                 return;
             _isAttack = true;
+            Dir = MoveDir.Idle;
             _animator.Play("Bigger");
             _coSkill = StartCoroutine("CoStartBigger");
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             _isFake = true;
+            Dir = MoveDir.Idle;
+            CheckUpdatedFlag();
             _animator.Play("Fake");
             _coSkill = StartCoroutine("CoStartFake");
         }
@@ -94,46 +97,42 @@ public class MyPlayerController : PlayerController
             return;
         }
 
-        if (_isMoving == false && Dir != MoveDir.Idle)
+        Vector3Int desPos = CellPos;
+        switch (Dir)
         {
-            Vector3Int desPos = CellPos;
-            switch (Dir)
-            {
-                case MoveDir.Up:
-                    desPos += Vector3Int.up;
-                    break;
-                case MoveDir.Upright:
-                    desPos += Vector3Int.up;
-                    desPos += Vector3Int.right;
-                    break;
-                case MoveDir.Upleft:
-                    desPos += Vector3Int.up;
-                    desPos += Vector3Int.left;
-                    break;
-                case MoveDir.Down:
-                    desPos += Vector3Int.down;
-                    break;
-                case MoveDir.Downright:
-                    desPos += Vector3Int.down;
-                    desPos += Vector3Int.right;
-                    break;
-                case MoveDir.Downleft:
-                    desPos += Vector3Int.down;
-                    desPos += Vector3Int.left;
-                    break;
-                case MoveDir.Left:
-                    desPos += Vector3Int.left;
-                    break;
-                case MoveDir.Right:
-                    desPos += Vector3Int.right;
-                    break;
-            }
+            case MoveDir.Up:
+                desPos += Vector3Int.up;
+                break;
+            case MoveDir.Upright:
+                desPos += Vector3Int.up;
+                desPos += Vector3Int.right;
+                break;
+            case MoveDir.Upleft:
+                desPos += Vector3Int.up;
+                desPos += Vector3Int.left;
+                break;
+            case MoveDir.Down:
+                desPos += Vector3Int.down;
+                break;
+            case MoveDir.Downright:
+                desPos += Vector3Int.down;
+                desPos += Vector3Int.right;
+                break;
+            case MoveDir.Downleft:
+                desPos += Vector3Int.down;
+                desPos += Vector3Int.left;
+                break;
+            case MoveDir.Left:
+                desPos += Vector3Int.left;
+                break;
+            case MoveDir.Right:
+                desPos += Vector3Int.right;
+                break;
+        }
 
-            if (Managers.Map.CanGo(desPos))
-            {
-                CellPos = desPos;
-                _isMoving = true;
-            }
+        if (Managers.Map.CanGo(desPos))
+        {
+            CellPos = desPos;
         }
 
         // 상태가 변하였다면 이동 패킷 전송 
