@@ -1,51 +1,70 @@
 syntax = "proto3";
 
 package Protocol;
-import "google/protobuf/timestamp.proto";
 option csharp_namespace = "Google.Protobuf.Protocol";
 
 enum MsgId {
-  PERSON = 0;
-  C_CHAT = 1;
-  S_CHAT = 2;
-  S_ENTER_GAME = 3;
+  S_ENTER_GAME = 0;
+  S_LEAVE_GAME = 1;
+  S_SPAWN = 2;
+  S_DESPAWN = 3;
+  C_MOVE = 4;
+  S_MOVE = 5;
 }
 
-message C_Chat {
-  string context = 1;
+enum PlayerState{
+	READY = 0;
+	ALIVE = 1;
+	FAKE = 2;
+	DEAD = 3;
 }
 
-message S_Chat {
-  string context = 1;
+enum MoveDir{
+	IDLE = 0;
+	UP = 1;
+	DOWN = 2;
+	LEFT = 3;
+	RIGHT = 4;
+	UPLEFT = 5;
+	UPRIGHT = 6;
+	DOWNLEFT = 7;
+	DOWNRIGHT= 8;
 }
 
 message S_EnterGame {
-  string context = 1;
+  PlayerInfo player = 1;
 }
 
-message Person {
-  int32 packetHeader = 1;
-  string name = 2;
-  int32 id = 3;  // Unique ID number for this person.
-  string email = 4;
+message S_LeaveGame{
 
-  enum PhoneType {
-    MOBILE = 0;
-    HOME = 1;
-    WORK = 2;
-  }
-
-  message PhoneNumber {
-    string number = 1;
-    PhoneType type = 2;
-  }
-
-  repeated PhoneNumber phones = 5;
-  google.protobuf.Timestamp last_updated = 6;
 }
 
-// Our address book file is just one of these.
-message AddressBook {
-  repeated Person people = 1;
+message S_Spawn{
+	repeated PlayerInfo players = 1;
 }
 
+message S_Despawn{
+	repeated int32 playerIds = 1;
+}
+
+message C_Move{
+	PositionInfo posInfo = 1;
+}
+
+message S_Move{
+	int32 playerId = 1;
+	PositionInfo posInfo = 2;
+}
+
+message PlayerInfo{
+	int32 playerId = 1;
+	string name = 2;
+	PositionInfo posInfo = 3;
+}
+
+message PositionInfo{
+	PlayerState state = 1;
+	MoveDir moveDir = 2;
+	int32 posX = 3;
+	int32 posY = 4;
+}

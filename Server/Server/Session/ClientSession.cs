@@ -9,9 +9,10 @@ using System.Threading;
 
 namespace Server
 {
-    class ClientSession : PacketSession
+    public class ClientSession : PacketSession
     {
         public int SessionId { get; set; }
+        public Player MyPlayer { get; set; }
 
         public void Send(IMessage packet)
         {
@@ -21,7 +22,7 @@ namespace Server
 
             ushort size = (ushort)packet.CalculateSize();
             byte[] sendBuffer = new byte[size + 4];
-            Array.Copy(BitConverter.GetBytes(size + 4), 0, sendBuffer, 0, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes((ushort)size + 4), 0, sendBuffer, 0, sizeof(ushort));
             Array.Copy(BitConverter.GetBytes((ushort)msgId), 0, sendBuffer, 2, sizeof(ushort));
             Array.Copy(packet.ToByteArray(), 0, sendBuffer, 4, size);
 
@@ -33,18 +34,25 @@ namespace Server
             Console.WriteLine($"[Server] OnConnected: {endPoint}");
 
             // PROTO TEST
-            S_Chat chat = new S_Chat()
+            MyPlayer = PlayerManager.Instance.Add();
             {
-                Context = "Hello, Protobuf"
-            };
+                MyPlayer.Info.Name = $"Player_{MyPlayer.Info.PlayerId}";
+                MyPlayer.Info.PosInfo.State = PlayerState.Alive;
+                MyPlayer.Info.PosInfo.MoveDir = MoveDir.Idle;
+                MyPlayer.Info.PosInfo.PosX = 0;
+                MyPlayer.Info.PosInfo.PosY = 0;
 
-            Send(chat);
+                MyPlayer.Session = this;
+            }
 
-            //Program.Room.Push(() => { Program.Room.Enter(this); });
+            // 1번방에 플레이어 입장
+            RoomManager.Instance.Find(1).EnterGame(MyPlayer);
         }
 
         public override void OnDisconnected(EndPoint endPoint)
         {
+            RoomManager.Instance.Find(1).LeaveGame(MyPlayer.Info.PlayerId);
+
             SessionManager.Instance.Remove(this);
 
             Console.WriteLine($"[Server] OnDisconnected: {endPoint}");

@@ -25,9 +25,9 @@ public class NetworkManager : MonoBehaviour
         connector.Connect(endPoint, () => { return _session; }, 1);
     }
 
-    public void Send(ArraySegment<byte> sendBuff)
+    public void Send(IMessage packet)
     {
-        _session.Send(sendBuff);
+        _session.Send(packet);
     }
 
     public void Update()

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
-using static Google.Protobuf.Protocol.Person.Types;
 
 namespace Server
 {
@@ -39,6 +38,8 @@ namespace Server
             _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
 
             Console.WriteLine("Listening...");
+
+            RoomManager.Instance.Add();
 
             FlushRoom();
             CountClient();

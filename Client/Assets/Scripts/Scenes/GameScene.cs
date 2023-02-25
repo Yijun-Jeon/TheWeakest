@@ -15,9 +15,7 @@ public class GameScene : BaseScene
         // 빌드 화면 크기 설정
         Screen.SetResolution(1920, 1080, false);
 
-        // 플레이어 등록
-        GameObject player = Managers.Resource.Instantiate("Creature/Player");
-        player.name = "Player";
+        Application.runInBackground = true;
 
         //Managers.UI.ShowSceneUI<UI_Inven>();
         //Dictionary<int, Data.Stat> dict = Managers.Data.StatDict;
