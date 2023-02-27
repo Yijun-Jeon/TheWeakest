@@ -115,5 +115,53 @@ namespace Server
                 Broadcast(resMovePacket);
             }
         }
+
+        // 플레이어 공격 처리
+        public void HandleAttack(Player player, C_Attack attackPacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                PlayerInfo info = player.Info;
+
+                // 공격을 할 수 없는 상태
+                if (info.PosInfo.State == PlayerState.Fake || info.PosInfo.State == PlayerState.Dead)
+                    return;
+
+                // TODO : 쿨타임, 상대방 공격력 체크
+                
+                // 공격 패킷 전송 
+                S_Attack attack = new S_Attack();
+                attack.PlayerId = player.Info.PlayerId;
+                Broadcast(attack);
+
+                // TODO : 둘 중 하나 사망 처리
+            }
+        }
+
+        // 플레이어 죽은 척 처리
+        public void HandleFake(Player player, C_Fake fakePacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                PlayerInfo info = player.Info;
+
+                // 죽은 척 할 수 없는 상태
+                if (info.PosInfo.State == PlayerState.Fake || info.PosInfo.State == PlayerState.Dead)
+                    return;
+
+                // TODO : 쿨타임
+
+                // 죽은 척 패킷 전송
+                S_Fake fake = new S_Fake();
+                fake.PlayerId = player.Info.PlayerId;
+                Broadcast(fake);
+            }
+        }
     }
 }

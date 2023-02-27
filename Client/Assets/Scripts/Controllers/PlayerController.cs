@@ -11,11 +11,10 @@ public class PlayerController : MonoBehaviour
     public int Id { get; set; }
    
     // 공격 쿨타임 
-    protected Coroutine _coSkill;
-    // 공격 중인지 여부 
-    protected bool _isAttack = false;
-    // 죽은 척 중인지 여부 
-    protected bool _isFake = false;
+    protected Coroutine _coAttack;
+
+    // 죽은 척 쿨타임
+    protected Coroutine _coFake;
 
     // dirty flag
     protected bool _updated = false;
@@ -88,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
             PosInfo.MoveDir = value;
             UpdateLocalScale();
-            if (_isAttack == false)
+            if (_coAttack == null)
             {
                 UpdateAnimation();
             }
@@ -135,7 +134,7 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        if(_isFake == false)
+        if(_coFake == null)
             UpdateController();
     }
 
@@ -203,27 +202,49 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator CoStartBigger()
+    public void Attack()
     {
+        _coAttack = StartCoroutine("CoStartAttack");
+    }
+
+    public void Fake()
+    {
+        _coFake = StartCoroutine("CoStartFake");
+    }
+
+
+    IEnumerator CoStartAttack()
+    {
+        Dir = MoveDir.Idle;
+        _animator.Play("Bigger");
         // TODO : 피격 판정
 
         yield return new WaitForSeconds(1.2f);
-        if (_isFake == false)
+        if (_coFake == null)
         {
             UpdateAnimation();
         }
-        _coSkill = null;
-        _isAttack = false;
+        _coAttack = null;
+
+        // Dir 변화 전달 
+        CheckUpdatedFlag();
     }
 
     IEnumerator CoStartFake()
     {
-        // TODO : 컨트롤 제한
+        Dir = MoveDir.Idle;
+        _animator.Play("Fake");
+        // TODO : 컨트롤 제한? 
 
         yield return new WaitForSeconds(5f);
-        _animator.Play("Idle");
-        _coSkill = null;
-        _isFake = false;
+
+        _coAttack = null;
+        _coFake = null;
+
+        UpdateAnimation();
+
+        // Dir 변화 전달 
+        CheckUpdatedFlag();
     }
 
     // 초기 접속시 위치 싱크 
@@ -231,5 +252,10 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.6f);
         transform.position = destPos;
+    }
+
+    protected virtual void CheckUpdatedFlag()
+    {
+
     }
 }
