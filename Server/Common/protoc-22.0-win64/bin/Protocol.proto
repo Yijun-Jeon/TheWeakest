@@ -10,6 +10,8 @@ enum MsgId {
   S_DESPAWN = 3;
   C_MOVE = 4;
   S_MOVE = 5;
+  C_ATTACK = 6;
+  S_ATTACK = 7;
 }
 
 enum PlayerState{
@@ -54,6 +56,13 @@ message C_Move{
 message S_Move{
 	int32 playerId = 1;
 	PositionInfo posInfo = 2;
+}
+
+message C_Attack{
+
+}
+message S_Attack{
+	int32 playerId = 1;
 }
 
 message PlayerInfo{
