@@ -11,9 +11,8 @@ public class PlayerController : MonoBehaviour
     public int Id { get; set; }
    
     // 공격 쿨타임 
-    protected Coroutine _coSkill;
-    // 공격 중인지 여부 
-    protected bool _isAttack = false;
+    protected Coroutine _coAttack;
+
     // 죽은 척 중인지 여부 
     protected bool _isFake = false;
 
@@ -88,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
             PosInfo.MoveDir = value;
             UpdateLocalScale();
-            if (_isAttack == false)
+            if (_coAttack == null)
             {
                 UpdateAnimation();
             }
@@ -203,8 +202,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator CoStartBigger()
+    public void Attack()
     {
+        _coAttack = StartCoroutine("CoStartAttack");
+    }
+
+
+    IEnumerator CoStartAttack()
+    {
+        Dir = MoveDir.Idle;
+        _animator.Play("Bigger");
         // TODO : 피격 판정
 
         yield return new WaitForSeconds(1.2f);
@@ -212,8 +219,10 @@ public class PlayerController : MonoBehaviour
         {
             UpdateAnimation();
         }
-        _coSkill = null;
-        _isAttack = false;
+        _coAttack = null;
+
+        // State 변화 전달 
+        CheckUpdatedFlag();
     }
 
     IEnumerator CoStartFake()
@@ -222,7 +231,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
         _animator.Play("Idle");
-        _coSkill = null;
+        _coAttack = null;
         _isFake = false;
     }
 
@@ -231,5 +240,10 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 destPos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.6f);
         transform.position = destPos;
+    }
+
+    protected virtual void CheckUpdatedFlag()
+    {
+
     }
 }

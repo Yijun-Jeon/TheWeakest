@@ -63,4 +63,20 @@ class PacketHandler
 
         pc.PosInfo = movePacket.PosInfo;
     }
+
+    public static void S_AttackHandler(PacketSession session, IMessage packet)
+    {
+        S_Attack attackPacket = packet as S_Attack;
+        ServerSession serverSession = session as ServerSession;
+
+        GameObject go = Managers.Object.FindById(attackPacket.PlayerId);
+        if (go == null)
+            return;
+
+        PlayerController pc = go.GetComponent<PlayerController>();
+        if(pc != null)
+        {
+            pc.Attack();
+        }
+    }
 }

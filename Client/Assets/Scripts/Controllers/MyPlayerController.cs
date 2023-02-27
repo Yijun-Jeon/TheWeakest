@@ -23,12 +23,14 @@ public class MyPlayerController : PlayerController
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_isAttack == true)
+            // 공격 패킷 연타 부하 방지 
+            if (_coAttack != null)
                 return;
-            _isAttack = true;
-            Dir = MoveDir.Idle;
-            _animator.Play("Bigger");
-            _coSkill = StartCoroutine("CoStartBigger");
+
+            C_Attack attack = new C_Attack();
+            Managers.Network.Send(attack);
+
+            _coAttack = StartCoroutine("CoStartAttack");
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -36,7 +38,7 @@ public class MyPlayerController : PlayerController
             Dir = MoveDir.Idle;
             CheckUpdatedFlag();
             _animator.Play("Fake");
-            _coSkill = StartCoroutine("CoStartFake");
+            _coAttack = StartCoroutine("CoStartFake");
         }
     }
 
@@ -140,7 +142,7 @@ public class MyPlayerController : PlayerController
     }
 
     // 상태가 변하였다면 이동 패킷 전송 
-    void CheckUpdatedFlag()
+    protected override void CheckUpdatedFlag()
     {
         if (_updated)
         {
