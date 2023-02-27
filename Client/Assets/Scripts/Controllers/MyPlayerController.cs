@@ -30,15 +30,17 @@ public class MyPlayerController : PlayerController
             C_Attack attack = new C_Attack();
             Managers.Network.Send(attack);
 
-            _coAttack = StartCoroutine("CoStartAttack");
+            Attack();
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            _isFake = true;
-            Dir = MoveDir.Idle;
-            CheckUpdatedFlag();
-            _animator.Play("Fake");
-            _coAttack = StartCoroutine("CoStartFake");
+            if (_coFake != null)
+                return;
+
+            C_Fake fake = new C_Fake();
+            Managers.Network.Send(fake);
+
+            Fake();
         }
     }
 

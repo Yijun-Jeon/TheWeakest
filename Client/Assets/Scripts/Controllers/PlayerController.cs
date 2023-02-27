@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
     // 공격 쿨타임 
     protected Coroutine _coAttack;
 
-    // 죽은 척 중인지 여부 
-    protected bool _isFake = false;
+    // 죽은 척 쿨타임
+    protected Coroutine _coFake;
 
     // dirty flag
     protected bool _updated = false;
@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        if(_isFake == false)
+        if(_coFake == null)
             UpdateController();
     }
 
@@ -207,6 +207,11 @@ public class PlayerController : MonoBehaviour
         _coAttack = StartCoroutine("CoStartAttack");
     }
 
+    public void Fake()
+    {
+        _coFake = StartCoroutine("CoStartFake");
+    }
+
 
     IEnumerator CoStartAttack()
     {
@@ -215,24 +220,31 @@ public class PlayerController : MonoBehaviour
         // TODO : 피격 판정
 
         yield return new WaitForSeconds(1.2f);
-        if (_isFake == false)
+        if (_coFake == null)
         {
             UpdateAnimation();
         }
         _coAttack = null;
 
-        // State 변화 전달 
+        // Dir 변화 전달 
         CheckUpdatedFlag();
     }
 
     IEnumerator CoStartFake()
     {
-        // TODO : 컨트롤 제한
+        Dir = MoveDir.Idle;
+        _animator.Play("Fake");
+        // TODO : 컨트롤 제한? 
 
         yield return new WaitForSeconds(5f);
-        _animator.Play("Idle");
+
         _coAttack = null;
-        _isFake = false;
+        _coFake = null;
+
+        UpdateAnimation();
+
+        // Dir 변화 전달 
+        CheckUpdatedFlag();
     }
 
     // 초기 접속시 위치 싱크 

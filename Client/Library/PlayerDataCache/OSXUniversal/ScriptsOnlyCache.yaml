@@ -1351,4 +1351,4 @@ ScriptsOnlyBuild:
   platform: 2
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client2/Client2.app
+  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client4/Client4.app
