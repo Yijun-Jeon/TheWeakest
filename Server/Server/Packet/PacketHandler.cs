@@ -23,6 +23,38 @@ class PacketHandler
         if (room == null)
             return;
 
-        room.HandleMove(player,movePacket);
+        room.HandleMove(player, movePacket);
+    }
+
+    public static void C_AttackHandler(PacketSession session, IMessage packet)
+    {
+        C_Attack attackPacket = packet as C_Attack;
+        ClientSession clientSession = session as ClientSession;
+
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
+
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
+
+        room.HandleAttack(player, attackPacket);
+    }
+
+    public static void C_FakeHandler(PacketSession session, IMessage packet)
+    {
+        C_Fake fakePacket = packet as C_Fake;
+        ClientSession clientSession = session as ClientSession;
+
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
+
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
+
+        room.HandleFake(player, fakePacket);
     }
 }

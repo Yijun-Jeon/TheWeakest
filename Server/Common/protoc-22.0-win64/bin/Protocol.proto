@@ -12,6 +12,8 @@ enum MsgId {
   S_MOVE = 5;
   C_ATTACK = 6;
   S_ATTACK = 7;
+  C_FAKE = 8;
+  S_FAKE = 9;
 }
 
 enum PlayerState{
@@ -62,6 +64,14 @@ message C_Attack{
 
 }
 message S_Attack{
+	int32 playerId = 1;
+}
+
+message C_Fake{
+	
+}
+
+message S_Fake{
 	int32 playerId = 1;
 }
 
