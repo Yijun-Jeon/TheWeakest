@@ -38,10 +38,8 @@ namespace Server
 
         // 벽 여부
         bool[,] _collision;
-        // Player 여부
-        Player[,] _players;
 
-        public bool CanGo(Vector2Int cellPos, bool checkObjects = true)
+        public bool CanGo(Vector2Int cellPos)
         {
             if (cellPos.x < MinX || cellPos.x > MaxX)
                 return false;
@@ -50,7 +48,7 @@ namespace Server
 
             int x = cellPos.x - MinX;
             int y = MaxY - cellPos.y;
-            return !_collision[y, x] && (!checkObjects || _players[y, x] == null);
+            return !_collision[y, x];
         }
 
         public bool ApplyMove(Player player, Vector2Int dest)
@@ -60,22 +58,8 @@ namespace Server
                 return false;
             if (posInfo.PosY < MinX || posInfo.PosY > MaxX)
                 return false;
-            if (CanGo(dest, true) == false)
+            if (CanGo(dest) == false)
                 return false;
-            // 플레이어가 원래 있던 위치 비워줌
-            {
-                int x = posInfo.PosX - MinX;
-                int y = MaxY - posInfo.PosY;
-                if (_players[y, x] == player)
-                    _players[y, x] = null;
-
-            }
-            // 목표 위치로 이전
-            {
-                int x = dest.x - MinX;
-                int y = MaxY - dest.y;
-                _players[y, x] = player;
-            }
 
             return true;
         }

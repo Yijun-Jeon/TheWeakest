@@ -121,7 +121,7 @@ namespace Server
 
                 info.PosInfo.State = movePosInfo.State;
                 info.PosInfo.MoveDir = movePosInfo.MoveDir;
-                // 실제 이동 + Map의 _players 갱신
+                // 실제 이동
                 _map.ApplyMove(player, new Vector2Int(movePosInfo.PosX, movePosInfo.PosY));
 
                 // 다른 플레이어들에게 이동을 알려줌

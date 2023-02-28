@@ -1,13 +1,3 @@
-D:/Project/TheWeakest/Server/ServerCore/bin/Debug/netcoreapp3.1/ServerCore.deps.json
-D:/Project/TheWeakest/Server/ServerCore/bin/Debug/netcoreapp3.1/ServerCore.dll
-D:/Project/TheWeakest/Server/ServerCore/bin/Debug/netcoreapp3.1/ServerCore.pdb
-D:/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.csproj.AssemblyReference.cache
-D:/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.GeneratedMSBuildEditorConfig.editorconfig
-D:/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.AssemblyInfoInputs.cache
-D:/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.AssemblyInfo.cs
-D:/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.csproj.CoreCompileInputs.cache
-D:/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.dll
-D:/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.pdb
 /Users/Yijun/Desktop/Project/TheWeakest/Server/ServerCore/bin/Debug/netcoreapp3.1/ServerCore.deps.json
 /Users/Yijun/Desktop/Project/TheWeakest/Server/ServerCore/bin/Debug/netcoreapp3.1/ServerCore.dll
 /Users/Yijun/Desktop/Project/TheWeakest/Server/ServerCore/bin/Debug/netcoreapp3.1/ServerCore.pdb
@@ -18,3 +8,13 @@ D:/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.pdb
 /Users/Yijun/Desktop/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.csproj.CoreCompileInputs.cache
 /Users/Yijun/Desktop/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.dll
 /Users/Yijun/Desktop/Project/TheWeakest/Server/ServerCore/obj/Debug/netcoreapp3.1/ServerCore.pdb
+D:\Project\TheWeakest\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.deps.json
+D:\Project\TheWeakest\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.dll
+D:\Project\TheWeakest\Server\ServerCore\bin\Debug\netcoreapp3.1\ServerCore.pdb
+D:\Project\TheWeakest\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.AssemblyReference.cache
+D:\Project\TheWeakest\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project\TheWeakest\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfoInputs.cache
+D:\Project\TheWeakest\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.AssemblyInfo.cs
+D:\Project\TheWeakest\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.csproj.CoreCompileInputs.cache
+D:\Project\TheWeakest\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.dll
+D:\Project\TheWeakest\Server\ServerCore\obj\Debug\netcoreapp3.1\ServerCore.pdb

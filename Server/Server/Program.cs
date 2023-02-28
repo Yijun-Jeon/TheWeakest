@@ -28,6 +28,8 @@ namespace Server
 
         static void Main(string[] args)
         {
+            RoomManager.Instance.Add(1);
+
             // DNS
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
@@ -38,8 +40,6 @@ namespace Server
             _listener.Init(endPoint, () => { return SessionManager.Instance.Generate(); });
 
             Console.WriteLine("Listening...");
-
-            RoomManager.Instance.Add(1);
 
             FlushRoom();
             CountClient();
