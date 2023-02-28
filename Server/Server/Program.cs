@@ -39,7 +39,7 @@ namespace Server
 
             Console.WriteLine("Listening...");
 
-            RoomManager.Instance.Add();
+            RoomManager.Instance.Add(1);
 
             FlushRoom();
             CountClient();

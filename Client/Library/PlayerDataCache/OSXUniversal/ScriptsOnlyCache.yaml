@@ -12,7 +12,6 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.GridBrush
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
-    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
@@ -108,27 +107,27 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1580}
     - Class: 114
-      Script: {instanceID: 2364}
+      Script: {instanceID: 2360}
     - Class: 114
-      Script: {instanceID: 2880}
+      Script: {instanceID: 2876}
     - Class: 114
-      Script: {instanceID: 3438}
+      Script: {instanceID: 3434}
     - Class: 114
-      Script: {instanceID: 3680}
+      Script: {instanceID: 3676}
     - Class: 114
-      Script: {instanceID: 4676}
+      Script: {instanceID: 4672}
     - Class: 114
-      Script: {instanceID: 4816}
+      Script: {instanceID: 4812}
     - Class: 114
-      Script: {instanceID: 5158}
+      Script: {instanceID: 5154}
     - Class: 114
-      Script: {instanceID: 6090}
+      Script: {instanceID: 6086}
     - Class: 114
-      Script: {instanceID: 6842}
+      Script: {instanceID: 6838}
     - Class: 114
-      Script: {instanceID: 7050}
+      Script: {instanceID: 7046}
     - Class: 114
-      Script: {instanceID: 7076}
+      Script: {instanceID: 7072}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1351,4 +1350,4 @@ ScriptsOnlyBuild:
   platform: 2
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client4/Client4.app
+  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client3/Client3.app

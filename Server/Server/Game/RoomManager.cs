@@ -12,9 +12,10 @@ namespace Server
         Dictionary<int, GameRoom> _rooms = new Dictionary<int, GameRoom>();
         int _roomId = 1;
 
-        public GameRoom Add()
+        public GameRoom Add(int mapId)
         {
             GameRoom room = new GameRoom();
+            room.Init(mapId);
             lock (_lock)
             {
                 room.RoomId = _roomId;
