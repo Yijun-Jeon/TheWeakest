@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1710
     height: 984
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
@@ -189,8 +189,8 @@ MonoBehaviour:
     y: 0
     width: 320.5
     height: 629
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -402,7 +402,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 30dfffff74dfffff96dffffff6dfffff3ae0ffff5ce0ffffbce0ffff00e1ffff22e1ffffb4e1fffff8e1ffff1ae2ffff7ce2ffffc0e2ffff8ae4ffff3ae6ffff7ee6ffffa0e6ffff00e7ffff44e7ffff66e7ffffc8e7ffff0ce8ffffdae9ffffa6ebffffeaebffff0cecffff6cecffffb0ecffffd2ecffff34edffff78edffff46efffff2afbffff
+      m_ExpandedIDs: 28fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -706,9 +706,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -2.5261583, y: 0.73831654, z: -8.54201}
+    m_Target: {x: 37.353516, y: -25.751108, z: -3.760641}
     speed: 2
-    m_Value: {x: -2.5261583, y: 0.73831654, z: -8.54201}
+    m_Value: {x: 37.353516, y: -25.751108, z: -3.760641}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -759,9 +759,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 22.28161
+    m_Target: 176.71709
     speed: 2
-    m_Value: 22.28161
+    m_Value: 176.71709
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -919,22 +919,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scripts/FieldOfView
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Scripts/FieldOfView
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/Yijun/Desktop/Project/TheWeakest/Client
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 120}
-    m_SelectedIDs: 32700000
-    m_LastClickedID: 28722
-    m_ExpandedIDs: 000000001a6100002e70000032700000f873000000ca9a3bffffff7f
+    m_SelectedIDs: e27d0000
+    m_LastClickedID: 32226
+    m_ExpandedIDs: 000000001c6d0000a47d000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -962,7 +962,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000001a610000
+    m_ExpandedIDs: 000000001c6d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

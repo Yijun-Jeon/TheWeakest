@@ -13,12 +13,10 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         fieldOfView = GameObject.Find("FieldOfView").GetComponent<FieldOfView>();
-        Debug.Log("Camera Start");
     }
 
     private void Update()
     {
         fieldOfView.SetOrigin(this.transform.position);
-        Debug.Log("Camera Update");
     }
 }
