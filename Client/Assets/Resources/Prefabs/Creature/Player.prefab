@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2215634688881028353}
   - component: {fileID: 6103984341788817148}
   - component: {fileID: 4909901822992299345}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: PowerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,9 +148,10 @@ GameObject:
   - component: {fileID: 771873365721193316}
   - component: {fileID: -1748193108312682240}
   - component: {fileID: 2046994028000460223}
-  m_Layer: 0
+  - component: {fileID: 78034049492619211}
+  m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,6 +265,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grid: {fileID: 0}
+--- !u!70 &78034049492619211
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787790250258489727}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.05}
+  m_Size: {x: 0.49, y: 0.92}
+  m_Direction: 0
 --- !u!1 &4099612160197852055
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +293,7 @@ GameObject:
   - component: {fileID: 5721074651590141741}
   - component: {fileID: 869013868539093310}
   - component: {fileID: 4472365461627301009}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +394,7 @@ GameObject:
   - component: {fileID: 4967700188961201387}
   - component: {fileID: 2224621471038482651}
   - component: {fileID: 4489559500161701554}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: NickNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

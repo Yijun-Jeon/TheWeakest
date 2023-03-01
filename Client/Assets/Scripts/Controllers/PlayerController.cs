@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
     protected Animator _animator;
     
 
-    void Start()
+    protected virtual void Start()
     {
         _animator = GetComponent<Animator>();
         Vector3 pos = Managers.Map.CurrentGrid.CellToWorld(CellPos) + new Vector3(0.5f, 0.6f);

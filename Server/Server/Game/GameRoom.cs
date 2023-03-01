@@ -127,7 +127,7 @@ namespace Server
                 // 다른 플레이어들에게 이동을 알려줌
                 S_Move resMovePacket = new S_Move();
                 resMovePacket.PlayerId = player.Info.PlayerId;
-                resMovePacket.PosInfo = movePacket.PosInfo;
+                resMovePacket.PosInfo = player.Info.PosInfo;
 
                 Broadcast(resMovePacket);
             }

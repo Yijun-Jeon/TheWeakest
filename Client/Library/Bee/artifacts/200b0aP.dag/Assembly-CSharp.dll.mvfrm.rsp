@@ -7,6 +7,12 @@ Library/Bee/artifacts/mvdfrm/Unity.2D.Tilemap.Extras.ref.dll_4C11E82475F8542E.mv
 Library/Bee/artifacts/mvdfrm/Unity.Burst.ref.dll_C561F524567146DF.mvfrm
 Library/Bee/artifacts/mvdfrm/Unity.InternalAPIEngineBridge.001.ref.dll_A0F6643F1715355A.mvfrm
 Library/Bee/artifacts/mvdfrm/Unity.Mathematics.ref.dll_7A8F4EB327600765.mvfrm
+Library/Bee/artifacts/mvdfrm/Unity.RenderPipeline.Universal.ShaderLibrary.ref.dll_766C36FDF109D324.mvfrm
+Library/Bee/artifacts/mvdfrm/Unity.RenderPipelines.Core.Runtime.ref.dll_A6CCA6E260849B03.mvfrm
+Library/Bee/artifacts/mvdfrm/Unity.RenderPipelines.Core.ShaderLibrary.ref.dll_966D4E5FB147AC71.mvfrm
+Library/Bee/artifacts/mvdfrm/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.ref.dll_5B8012A21C5F7131.mvfrm
+Library/Bee/artifacts/mvdfrm/Unity.RenderPipelines.Universal.Runtime.ref.dll_638CE9B1DE47D1A1.mvfrm
+Library/Bee/artifacts/mvdfrm/Unity.RenderPipelines.Universal.Shaders.ref.dll_A3F4F8FB1CB66CD7.mvfrm
 Library/Bee/artifacts/mvdfrm/Unity.Services.Core.Analytics.ref.dll_162A2A0052BC5016.mvfrm
 Library/Bee/artifacts/mvdfrm/Unity.Services.Core.Environments.ref.dll_F61DE9FC9E518746.mvfrm
 Library/Bee/artifacts/mvdfrm/Unity.Services.Core.ref.dll_A9B35628DE7A4E0E.mvfrm
@@ -83,9 +89,4 @@ Library/Bee/artifacts/mvdfrm/UnityEngine.VirtualTexturingModule.dll_E2C2E5208CD9
 Library/Bee/artifacts/mvdfrm/UnityEngine.VRModule.dll_6BCC9EE567C58902.mvfrm
 Library/Bee/artifacts/mvdfrm/UnityEngine.WindModule.dll_036CFF6EE0D5CE5E.mvfrm
 Library/Bee/artifacts/mvdfrm/UnityEngine.XRModule.dll_9E8B61E9F0FFD660.mvfrm
-Library/Bee/artifacts/mvdfrm/Unity.Burst.Cecil.dll_D0E566F5D0F5F35A.mvfrm
-Library/Bee/artifacts/mvdfrm/Unity.Burst.Cecil.Mdb.dll_FF1AFE0140763D17.mvfrm
-Library/Bee/artifacts/mvdfrm/Unity.Burst.Cecil.Pdb.dll_166D7670BF2B3E9A.mvfrm
-Library/Bee/artifacts/mvdfrm/Unity.Burst.Cecil.Rocks.dll_5C38ABF04B18F5FA.mvfrm
-Library/Bee/artifacts/mvdfrm/Unity.Burst.Unsafe.dll_9C171A23F8462D19.mvfrm
 Library/Bee/artifacts/mvdfrm/Unity.VisualScripting.Antlr3.Runtime.dll_C06824604D9BAE98.mvfrm
