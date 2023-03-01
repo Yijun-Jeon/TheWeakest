@@ -88,6 +88,20 @@ public class AttackRange : MonoBehaviour
         mesh.uv = uv;
         mesh.triangles = triangles;
         mesh.bounds = new Bounds(origin, Vector3.one * 1000f);
+
+        // 범위 내 적이 있는지 검사 
+        Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(origin, 1.5f);
+        bool activated = false;
+        foreach(Collider2D collider in collider2Ds)
+        {
+            // player를 발견한 경우
+            if(collider.tag == "Player" && collider.GetComponent<MyPlayerController>() == null)
+            {
+                activated = true;
+                break;
+            }
+        }
+        SetColor(activated);
     }
 
     public void SetOrigin(Vector3 origin)
