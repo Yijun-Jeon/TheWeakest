@@ -61,6 +61,10 @@ namespace Server
             if (CanGo(dest) == false)
                 return false;
 
+            // 서버 상의 플레이어 위치 이동 
+            player.Info.PosInfo.PosX = dest.x;
+            player.Info.PosInfo.PosY = dest.y;
+
             return true;
         }
 
