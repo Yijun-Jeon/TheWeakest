@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private FieldOfView fieldOfView;
+    MyPlayerController _myPlayer;
 
-    private Vector3 offset = new Vector3(0f, 0f, -10f);
-    private float smoothTime = 0.25f;
-    private Vector3 velocity = Vector3.zero;
+    Vector3 offset = new Vector3(0f, 0f, -10f);
+    float smoothTime = 0.25f;
+    Vector3 velocity = Vector3.zero;
 
     private void Start()
     {
-        fieldOfView = GameObject.Find("FieldOfView").GetComponent<FieldOfView>();
     }
 
     private void Update()
     {
-        fieldOfView.SetOrigin(this.transform.position);
+        if (_myPlayer == null)
+            return;
+
+        Vector3 cameraPosition = new Vector3(_myPlayer.transform.position.x, _myPlayer.transform.position.y, 0) + offset;
+        transform.position = Vector3.SmoothDamp(transform.position, cameraPosition, ref velocity, smoothTime);
+    }
+
+    public void SetMyPlayer(MyPlayerController myPlayer)
+    {
+        _myPlayer = myPlayer;
     }
 }

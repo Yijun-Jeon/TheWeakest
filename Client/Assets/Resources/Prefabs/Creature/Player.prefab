@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2215634688881028353}
   - component: {fileID: 6103984341788817148}
   - component: {fileID: 4909901822992299345}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: PowerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 771873365721193316}
   - component: {fileID: -1748193108312682240}
   - component: {fileID: 2046994028000460223}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 5721074651590141741}
   - component: {fileID: 869013868539093310}
   - component: {fileID: 4472365461627301009}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 4967700188961201387}
   - component: {fileID: 2224621471038482651}
   - component: {fileID: 4489559500161701554}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: NickNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

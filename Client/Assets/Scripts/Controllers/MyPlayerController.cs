@@ -6,17 +6,30 @@ using static Define;
 
 public class MyPlayerController : PlayerController
 {
+    AttackRange attackRange;
+    FieldOfView fieldOfView;
+    CameraController cameraController;
+
+    protected override void Start()
+    {
+        base.Start();
+        fieldOfView = GameObject.Find("FieldOfView").GetComponent<FieldOfView>();
+        attackRange = transform.Find("AttackRange").gameObject.GetComponent<AttackRange>();
+
+        cameraController = Camera.main.GetComponent<CameraController>();
+        cameraController.SetMyPlayer(this);
+    }
+
     protected override void UpdateController()
     {
+        // 시야 범위 위치 세팅 
+        fieldOfView.SetOrigin(transform.position);
+        // 공격 범위 위치 세팅 
+        attackRange.SetOrigin(transform.position);
+
         GetDirInput();
         base.UpdateController();
         GetSkiilInput();
-    }
-
-    // 카메라 제어의 경우 LateUpdate에서 주로 설정
-    void LateUpdate()
-    {
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 
     void GetSkiilInput()
@@ -95,7 +108,7 @@ public class MyPlayerController : PlayerController
 
     protected override void UpdateIsMoving()
     {
-        if(Dir == MoveDir.Idle)
+        if (Dir == MoveDir.Idle)
         {
             CheckUpdatedFlag();
             return;
