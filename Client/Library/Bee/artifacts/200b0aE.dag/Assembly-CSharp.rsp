@@ -406,6 +406,7 @@
 "Assets/Scripts/Packet/ServerSession.cs"
 "Assets/Scripts/Scenes/BaseScene.cs"
 "Assets/Scripts/Scenes/GameScene.cs"
+"Assets/Scripts/Scenes/LoginScene.cs"
 "Assets/Scripts/ServerCore/Connector.cs"
 "Assets/Scripts/ServerCore/RecvBuffer.cs"
 "Assets/Scripts/ServerCore/Session.cs"

@@ -5,8 +5,8 @@ public class Define
     {
         Unknown,
         Login,
-        Lobby,
-        Game
+        Game,
+        EndGame
     }
 
     public enum Sound
