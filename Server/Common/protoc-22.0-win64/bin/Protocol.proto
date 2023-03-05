@@ -18,6 +18,8 @@ enum MsgId {
 	S_FAKE = 11;
 	C_START_GAME = 12;
 	S_START_GAME = 13;
+	C_LOAD_PLAYER = 14;
+	S_LOAD_PLAYER = 15;
 }
 
 enum PlayerState{
@@ -43,12 +45,20 @@ message S_ConnectServer{
 	bool isConnected = 1;
 }
 
+message S_EnterGame {
+	bool enterCompleted = 1;
+}
+
 message C_EnterGame{
 	string name = 1;
 }
 
-message S_EnterGame {
-  PlayerInfo player = 1;
+message S_LoadPlayer {
+	PlayerInfo player = 1;
+}
+
+message C_LoadPlayer{
+
 }
 
 message S_LeaveGame{

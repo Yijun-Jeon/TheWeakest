@@ -28,10 +28,10 @@ namespace Server
             // 유효하지 않은 이름 
             if (string.IsNullOrEmpty(playerName))
             {
-                // null Player 패킷 전송 
-                S_EnterGame enterPacket = new S_EnterGame();
-                enterPacket.Player = null;
-                myPlayer.Session.Send(enterPacket);
+                // enter fail 패킷 전송 
+                S_EnterGame enterFailPacket = new S_EnterGame();
+                enterFailPacket.EnterCompleted = false;
+                myPlayer.Session.Send(enterFailPacket);
                 return;
             }
 
@@ -54,41 +54,12 @@ namespace Server
                 myPlayer.Session.MyPlayer = myPlayer;
             }
 
-            lock (_lock)
-            {
-                _players.Add(myPlayer.Info.PlayerId, myPlayer);
-                myPlayer.Room = this;
-
-                // 본인에게 정보 전송
-                {
-                    S_EnterGame enterPacket = new S_EnterGame();
-                    enterPacket.Player = myPlayer.Info;
-                    myPlayer.Session.Send(enterPacket);
-
-                    // 타인들 정보
-                    S_Spawn spawnPacket = new S_Spawn();
-                    foreach (Player p in _players.Values)
-                    {
-                        if (myPlayer != p)
-                            spawnPacket.Players.Add(p.Info);
-                    }
-                    myPlayer.Session.Send(spawnPacket);
-
-                }
-                // 타인들에게 정보 전송
-                {
-                    S_Spawn spawnPacket = new S_Spawn();
-                    spawnPacket.Players.Add(myPlayer.Info);
-                    foreach (Player p in _players.Values)
-                    {
-                        if (myPlayer != p)
-                            p.Session.Send(spawnPacket);
-                    }
-                }
-            }
+            S_EnterGame enterPacket = new S_EnterGame();
+            enterPacket.EnterCompleted = false;
+            myPlayer.Session.Send(enterPacket);
         }
 
-        public void EnterGame(Player newPlayer)
+        public void LoadPlayer(Player newPlayer)
         {
             if (newPlayer == null)
                 return;
@@ -100,9 +71,9 @@ namespace Server
 
                 // 본인에게 정보 전송
                 {
-                    S_EnterGame enterPacket = new S_EnterGame();
-                    enterPacket.Player = newPlayer.Info;
-                    newPlayer.Session.Send(enterPacket);
+                    S_LoadPlayer loadPacket = new S_LoadPlayer();
+                    loadPacket.Player = newPlayer.Info;
+                    newPlayer.Session.Send(loadPacket);
 
                     // 타인들 정보
                     S_Spawn spawnPacket = new S_Spawn();
