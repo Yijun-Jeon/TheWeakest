@@ -52,6 +52,7 @@ namespace ServerCore
             }
             else
             {
+                Managers.Network.AlertMessage("서버 접속에 실패하였습니다.");
                 Debug.Log($"Connector OnConnectCompleted Failed: {args.SocketError}");
             }
         }

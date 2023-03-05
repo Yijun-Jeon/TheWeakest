@@ -9,6 +9,14 @@ using UnityEngine;
 
 class PacketHandler
 {
+    public static void S_ConnectServerHandler(PacketSession session, IMessage packet)
+    {
+        S_ConnectServer connectServerPacket = packet as S_ConnectServer;
+        ServerSession serverSession = session as ServerSession;
+
+        Managers.Network.OnConnectSuccess(connectServerPacket.IsConnected);
+    }
+
     public static void S_EnterGameHandler(PacketSession session, IMessage packet)
     {
         S_EnterGame enterGamePacket = packet as S_EnterGame;
@@ -94,5 +102,11 @@ class PacketHandler
         {
             pc.Fake();
         }
+    }
+
+    public static void S_StartGameHandler(PacketSession session, IMessage packet)
+    {
+        S_StartGame startGamePacket = packet as S_StartGame;
+        ServerSession serverSession = session as ServerSession;
     }
 }

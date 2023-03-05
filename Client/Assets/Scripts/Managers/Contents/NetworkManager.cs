@@ -40,4 +40,21 @@ public class NetworkManager : MonoBehaviour
                 handler.Invoke(_session, packet.Message);
         }
     }
+
+    public void OnConnectSuccess(bool isConnected)
+    {
+        if (isConnected == false)
+            return;
+
+        Camera.main.transform.Find("CameraCanvas").transform.Find("DisconnectPanel").transform.Find("ConnectText").gameObject.SetActive(false);
+
+        AlertMessage("서버 접속에 성공했습니다.");
+    }
+
+    public void AlertMessage(string message)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("DisconnectPanel").
+            transform.Find("AlertList").GetComponent<AlertListAdapter>().
+            AddAlert(message);
+    }
 }
