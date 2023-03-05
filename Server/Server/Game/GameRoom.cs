@@ -8,7 +8,7 @@ namespace Server
 {
     public class GameRoom
     {
-        object _lock= new object();
+        object _lock = new object();
         public int RoomId { get; set; }
 
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
@@ -18,6 +18,74 @@ namespace Server
         public void Init(int mapId)
         {
             _map.LoadMap(mapId, "../../../../Common/MapData");
+        }
+
+        public void EnterGame(ClientSession session, C_EnterGame enterGamePacket)
+        {
+            Player myPlayer = null;
+            string playerName = enterGamePacket.Name;
+
+            // 유효하지 않은 이름 
+            if (string.IsNullOrEmpty(playerName))
+            {
+                // null Player 패킷 전송 
+                S_EnterGame enterPacket = new S_EnterGame();
+                enterPacket.Player = null;
+                myPlayer.Session.Send(enterPacket);
+                return;
+            }
+
+            // clientSession의 MyPlayer가 이미 존재하는 경우
+            if(session.MyPlayer != null)
+                myPlayer = session.MyPlayer;
+            else
+            {
+                myPlayer = new Player();
+
+                myPlayer.Info.Name = enterGamePacket.Name;
+                myPlayer.Info.Speed = 10.0f;
+                myPlayer.Info.Power = 0;
+                myPlayer.Info.PosInfo.State = PlayerState.Alive;
+                myPlayer.Info.PosInfo.MoveDir = MoveDir.Idle;
+                myPlayer.Info.PosInfo.PosX = 0;
+                myPlayer.Info.PosInfo.PosY = 0;
+
+                myPlayer.Session = session;
+                myPlayer.Session.MyPlayer = myPlayer;
+            }
+
+            lock (_lock)
+            {
+                _players.Add(myPlayer.Info.PlayerId, myPlayer);
+                myPlayer.Room = this;
+
+                // 본인에게 정보 전송
+                {
+                    S_EnterGame enterPacket = new S_EnterGame();
+                    enterPacket.Player = myPlayer.Info;
+                    myPlayer.Session.Send(enterPacket);
+
+                    // 타인들 정보
+                    S_Spawn spawnPacket = new S_Spawn();
+                    foreach (Player p in _players.Values)
+                    {
+                        if (myPlayer != p)
+                            spawnPacket.Players.Add(p.Info);
+                    }
+                    myPlayer.Session.Send(spawnPacket);
+
+                }
+                // 타인들에게 정보 전송
+                {
+                    S_Spawn spawnPacket = new S_Spawn();
+                    spawnPacket.Players.Add(myPlayer.Info);
+                    foreach (Player p in _players.Values)
+                    {
+                        if (myPlayer != p)
+                            p.Session.Send(spawnPacket);
+                    }
+                }
+            }
         }
 
         public void EnterGame(Player newPlayer)

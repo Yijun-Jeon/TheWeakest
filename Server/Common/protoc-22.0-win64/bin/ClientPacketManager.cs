@@ -25,6 +25,8 @@ class PacketManager
     // 멀티쓰레드가 개입되기 전에 가장 먼저 실행 필요
 	public void Register()
 	{		
+		_onRecv.Add((ushort)MsgId.SConnectServer, MakePacket<S_ConnectServer>);
+		_handler.Add((ushort)MsgId.SConnectServer, PacketHandler.S_ConnectServerHandler);		
 		_onRecv.Add((ushort)MsgId.SEnterGame, MakePacket<S_EnterGame>);
 		_handler.Add((ushort)MsgId.SEnterGame, PacketHandler.S_EnterGameHandler);		
 		_onRecv.Add((ushort)MsgId.SLeaveGame, MakePacket<S_LeaveGame>);
@@ -38,7 +40,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SAttack, MakePacket<S_Attack>);
 		_handler.Add((ushort)MsgId.SAttack, PacketHandler.S_AttackHandler);		
 		_onRecv.Add((ushort)MsgId.SFake, MakePacket<S_Fake>);
-		_handler.Add((ushort)MsgId.SFake, PacketHandler.S_FakeHandler);
+		_handler.Add((ushort)MsgId.SFake, PacketHandler.S_FakeHandler);		
+		_onRecv.Add((ushort)MsgId.SStartGame, MakePacket<S_StartGame>);
+		_handler.Add((ushort)MsgId.SStartGame, PacketHandler.S_StartGameHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

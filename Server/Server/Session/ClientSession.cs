@@ -33,20 +33,9 @@ namespace Server
         {
             Console.WriteLine($"[Server] OnConnected: {endPoint}");
 
-            // PROTO TEST
-            MyPlayer = PlayerManager.Instance.Add();
-            {
-                MyPlayer.Info.Name = $"Player_{MyPlayer.Info.PlayerId}";
-                MyPlayer.Info.PosInfo.State = PlayerState.Alive;
-                MyPlayer.Info.PosInfo.MoveDir = MoveDir.Idle;
-                MyPlayer.Info.PosInfo.PosX = 0;
-                MyPlayer.Info.PosInfo.PosY = 0;
-
-                MyPlayer.Session = this;
-            }
-
-            // 1번방에 플레이어 입장
-            RoomManager.Instance.Find(1).EnterGame(MyPlayer);
+            S_ConnectServer connectPacket = new S_ConnectServer();
+            connectPacket.IsConnected = true;
+            Send(connectPacket);
         }
 
         public override void OnDisconnected(EndPoint endPoint)
