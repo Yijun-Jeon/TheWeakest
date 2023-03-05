@@ -55,7 +55,7 @@ namespace Server
             }
 
             S_EnterGame enterPacket = new S_EnterGame();
-            enterPacket.EnterCompleted = false;
+            enterPacket.EnterCompleted = true;
             myPlayer.Session.Send(enterPacket);
         }
 

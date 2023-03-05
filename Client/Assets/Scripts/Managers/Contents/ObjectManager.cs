@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Google.Protobuf.Protocol;
 using UnityEngine;
+using TMPro;
 
 public class ObjectManager 
 {
@@ -16,6 +17,7 @@ public class ObjectManager
         {
             GameObject go = Managers.Resource.Instantiate("Creature/MyPlayer");
             go.name = info.Name;
+            go.transform.Find("Canvas").transform.Find("NickNameText").GetComponent<TMP_Text>().SetText(info.Name);
             _objects.Add(info.PlayerId, go);
 
             MyPlayer = go.GetComponent<MyPlayerController>();
@@ -29,6 +31,7 @@ public class ObjectManager
         {
             GameObject go = Managers.Resource.Instantiate("Creature/Player");
             go.name = info.Name;
+            go.transform.Find("Canvas").transform.Find("NickNameText").GetComponent<TMP_Text>().SetText(info.Name);
             _objects.Add(info.PlayerId, go);
 
             PlayerController pc = go.GetComponent<PlayerController>();
