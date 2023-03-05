@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 class PacketHandler
 {
@@ -22,7 +23,24 @@ class PacketHandler
         S_EnterGame enterGamePacket = packet as S_EnterGame;
         ServerSession serverSession = session as ServerSession;
 
-        Managers.Object.Add(enterGamePacket.Player, myPlayer: true);
+        if (enterGamePacket.enterCompleted == false)
+            return;
+
+        SceneManager.LoadScene("GameScene");
+
+        C_LoadPlayer loadPacket = new C_LoadPlayer();
+        loadPacket.Name = enterGamePacket.Name;
+        Managers.Network.Send(C_LoadPlayer);
+
+    }
+
+    public static void S_LoadPlayerHandler(PacketSession session, IMessage packet)
+    {
+        S_LoadPlayer loadPacket = packet as S_LoadPlayer;
+        ServerSession serverSession = session as ServerSession;
+
+        Managers.Object.Add(loadPacket.Player, myPlayer: true);
+
     }
 
     public static void S_LeaveGameHandler(PacketSession session, IMessage packet)
