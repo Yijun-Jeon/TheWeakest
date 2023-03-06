@@ -3,6 +3,8 @@ using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Server
 {
@@ -28,10 +30,18 @@ namespace Server
             // 유효하지 않은 이름 
             if (string.IsNullOrEmpty(playerName))
             {
-                // enter fail 패킷 전송 
-                S_EnterGame enterFailPacket = new S_EnterGame();
-                enterFailPacket.EnterCompleted = false;
-                session.Send(enterFailPacket);
+                S_InvalidName invalidPacket = new S_InvalidName();
+                session.Send(invalidPacket);
+                return;
+            }
+
+            // 중복되는 이름
+            var temp = _players.Where(p => p.Value.Info.Name== playerName).ToList();
+            if(temp.Count != 0)
+            {
+                Console.WriteLine(_players.Where(x => x.Value.Info.Name == playerName).ToString());
+                S_DuplicateName duplicatePacket = new S_DuplicateName();
+                session.Send(duplicatePacket);
                 return;
             }
 

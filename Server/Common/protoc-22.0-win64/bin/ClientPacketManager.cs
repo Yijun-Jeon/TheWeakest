@@ -44,7 +44,11 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SStartGame, MakePacket<S_StartGame>);
 		_handler.Add((ushort)MsgId.SStartGame, PacketHandler.S_StartGameHandler);		
 		_onRecv.Add((ushort)MsgId.SLoadPlayer, MakePacket<S_LoadPlayer>);
-		_handler.Add((ushort)MsgId.SLoadPlayer, PacketHandler.S_LoadPlayerHandler);
+		_handler.Add((ushort)MsgId.SLoadPlayer, PacketHandler.S_LoadPlayerHandler);		
+		_onRecv.Add((ushort)MsgId.SInvalidName, MakePacket<S_InvalidName>);
+		_handler.Add((ushort)MsgId.SInvalidName, PacketHandler.S_InvalidNameHandler);		
+		_onRecv.Add((ushort)MsgId.SDuplicateName, MakePacket<S_DuplicateName>);
+		_handler.Add((ushort)MsgId.SDuplicateName, PacketHandler.S_DuplicateNameHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

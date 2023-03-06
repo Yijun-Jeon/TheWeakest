@@ -20,6 +20,8 @@ enum MsgId {
 	S_START_GAME = 13;
 	C_LOAD_PLAYER = 14;
 	S_LOAD_PLAYER = 15;
+	S_INVALID_NAME = 16;
+	S_DUPLICATE_NAME = 17;
 }
 
 enum PlayerState{
@@ -51,6 +53,14 @@ message S_EnterGame {
 
 message C_EnterGame{
 	string name = 1;
+}
+
+message S_InvalidName{
+
+}
+
+message S_DuplicateName{
+
 }
 
 message S_LoadPlayer {
