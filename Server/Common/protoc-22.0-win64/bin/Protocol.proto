@@ -4,16 +4,24 @@ package Protocol;
 option csharp_namespace = "Google.Protobuf.Protocol";
 
 enum MsgId {
-  S_ENTER_GAME = 0;
-  S_LEAVE_GAME = 1;
-  S_SPAWN = 2;
-  S_DESPAWN = 3;
-  C_MOVE = 4;
-  S_MOVE = 5;
-  C_ATTACK = 6;
-  S_ATTACK = 7;
-  C_FAKE = 8;
-  S_FAKE = 9;
+	S_CONNECT_SERVER = 0;
+	C_ENTER_GAME = 1;
+	S_ENTER_GAME = 2;
+	S_LEAVE_GAME = 3;
+	S_SPAWN = 4;
+	S_DESPAWN = 5;
+	C_MOVE = 6;
+	S_MOVE = 7;
+	C_ATTACK = 8;
+	S_ATTACK = 9;
+	C_FAKE = 10;
+	S_FAKE = 11;
+	C_START_GAME = 12;
+	S_START_GAME = 13;
+	C_LOAD_PLAYER = 14;
+	S_LOAD_PLAYER = 15;
+	S_INVALID_NAME = 16;
+	S_DUPLICATE_NAME = 17;
 }
 
 enum PlayerState{
@@ -35,11 +43,43 @@ enum MoveDir{
 	DOWNRIGHT= 8;
 }
 
+message S_ConnectServer{
+	bool isConnected = 1;
+}
+
 message S_EnterGame {
-  PlayerInfo player = 1;
+	bool enterCompleted = 1;
+}
+
+message C_EnterGame{
+	string name = 1;
+}
+
+message S_InvalidName{
+
+}
+
+message S_DuplicateName{
+
+}
+
+message S_LoadPlayer {
+	PlayerInfo player = 1;
+}
+
+message C_LoadPlayer{
+
 }
 
 message S_LeaveGame{
+
+}
+
+message C_StartGame{
+
+}
+
+message S_StartGame{
 
 }
 
@@ -78,7 +118,9 @@ message S_Fake{
 message PlayerInfo{
 	int32 playerId = 1;
 	string name = 2;
-	PositionInfo posInfo = 3;
+	float speed = 3;
+	int32 power = 4;
+	PositionInfo posInfo = 5;
 }
 
 message PositionInfo{

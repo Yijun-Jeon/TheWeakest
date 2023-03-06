@@ -3,9 +3,32 @@ using Google.Protobuf.Protocol;
 using Server;
 using ServerCore;
 using System;
+using System.Net;
 
 class PacketHandler
 {
+    public static void C_EnterGameHandler(PacketSession session, IMessage packet)
+    {
+        C_EnterGame enterGamePacket = packet as C_EnterGame;
+        ClientSession clientSession = session as ClientSession;
+
+        RoomManager.Instance.Find(1).EnterGame(clientSession, enterGamePacket);
+    }
+
+    public static void C_LoadPlayerHandler(PacketSession session, IMessage packet)
+    {
+        C_LoadPlayer enterGamePacket = packet as C_LoadPlayer;
+        ClientSession clientSession = session as ClientSession;
+
+        RoomManager.Instance.Find(1).LoadPlayer(clientSession.MyPlayer);
+    }
+
+    public static void C_StartGameHandler(PacketSession session, IMessage packet)
+    {
+        C_StartGame enterGamePacket = packet as C_StartGame;
+        ClientSession clientSession = session as ClientSession;
+    }
+
     public static void C_MoveHandler(PacketSession session, IMessage packet)
     {
         C_Move movePacket = packet as C_Move;

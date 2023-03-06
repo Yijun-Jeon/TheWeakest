@@ -3,12 +3,14 @@ using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Server
 {
     public class GameRoom
     {
-        object _lock= new object();
+        object _lock = new object();
         public int RoomId { get; set; }
 
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
@@ -20,7 +22,54 @@ namespace Server
             _map.LoadMap(mapId, "../../../../Common/MapData");
         }
 
-        public void EnterGame(Player newPlayer)
+        public void EnterGame(ClientSession session, C_EnterGame enterGamePacket)
+        {
+            Player myPlayer = null;
+            string playerName = enterGamePacket.Name;
+
+            // 유효하지 않은 이름 
+            if (string.IsNullOrEmpty(playerName))
+            {
+                S_InvalidName invalidPacket = new S_InvalidName();
+                session.Send(invalidPacket);
+                return;
+            }
+
+            // 중복되는 이름
+            var temp = _players.Where(p => p.Value.Info.Name== playerName).ToList();
+            if(temp.Count != 0)
+            {
+                Console.WriteLine(_players.Where(x => x.Value.Info.Name == playerName).ToString());
+                S_DuplicateName duplicatePacket = new S_DuplicateName();
+                session.Send(duplicatePacket);
+                return;
+            }
+
+            // clientSession의 MyPlayer가 이미 존재하는 경우
+            if(session.MyPlayer != null)
+                myPlayer = session.MyPlayer;
+            else
+            {
+                myPlayer = PlayerManager.Instance.Add();
+
+                myPlayer.Info.Name = enterGamePacket.Name;
+                myPlayer.Info.Speed = 10.0f;
+                myPlayer.Info.Power = 0;
+                myPlayer.Info.PosInfo.State = PlayerState.Alive;
+                myPlayer.Info.PosInfo.MoveDir = MoveDir.Idle;
+                myPlayer.Info.PosInfo.PosX = 0;
+                myPlayer.Info.PosInfo.PosY = 0;
+
+                myPlayer.Session = session;
+                myPlayer.Session.MyPlayer = myPlayer;
+            }
+
+            S_EnterGame enterPacket = new S_EnterGame();
+            enterPacket.EnterCompleted = true;
+            myPlayer.Session.Send(enterPacket);
+        }
+
+        public void LoadPlayer(Player newPlayer)
         {
             if (newPlayer == null)
                 return;
@@ -32,9 +81,9 @@ namespace Server
 
                 // 본인에게 정보 전송
                 {
-                    S_EnterGame enterPacket = new S_EnterGame();
-                    enterPacket.Player = newPlayer.Info;
-                    newPlayer.Session.Send(enterPacket);
+                    S_LoadPlayer loadPacket = new S_LoadPlayer();
+                    loadPacket.Player = newPlayer.Info;
+                    newPlayer.Session.Send(loadPacket);
 
                     // 타인들 정보
                     S_Spawn spawnPacket = new S_Spawn();
