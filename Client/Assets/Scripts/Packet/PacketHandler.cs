@@ -18,13 +18,26 @@ class PacketHandler
         Managers.Network.OnConnectSuccess(connectServerPacket.IsConnected);
     }
 
+    public static void S_InvalidNameHandler(PacketSession session, IMessage packet)
+    {
+        S_InvalidName invalidNamePacket = packet as S_InvalidName;
+        ServerSession serverSession = session as ServerSession;
+
+        Managers.Network.AlertMessage("유효하지 않은 이름입니다.");
+    }
+
+    public static void S_DuplicateNameHandler(PacketSession session, IMessage packet)
+    {
+        S_DuplicateName duplicateNamePacket = packet as S_DuplicateName;
+        ServerSession serverSession = session as ServerSession;
+
+        Managers.Network.AlertMessage("중복되는 이름입니다. 다른 이름을 입력해주세요.");
+    }
+
     public static void S_EnterGameHandler(PacketSession session, IMessage packet)
     {
         S_EnterGame enterGamePacket = packet as S_EnterGame;
         ServerSession serverSession = session as ServerSession;
-
-        if (enterGamePacket.EnterCompleted == false)
-            return;
 
         SceneManager.LoadScene("GameScene");
 

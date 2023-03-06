@@ -13,6 +13,6 @@ public class AlertListAdapter : MonoBehaviour
     {
         GameObject curAlert = Instantiate(this.alertText, contents.transform);
         curAlert.GetComponent<AlertText>().SetMessage(message);
-        //Destroy(curAlert, 5);
+        Destroy(curAlert, 5);
     }
 }
