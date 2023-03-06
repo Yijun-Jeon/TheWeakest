@@ -31,7 +31,7 @@ namespace Server
                 // enter fail 패킷 전송 
                 S_EnterGame enterFailPacket = new S_EnterGame();
                 enterFailPacket.EnterCompleted = false;
-                myPlayer.Session.Send(enterFailPacket);
+                session.Send(enterFailPacket);
                 return;
             }
 
@@ -40,7 +40,7 @@ namespace Server
                 myPlayer = session.MyPlayer;
             else
             {
-                myPlayer = new Player();
+                myPlayer = PlayerManager.Instance.Add();
 
                 myPlayer.Info.Name = enterGamePacket.Name;
                 myPlayer.Info.Speed = 10.0f;
