@@ -3,6 +3,7 @@ using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -17,6 +18,8 @@ namespace Server
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
         Map _map = new Map();
+
+        float _attackRange = 1.5f;
 
         public void Init(int mapId)
         {
@@ -240,14 +243,45 @@ namespace Server
                 if (info.PosInfo.State == PlayerState.Fake || info.PosInfo.State == PlayerState.Dead)
                     return;
 
-                // TODO : 쿨타임, 상대방 공격력 체크
-                
                 // 공격 패킷 전송 
                 S_Attack attack = new S_Attack();
                 attack.PlayerId = player.Info.PlayerId;
                 Broadcast(attack);
 
-                // TODO : 둘 중 하나 사망 처리
+                // 공격 범위 내 상대방이 있는지 체크
+                foreach (PlayerInfo p in attackPacket.Enemys)
+                {
+                    if (GetDistance(info.PosInfo, p.PosInfo) <= _attackRange)
+                    {
+                        Player enemy = null;
+                        if (_players.TryGetValue(p.PlayerId, out enemy) == false)
+                            return;
+                        HandleDead(player, enemy);
+                    }
+                }
+            }
+        }
+
+        // 플레이어 사망 처리
+        public void HandleDead(Player player, Player enemy)
+        {
+            // 공격자의 공격력이 더 높음
+            if(player.Info.Power > enemy.Info.Power)
+            {
+                enemy.Info.PosInfo.State = PlayerState.Dead;
+                S_Dead deadPacket = new S_Dead();
+                deadPacket.Player = enemy.Info;
+
+                Broadcast(deadPacket);
+            }
+            // 공격자의 공격력이 더 낮음
+            else
+            {
+                player.Info.PosInfo.State = PlayerState.Dead;
+                S_Dead deadPacket = new S_Dead();
+                deadPacket.Player = player.Info;
+
+                Broadcast(deadPacket);
             }
         }
 
@@ -272,6 +306,11 @@ namespace Server
                 fake.PlayerId = player.Info.PlayerId;
                 Broadcast(fake);
             }
+        }
+
+        public float GetDistance(PositionInfo myPos, PositionInfo enemyPos)
+        {
+            return (float)Math.Sqrt(Math.Pow(enemyPos.PosX - myPos.PosX, 2) + Math.Pow(enemyPos.PosY - myPos.PosY, 2));
         }
     }
 }
