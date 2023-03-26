@@ -43,7 +43,6 @@ class PacketHandler
 
         C_LoadPlayer loadPacket = new C_LoadPlayer();
         Managers.Network.Send(loadPacket);
-
     }
 
     public static void S_LoadPlayerHandler(PacketSession session, IMessage packet)
@@ -52,6 +51,7 @@ class PacketHandler
         ServerSession serverSession = session as ServerSession;
 
         Managers.Object.Add(loadPacket.Player, myPlayer: true);
+        Managers.Network.UpdatePlayerList();
     }
 
     public static void S_LeaveGameHandler(PacketSession session, IMessage packet)
@@ -71,6 +71,7 @@ class PacketHandler
         {
             Managers.Object.Add(player, myPlayer: false);
         }
+        Managers.Network.UpdatePlayerList();
     }
 
     public static void S_DespawnHandler(PacketSession session, IMessage packet)
@@ -82,6 +83,7 @@ class PacketHandler
         {
             Managers.Object.Remove(id);
         }
+        Managers.Network.UpdatePlayerList();
     }
 
     public static void S_MoveHandler(PacketSession session, IMessage packet)

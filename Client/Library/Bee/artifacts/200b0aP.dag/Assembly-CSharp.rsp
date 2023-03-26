@@ -352,6 +352,8 @@
 "Assets/Scripts/ServerCore/Session.cs"
 "Assets/Scripts/UI/Popup/AlertListAdapter.cs"
 "Assets/Scripts/UI/Popup/AlertText.cs"
+"Assets/Scripts/UI/Popup/PlayerList.cs"
+"Assets/Scripts/UI/Popup/PlayerListAdapter.cs"
 "Assets/Scripts/UI/Popup/UI_Popup.cs"
 "Assets/Scripts/UI/Scene/UI_Scene.cs"
 "Assets/Scripts/UI/UI_Base.cs"

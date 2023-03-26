@@ -57,4 +57,10 @@ public class NetworkManager : MonoBehaviour
             transform.Find("AlertList").GetComponent<AlertListAdapter>().
             AddAlert(message);
     }
+
+    public void UpdatePlayerList()
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").
+            transform.Find("PlayerList").GetComponent<PlayerListAdapter>().UpdateList();
+    }
 }

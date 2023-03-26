@@ -8,7 +8,9 @@ using static Define;
 
 public class PlayerController : MonoBehaviour
 {
+    public string Name { get; set; }
     public int Id { get; set; }
+    public int Power { get; set; }
    
     // 공격 쿨타임 
     protected Coroutine _coAttack;
