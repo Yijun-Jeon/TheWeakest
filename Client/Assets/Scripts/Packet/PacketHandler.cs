@@ -43,7 +43,6 @@ class PacketHandler
 
         C_LoadPlayer loadPacket = new C_LoadPlayer();
         Managers.Network.Send(loadPacket);
-
     }
 
     public static void S_LoadPlayerHandler(PacketSession session, IMessage packet)
@@ -52,6 +51,7 @@ class PacketHandler
         ServerSession serverSession = session as ServerSession;
 
         Managers.Object.Add(loadPacket.Player, myPlayer: true);
+        Managers.Network.UpdatePlayerList();
     }
 
     public static void S_LeaveGameHandler(PacketSession session, IMessage packet)
@@ -59,7 +59,8 @@ class PacketHandler
         S_LeaveGame leaveGamePacket = packet as S_LeaveGame;
         ServerSession serverSession = session as ServerSession;
 
-        Managers.Object.RemoveMyPlayer();
+        Managers.Object.Clear();
+        SceneManager.LoadScene("LoginScene");
     }
 
     public static void S_SpawnHandler(PacketSession session, IMessage packet)
@@ -71,6 +72,7 @@ class PacketHandler
         {
             Managers.Object.Add(player, myPlayer: false);
         }
+        Managers.Network.UpdatePlayerList();
     }
 
     public static void S_DespawnHandler(PacketSession session, IMessage packet)
@@ -82,6 +84,7 @@ class PacketHandler
         {
             Managers.Object.Remove(id);
         }
+        Managers.Network.UpdatePlayerList();
     }
 
     public static void S_MoveHandler(PacketSession session, IMessage packet)
@@ -137,5 +140,16 @@ class PacketHandler
     {
         S_StartGame startGamePacket = packet as S_StartGame;
         ServerSession serverSession = session as ServerSession;
+
+        foreach (PlayerInfo player in startGamePacket.Players)
+        {
+            GameObject go = Managers.Object.FindById(player.PlayerId);
+            PlayerController pc = go.GetComponent<PlayerController>();
+            pc.PosInfo = player.PosInfo;
+            pc.Power = player.Power;
+            pc.Speed = player.Speed;
+        }
+
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(false);
     }
 }

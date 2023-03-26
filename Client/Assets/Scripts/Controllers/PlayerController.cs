@@ -2,13 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using Google.Protobuf.Protocol;
 using Google.Protobuf.WellKnownTypes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static Define;
 
 public class PlayerController : MonoBehaviour
 {
+    // UI
+    public TMP_Text powerText;
+
+    // Info
+    public string Name { get; set; }
     public int Id { get; set; }
+    int _power = 0;
+    public int Power
+    {
+        get { return _power; }
+        set
+        {
+            _power = value;
+            powerText.text = value.ToString();
+        }
+    }
    
     // 공격 쿨타임 
     protected Coroutine _coAttack;

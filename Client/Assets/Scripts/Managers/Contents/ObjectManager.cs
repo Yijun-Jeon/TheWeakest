@@ -23,6 +23,7 @@ public class ObjectManager
             MyPlayer = go.GetComponent<MyPlayerController>();
             MyPlayer.Id = info.PlayerId;
             MyPlayer.PosInfo = info.PosInfo;
+            MyPlayer.Name = info.Name;
 
             MyPlayer.SyncsPos();
         }
@@ -37,6 +38,7 @@ public class ObjectManager
             PlayerController pc = go.GetComponent<PlayerController>();
             pc.Id = info.PlayerId;
             pc.PosInfo = info.PosInfo;
+            pc.Name = info.Name;
 
             pc.SyncsPos();
         }
@@ -64,6 +66,11 @@ public class ObjectManager
 
         Remove(MyPlayer.Id);
         MyPlayer = null;
+    }
+
+    public List<int> FindAllPlayers()
+    {
+        return new List<int>(_objects.Keys);
     }
 
     public GameObject Find(Func<GameObject,bool> condition)

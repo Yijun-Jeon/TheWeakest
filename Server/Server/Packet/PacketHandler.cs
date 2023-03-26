@@ -15,6 +15,15 @@ class PacketHandler
         RoomManager.Instance.Find(1).EnterGame(clientSession, enterGamePacket);
     }
 
+    public static void C_LeaveGameHandler(PacketSession session, IMessage packet)
+    {
+        C_LeaveGame leaveGamePacket = packet as C_LeaveGame;
+        ClientSession clientSession = session as ClientSession;
+
+        RoomManager.Instance.Find(1).LeaveGame(leaveGamePacket.PlayerId);
+        clientSession.MyPlayer = null;
+    }
+
     public static void C_LoadPlayerHandler(PacketSession session, IMessage packet)
     {
         C_LoadPlayer enterGamePacket = packet as C_LoadPlayer;
@@ -27,6 +36,12 @@ class PacketHandler
     {
         C_StartGame enterGamePacket = packet as C_StartGame;
         ClientSession clientSession = session as ClientSession;
+
+        GameRoom room = clientSession.MyPlayer.Room;
+        if (room == null)
+            return;
+
+        room.StartGame();
     }
 
     public static void C_MoveHandler(PacketSession session, IMessage packet)

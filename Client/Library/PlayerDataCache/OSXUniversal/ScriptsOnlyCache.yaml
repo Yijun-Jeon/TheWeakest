@@ -9,9 +9,13 @@ ScriptsOnlyBuild:
     - EnterButtonController
     - FieldOfView
     - GameScene
+    - LeaveGameButtonController
     - LoginScene
     - MyPlayerController
     - PlayerController
+    - PlayerList
+    - PlayerListAdapter
+    - StartGameButtonController
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
@@ -200,6 +204,12 @@ ScriptsOnlyBuild:
   - assembly: Unity.RenderPipelines.Core.Runtime
     fullTypeName: UnityEngine.Rendering.UI.DebugUIHandlerPanel
     methodName: ResetDebugManager
+  - assembly: Assembly-CSharp
+    fullTypeName: LeaveGameButtonController
+    methodName: Leave
+  - assembly: Assembly-CSharp
+    fullTypeName: StartGameButtonController
+    methodName: Enter
   sceneClasses:
     Assets/Scenes/GameScene.unity:
     - Class: 1
@@ -223,13 +233,49 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
+      Script: {instanceID: 1750}
+    - Class: 114
+      Script: {instanceID: 1752}
+    - Class: 114
+      Script: {instanceID: 1754}
+    - Class: 114
+      Script: {instanceID: 1758}
+    - Class: 114
+      Script: {instanceID: 1760}
+    - Class: 114
+      Script: {instanceID: 2662}
+    - Class: 114
+      Script: {instanceID: 3034}
+    - Class: 114
+      Script: {instanceID: 3092}
+    - Class: 114
+      Script: {instanceID: 4494}
+    - Class: 114
+      Script: {instanceID: 5428}
+    - Class: 114
+      Script: {instanceID: 8084}
+    - Class: 114
       Script: {instanceID: 8470}
     - Class: 114
       Script: {instanceID: 8602}
     - Class: 114
-      Script: {instanceID: 10412}
+      Script: {instanceID: 9222}
     - Class: 114
-      Script: {instanceID: 11138}
+      Script: {instanceID: 9832}
+    - Class: 114
+      Script: {instanceID: 10272}
+    - Class: 114
+      Script: {instanceID: 10414}
+    - Class: 114
+      Script: {instanceID: 10798}
+    - Class: 114
+      Script: {instanceID: 11140}
+    - Class: 114
+      Script: {instanceID: 12356}
+    - Class: 114
+      Script: {instanceID: 51236}
+    - Class: 114
+      Script: {instanceID: 60988}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -239,6 +285,12 @@ ScriptsOnlyBuild:
     - Class: 212
       Script: {instanceID: 0}
     - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
       Script: {instanceID: 0}
     Assets/Scenes/LoginScene.unity:
     - Class: 1
@@ -292,9 +344,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1758}
     - Class: 114
-      Script: {instanceID: 1764}
+      Script: {instanceID: 1760}
     - Class: 114
-      Script: {instanceID: 1904}
+      Script: {instanceID: 1766}
     - Class: 114
       Script: {instanceID: 2434}
     - Class: 114
@@ -380,35 +432,39 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9626}
     - Class: 114
-      Script: {instanceID: 10086}
+      Script: {instanceID: 9832}
     - Class: 114
-      Script: {instanceID: 10214}
+      Script: {instanceID: 10088}
     - Class: 114
-      Script: {instanceID: 10270}
+      Script: {instanceID: 10216}
     - Class: 114
-      Script: {instanceID: 10454}
+      Script: {instanceID: 10272}
     - Class: 114
-      Script: {instanceID: 10700}
+      Script: {instanceID: 10456}
     - Class: 114
-      Script: {instanceID: 10790}
+      Script: {instanceID: 10702}
     - Class: 114
-      Script: {instanceID: 10796}
+      Script: {instanceID: 10792}
     - Class: 114
-      Script: {instanceID: 10974}
+      Script: {instanceID: 10798}
     - Class: 114
-      Script: {instanceID: 11012}
+      Script: {instanceID: 10976}
     - Class: 114
-      Script: {instanceID: 11132}
+      Script: {instanceID: 11014}
     - Class: 114
-      Script: {instanceID: 11222}
+      Script: {instanceID: 11134}
     - Class: 114
-      Script: {instanceID: 11302}
+      Script: {instanceID: 11224}
     - Class: 114
-      Script: {instanceID: 11416}
+      Script: {instanceID: 11304}
     - Class: 114
-      Script: {instanceID: 11822}
+      Script: {instanceID: 11418}
     - Class: 114
-      Script: {instanceID: 12558}
+      Script: {instanceID: 11824}
+    - Class: 114
+      Script: {instanceID: 12356}
+    - Class: 114
+      Script: {instanceID: 12562}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -472,6 +528,12 @@ ScriptsOnlyBuild:
     className: Text
   - hash:
       serializedVersion: 2
+      Hash: 0dbc3be398b4869a5c8d0d8481ee402c
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: LayoutElement
+  - hash:
+      serializedVersion: 2
       Hash: e09e8bebc0fcd32bb8af1287a6b44816
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
@@ -506,12 +568,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: CodeMonkey.Utils
     className: Button_UI
-  - hash:
-      serializedVersion: 2
-      Hash: 0dbc3be398b4869a5c8d0d8481ee402c
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: LayoutElement
   - hash:
       serializedVersion: 2
       Hash: 6bc76e17f0d5e93f3eea7f5a2fe227f3
@@ -1066,7 +1122,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: d694a61a57feb56b8d97a6dc1f9b213e
+      Hash: 8a029abf74249550d436b4c4d47c0f93
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1588,7 +1644,7 @@ ScriptsOnlyBuild:
     className: UnityOnScrollMessageListener
   - hash:
       serializedVersion: 2
-      Hash: d694a61a57feb56b8d97a6dc1f9b213e
+      Hash: 8a029abf74249550d436b4c4d47c0f93
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MyPlayerController
@@ -1796,6 +1852,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: TMPro.Examples
     className: ObjectSpin
+  - hash:
+      serializedVersion: 2
+      Hash: af2eab68df774c420ef0e8099ea1a0a7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerListAdapter
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -2158,6 +2220,12 @@ ScriptsOnlyBuild:
     className: SpriteLibraryAsset
   - hash:
       serializedVersion: 2
+      Hash: 333f128784e07ce249a1d7ac8f8f6507
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerList
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
@@ -2180,8 +2248,20 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: StartGameButtonController
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LeaveGameButtonController
   platform: 2
   scenePathNames:
   - Assets/Scenes/LoginScene.unity
   - Assets/Scenes/GameScene.unity
-  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client3/Client3.app
+  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client2/Client2.app

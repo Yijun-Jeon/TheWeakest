@@ -22,6 +22,7 @@ enum MsgId {
 	S_LOAD_PLAYER = 15;
 	S_INVALID_NAME = 16;
 	S_DUPLICATE_NAME = 17;
+	C_LEAVE_GAME = 18;
 }
 
 enum PlayerState{
@@ -70,17 +71,20 @@ message S_LoadPlayer {
 message C_LoadPlayer{
 
 }
+message C_LeaveGame{
+	int32 playerId = 1;
+}
 
 message S_LeaveGame{
 
 }
 
 message C_StartGame{
-
+	
 }
 
 message S_StartGame{
-
+	repeated PlayerInfo players = 1;
 }
 
 message S_Spawn{
