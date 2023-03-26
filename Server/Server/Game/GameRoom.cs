@@ -275,13 +275,18 @@ namespace Server
                 Broadcast(deadPacket);
             }
             // 공격자의 공격력이 더 낮음
-            else
+            else if(player.Info.Power < enemy.Info.Power)
             {
                 player.Info.PosInfo.State = PlayerState.Dead;
                 S_Dead deadPacket = new S_Dead();
                 deadPacket.Player = player.Info;
 
                 Broadcast(deadPacket);
+            }
+            // lobby 에서의 공
+            else
+            {
+                return;
             }
         }
 

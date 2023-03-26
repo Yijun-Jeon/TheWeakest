@@ -150,6 +150,9 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        if (State == PlayerState.Dead)
+            return;
+
         if(_coFake == null)
             UpdateController();
     }
@@ -228,6 +231,12 @@ public class PlayerController : MonoBehaviour
         _coFake = StartCoroutine("CoStartFake");
     }
 
+    public void Killed()
+    {
+        State = PlayerState.Dead;
+        StopAllCoroutines();
+        _animator.Play("Killed");
+    }
 
     IEnumerator CoStartAttack()
     {

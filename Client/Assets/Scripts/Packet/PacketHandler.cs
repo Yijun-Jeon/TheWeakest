@@ -150,6 +150,37 @@ class PacketHandler
             pc.Speed = player.Speed;
         }
 
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("StartBtn").gameObject.SetActive(false);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(false);
         Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(false);
+    }
+
+    public static void S_DeadHandler(PacketSession session, IMessage packet)
+    {
+        S_Dead deadPacket = packet as S_Dead;
+        ServerSession serverSession = session as ServerSession;
+
+        GameObject go = Managers.Object.FindById(deadPacket.Player.PlayerId);
+        if (go == null)
+            return;
+
+        if(deadPacket.Player.PlayerId == Managers.Object.MyPlayer.Id)
+        {
+            MyPlayerController mp = go.GetComponent<MyPlayerController>();
+            if (mp != null)
+            {
+                mp.Killed();
+            }
+            Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(true);
+        }
+        else
+        {
+            PlayerController pc = go.GetComponent<PlayerController>();
+            if (pc != null)
+            {
+                pc.Killed();
+            }
+        }
+        go.transform.Find("Canvas").transform.Find("PowerText").gameObject.SetActive(true);
     }
 }
