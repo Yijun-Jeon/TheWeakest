@@ -14,6 +14,7 @@ ScriptsOnlyBuild:
     - PlayerController
     - PlayerList
     - PlayerListAdapter
+    - StartGameButtonController
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
@@ -202,6 +203,9 @@ ScriptsOnlyBuild:
   - assembly: Unity.RenderPipelines.Core.Runtime
     fullTypeName: UnityEngine.Rendering.UI.DebugUIHandlerPanel
     methodName: ResetDebugManager
+  - assembly: Assembly-CSharp
+    fullTypeName: StartGameButtonController
+    methodName: Enter
   sceneClasses:
     Assets/Scenes/GameScene.unity:
     - Class: 1
@@ -260,6 +264,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11140}
     - Class: 114
       Script: {instanceID: 12356}
+    - Class: 114
+      Script: {instanceID: 51236}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -1106,7 +1112,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: d694a61a57feb56b8d97a6dc1f9b213e
+      Hash: 8a029abf74249550d436b4c4d47c0f93
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1628,7 +1634,7 @@ ScriptsOnlyBuild:
     className: UnityOnScrollMessageListener
   - hash:
       serializedVersion: 2
-      Hash: d694a61a57feb56b8d97a6dc1f9b213e
+      Hash: 8a029abf74249550d436b4c4d47c0f93
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MyPlayerController
@@ -2232,6 +2238,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: StartGameButtonController
   platform: 2
   scenePathNames:
   - Assets/Scenes/LoginScene.unity

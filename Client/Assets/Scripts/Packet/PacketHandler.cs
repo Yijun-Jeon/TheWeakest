@@ -139,5 +139,16 @@ class PacketHandler
     {
         S_StartGame startGamePacket = packet as S_StartGame;
         ServerSession serverSession = session as ServerSession;
+
+        foreach (PlayerInfo player in startGamePacket.Players)
+        {
+            GameObject go = Managers.Object.FindById(player.PlayerId);
+            PlayerController pc = go.GetComponent<PlayerController>();
+            pc.PosInfo = player.PosInfo;
+            pc.Power = player.Power;
+            pc.Speed = player.Speed;
+        }
+
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(false);
     }
 }

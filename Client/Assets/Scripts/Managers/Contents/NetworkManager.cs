@@ -53,9 +53,7 @@ public class NetworkManager : MonoBehaviour
 
     public void AlertMessage(string message)
     {
-        Camera.main.transform.Find("CameraCanvas").transform.Find("DisconnectPanel").
-            transform.Find("AlertList").GetComponent<AlertListAdapter>().
-            AddAlert(message);
+        GameObject.FindWithTag("Alert").GetComponent<AlertListAdapter>().AddAlert(message);
     }
 
     public void UpdatePlayerList()

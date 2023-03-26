@@ -325,6 +325,7 @@
 "Assets/Scripts/Controllers/EnterButtonController.cs"
 "Assets/Scripts/Controllers/MyPlayerController.cs"
 "Assets/Scripts/Controllers/PlayerController.cs"
+"Assets/Scripts/Controllers/StartGameButtonController.cs"
 "Assets/Scripts/FieldOfView/AttackRange.cs"
 "Assets/Scripts/FieldOfView/FieldOfView.cs"
 "Assets/Scripts/Managers/Contents/MapManager.cs"

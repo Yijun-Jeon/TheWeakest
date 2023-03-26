@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10ed81b71222e44e9b74a09aa9215f4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerText: {fileID: 4909901822992299345}
   _grid: {fileID: 0}
 --- !u!70 &1658509520162939154
 CapsuleCollider2D:
