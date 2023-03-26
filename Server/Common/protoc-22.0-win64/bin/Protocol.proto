@@ -76,11 +76,11 @@ message S_LeaveGame{
 }
 
 message C_StartGame{
-
+	
 }
 
 message S_StartGame{
-
+	repeated PlayerInfo players = 1;
 }
 
 message S_Spawn{

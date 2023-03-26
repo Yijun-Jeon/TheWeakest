@@ -12,6 +12,7 @@ namespace Server
     {
         object _lock = new object();
         public int RoomId { get; set; }
+        Random _random = new Random();
 
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
@@ -20,6 +21,49 @@ namespace Server
         public void Init(int mapId)
         {
             _map.LoadMap(mapId, "../../../../Common/MapData");
+        }
+
+        public void StartGame()
+        {
+            lock(_lock )
+            {
+                int numOfPlayers = _players.Count;
+
+                // 플레이어들 랜덤 파워 생성
+                int[] powerArr = new int[numOfPlayers];
+
+                for (int i = 0; i < numOfPlayers; i++)
+                    powerArr[i] = i + 1;
+
+                int random1, random2;
+                int temp;
+
+                for (int i = 0; i < numOfPlayers; i++)
+                {
+                    random1 = _random.Next(numOfPlayers);
+                    random2 = _random.Next(numOfPlayers);
+
+                    temp = powerArr[random1];
+                    powerArr[random1] = powerArr[random2];
+                    powerArr[random2] = temp;
+                }
+
+                int idx = 0;
+                foreach (Player p in _players.Values)
+                {
+                    p.Info.Power = powerArr[idx++];
+                    // TODO : 시작 위치, 시야, 속도 조절
+                }
+
+                // 게임 시작 모두에게 알림
+                S_StartGame startGamePacket = new S_StartGame();
+                foreach (Player p in _players.Values)
+                {
+                    startGamePacket.Players.Add(p.Info);
+                }
+                Broadcast(startGamePacket);
+            }
+            
         }
 
         public void EnterGame(ClientSession session, C_EnterGame enterGamePacket)

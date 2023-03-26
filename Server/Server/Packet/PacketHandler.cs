@@ -27,6 +27,12 @@ class PacketHandler
     {
         C_StartGame enterGamePacket = packet as C_StartGame;
         ClientSession clientSession = session as ClientSession;
+
+        GameRoom room = clientSession.MyPlayer.Room;
+        if (room == null)
+            return;
+
+        room.StartGame();
     }
 
     public static void C_MoveHandler(PacketSession session, IMessage packet)
