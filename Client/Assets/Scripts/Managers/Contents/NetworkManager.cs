@@ -10,9 +10,12 @@ using UnityEngine;
 public class NetworkManager : MonoBehaviour
 {
     ServerSession _session = new ServerSession();
+    MyPlayerController _myPlayer;
 
     public void Init()
     {
+        AlertMessage("서버 접속을 시도하는 중입니다....");
+
         // DNS
         //string host = Dns.GetHostName();
         //IPHostEntry ipHost = Dns.GetHostEntry(host);
@@ -45,8 +48,6 @@ public class NetworkManager : MonoBehaviour
     {
         if (isConnected == false)
             return;
-
-        Camera.main.transform.Find("CameraCanvas").transform.Find("DisconnectPanel").transform.Find("ConnectText").gameObject.SetActive(false);
 
         AlertMessage("서버 접속에 성공했습니다.");
     }

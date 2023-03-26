@@ -59,7 +59,8 @@ class PacketHandler
         S_LeaveGame leaveGamePacket = packet as S_LeaveGame;
         ServerSession serverSession = session as ServerSession;
 
-        Managers.Object.RemoveMyPlayer();
+        Managers.Object.Clear();
+        SceneManager.LoadScene("LoginScene");
     }
 
     public static void S_SpawnHandler(PacketSession session, IMessage packet)

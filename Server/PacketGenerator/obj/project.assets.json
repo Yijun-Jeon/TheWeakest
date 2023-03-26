@@ -120,26 +120,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jhobb\\.nuget\\packages\\": {}
+    "/Users/Yijun/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project\\TheWeakest\\Server\\PacketGenerator\\PacketGenerator.csproj",
+      "projectUniqueName": "/Users/Yijun/Desktop/Project/TheWeakest/Server/PacketGenerator/PacketGenerator.csproj",
       "projectName": "PacketGenerator",
-      "projectPath": "D:\\Project\\TheWeakest\\Server\\PacketGenerator\\PacketGenerator.csproj",
-      "packagesPath": "C:\\Users\\jhobb\\.nuget\\packages\\",
-      "outputPath": "D:\\Project\\TheWeakest\\Server\\PacketGenerator\\obj\\",
+      "projectPath": "/Users/Yijun/Desktop/Project/TheWeakest/Server/PacketGenerator/PacketGenerator.csproj",
+      "packagesPath": "/Users/Yijun/.nuget/packages/",
+      "outputPath": "/Users/Yijun/Desktop/Project/TheWeakest/Server/PacketGenerator/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\jhobb\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/Yijun/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -174,12 +172,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.10, 3.1.10]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-x64",
+            "version": "[3.1.32, 3.1.32]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
       }
     }
   }

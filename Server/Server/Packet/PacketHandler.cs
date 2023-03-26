@@ -21,6 +21,7 @@ class PacketHandler
         ClientSession clientSession = session as ClientSession;
 
         RoomManager.Instance.Find(1).LeaveGame(leaveGamePacket.PlayerId);
+        clientSession.MyPlayer = null;
     }
 
     public static void C_LoadPlayerHandler(PacketSession session, IMessage packet)

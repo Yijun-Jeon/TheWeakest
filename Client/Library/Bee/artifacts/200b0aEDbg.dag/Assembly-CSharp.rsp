@@ -384,6 +384,7 @@
 -r:"Library/Bee/artifacts/200b0aEDbg.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/Controllers/CameraController.cs"
 "Assets/Scripts/Controllers/EnterButtonController.cs"
+"Assets/Scripts/Controllers/LeaveGameButtonController.cs"
 "Assets/Scripts/Controllers/MyPlayerController.cs"
 "Assets/Scripts/Controllers/PlayerController.cs"
 "Assets/Scripts/Controllers/StartGameButtonController.cs"
