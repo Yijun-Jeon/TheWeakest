@@ -161,27 +161,48 @@ class PacketHandler
         S_Dead deadPacket = packet as S_Dead;
         ServerSession serverSession = session as ServerSession;
 
-        GameObject go = Managers.Object.FindById(deadPacket.Player.PlayerId);
-        if (go == null)
+        // 사망 플레이어 
+        GameObject killed = Managers.Object.FindById(deadPacket.KilledPlayer.PlayerId);
+        if (killed == null)
             return;
 
-        if(deadPacket.Player.PlayerId == Managers.Object.MyPlayer.Id)
+        // 킬한 플레이어
+        GameObject killer = Managers.Object.FindById(deadPacket.KillerPlayer.PlayerId);
+        if (killer == null)
+            return;
+
+        // 사망 플레이어가 내 플레이어 
+        if (deadPacket.KilledPlayer.PlayerId == Managers.Object.MyPlayer.Id)
         {
-            MyPlayerController mp = go.GetComponent<MyPlayerController>();
+            MyPlayerController mp = killed.GetComponent<MyPlayerController>();
             if (mp != null)
             {
                 mp.Killed();
             }
             Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(true);
         }
+        // 사망 플레이어가 다른 플레이어 
         else
         {
-            PlayerController pc = go.GetComponent<PlayerController>();
+            PlayerController pc = killed.GetComponent<PlayerController>();
             if (pc != null)
             {
                 pc.Killed();
             }
         }
-        go.transform.Find("Canvas").transform.Find("PowerText").gameObject.SetActive(true);
+        // 사망 플레이어 파워 공개 
+        killed.transform.Find("Canvas").transform.Find("PowerText").gameObject.SetActive(true);
+        // 킬로그 추가
+        Managers.Network.UpdateKillFeed(deadPacket.KilledPlayer.PlayerId);
+
+        // 킬한 내 플레이어 킬 카운트 증가 
+        if (deadPacket.KillerPlayer.PlayerId == Managers.Object.MyPlayer.Id)
+        {
+            MyPlayerController mp = killer.GetComponent<MyPlayerController>();
+            if (mp != null)
+            {
+                mp.Kill(deadPacket.KillerPlayer.KillCount);
+            }
+        }
     }
 }

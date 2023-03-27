@@ -278,8 +278,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98267d8ea97e4c058b3e5f6fd035aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contents: {fileID: 1770980406349751085, guid: 96b9f9308c98644fcab59c40753c9f84, type: 3}
-  killList: {fileID: 342443011}
+  contents: {fileID: 342443013}
+  killList: {fileID: 1770980406349751085, guid: 96b9f9308c98644fcab59c40753c9f84, type: 3}
+--- !u!1 &342443013 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3541334415211757142, guid: f8e5446dc59884daa84c4841e96eec04, type: 3}
+  m_PrefabInstance: {fileID: 342443009}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

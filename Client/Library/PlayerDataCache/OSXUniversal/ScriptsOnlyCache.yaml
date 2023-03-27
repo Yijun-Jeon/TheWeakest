@@ -9,6 +9,8 @@ ScriptsOnlyBuild:
     - EnterButtonController
     - FieldOfView
     - GameScene
+    - KillInfo
+    - KillInfoAdapter
     - LeaveGameButtonController
     - LoginScene
     - MyPlayerController
@@ -87,8 +89,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -276,6 +280,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12236}
     - Class: 114
       Script: {instanceID: 12360}
+    - Class: 114
+      Script: {instanceID: 49564}
+    - Class: 114
+      Script: {instanceID: 49580}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -465,6 +473,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12360}
     - Class: 114
       Script: {instanceID: 12566}
+    - Class: 114
+      Script: {instanceID: 49564}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1128,7 +1138,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 8a029abf74249550d436b4c4d47c0f93
+      Hash: e226a44c59ae37e0f52502fb371acd40
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1650,7 +1660,7 @@ ScriptsOnlyBuild:
     className: UnityOnScrollMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 8a029abf74249550d436b4c4d47c0f93
+      Hash: e226a44c59ae37e0f52502fb371acd40
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MyPlayerController
@@ -2260,6 +2270,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 333f128784e07ce249a1d7ac8f8f6507
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: KillInfo
+  - hash:
+      serializedVersion: 2
+      Hash: e87040f4d6acfd395adb694a2809d007
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: KillInfoAdapter
   platform: 2
   scenePathNames:
   - Assets/Scenes/LoginScene.unity

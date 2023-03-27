@@ -24,6 +24,9 @@ public class ObjectManager
             MyPlayer.Id = info.PlayerId;
             MyPlayer.PosInfo = info.PosInfo;
             MyPlayer.Name = info.Name;
+            MyPlayer.Speed = info.Speed;
+            MyPlayer.Power = info.Power;
+            MyPlayer.KillCount = info.KillCount;
 
             MyPlayer.SyncsPos();
         }
@@ -39,6 +42,8 @@ public class ObjectManager
             pc.Id = info.PlayerId;
             pc.PosInfo = info.PosInfo;
             pc.Name = info.Name;
+            pc.Speed = info.Speed;
+            pc.Power = info.Power;
 
             pc.SyncsPos();
         }

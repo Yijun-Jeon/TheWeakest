@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     // UI
     public TMP_Text powerText;
 
-    // Info
+    #region INFO
     public string Name { get; set; }
     public int Id { get; set; }
     int _power = 0;
@@ -21,21 +21,13 @@ public class PlayerController : MonoBehaviour
         get { return _power; }
         set
         {
+            if (value < 0)
+                return;
             _power = value;
             powerText.text = value.ToString();
         }
     }
-   
-    // 공격 쿨타임 
-    protected Coroutine _coAttack;
 
-    // 죽은 척 쿨타임
-    protected Coroutine _coFake;
-
-    // dirty flag
-    protected bool _updated = false;
-
-    public Grid _grid; // map grid
     float _speed = 10.0f;
     public float Speed
     {
@@ -63,11 +55,11 @@ public class PlayerController : MonoBehaviour
             _updated = true;
         }
     }
-    
+
     // 좌표 상의 실제 위치 
     public Vector3Int CellPos
     {
-        get { return new Vector3Int(PosInfo.PosX, PosInfo.PosY,0); }
+        get { return new Vector3Int(PosInfo.PosX, PosInfo.PosY, 0); }
         set
         {
             if (PosInfo.PosX == value.x && PosInfo.PosY == value.y)
@@ -110,6 +102,16 @@ public class PlayerController : MonoBehaviour
             _updated = true;
         }
     }
+
+    // dirty flag
+    protected bool _updated = false;
+    #endregion
+
+    // 공격 쿨타임 
+    protected Coroutine _coAttack;
+
+    // 죽은 척 쿨타임
+    protected Coroutine _coFake;
 
     // 이동 관련 
     protected float _x = 1;

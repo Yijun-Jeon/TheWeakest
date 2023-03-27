@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Google.Protobuf.Protocol;
+using TMPro;
 using UnityEngine;
 using static Define;
 using static UnityEngine.UI.Image;
@@ -10,6 +11,19 @@ public class MyPlayerController : PlayerController
     AttackRange attackRange;
     FieldOfView fieldOfView;
     CameraController cameraController;
+
+    int _killCount = 0;
+    public int KillCount
+    {
+        get { return _killCount; }
+        set
+        {
+            if (value < 0)
+                return;
+            _killCount = value;
+            Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("KillText").GetComponent<TMP_Text>().text = "Kill : " + value.ToString();
+        }
+    }
 
     protected override void Start()
     {
@@ -188,5 +202,10 @@ public class MyPlayerController : PlayerController
             Managers.Network.Send(movePacket);
             _updated = false;
         }
+    }
+
+    public void Kill(int killCount)
+    {
+        KillCount = killCount;
     }
 }
