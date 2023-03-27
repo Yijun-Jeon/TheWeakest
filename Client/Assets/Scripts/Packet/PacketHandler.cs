@@ -205,4 +205,20 @@ class PacketHandler
             }
         }
     }
+
+    public static void S_WatchOtherHandler(PacketSession session, IMessage packet)
+    {
+        S_WatchOther watchOther = packet as S_WatchOther;
+        ServerSession serverSession = session as ServerSession;
+
+        GameObject go = Managers.Object.FindById(watchOther.TargetId);
+        if (go == null)
+            return;
+
+        PlayerController pc = go.GetComponent<PlayerController>();
+        if (pc == null)
+            return;
+
+        Managers.Network.ChangeTargetPlayer(watchOther.TargetId);
+    }
 }

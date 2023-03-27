@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Google.Protobuf.Protocol;
 
 public class PlayerList : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class PlayerList : MonoBehaviour
 
     public void changeCamera()
     {
-        Managers.Network.ChangeTargetPlayer(_playerId);
+        C_WatchOther watchPacket = new C_WatchOther();
+        watchPacket.TargetId = _playerId;
+        Managers.Network.Send(watchPacket);
     }
 }

@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour
     public void SetTargetPlayer(PlayerController player)
     {
         TargetPlayer = player;
-        if(player.Id == _myPlayer.Id)
+        if (player.Id == _myPlayer.Id)
             _myPlayer.SetIsControl(true);
         else
             _myPlayer.SetIsControl(false);
