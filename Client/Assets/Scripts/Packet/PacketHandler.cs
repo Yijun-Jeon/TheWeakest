@@ -153,6 +153,7 @@ class PacketHandler
         Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("StartBtn").gameObject.SetActive(false);
         Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(false);
         Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(false);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").gameObject.SetActive(true);
     }
 
     public static void S_DeadHandler(PacketSession session, IMessage packet)

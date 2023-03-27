@@ -159,6 +159,12 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimation()
     {
+        if(State == PlayerState.Dead)
+        {
+            _animator.Play("Dead");
+            return;
+        }
+            
         if (Dir == MoveDir.Idle)
         {
             _animator.Play("Idle");
@@ -245,7 +251,7 @@ public class PlayerController : MonoBehaviour
         // TODO : 피격 판정
 
         yield return new WaitForSeconds(1.2f);
-        if (_coFake == null)
+        if (_coFake == null && State != PlayerState.Dead)
         {
             UpdateAnimation();
         }
