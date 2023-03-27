@@ -1,14 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using Google.Protobuf.Protocol;
+using TMPro;
 using UnityEngine;
 using static Define;
+using static UnityEngine.UI.Image;
 
 public class MyPlayerController : PlayerController
 {
     AttackRange attackRange;
     FieldOfView fieldOfView;
     CameraController cameraController;
+
+    int _killCount = 0;
+    public int KillCount
+    {
+        get { return _killCount; }
+        set
+        {
+            if (value < 0)
+                return;
+            _killCount = value;
+            Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("KillText").GetComponent<TMP_Text>().text = "Kill : " + value.ToString();
+        }
+    }
 
     protected override void Start()
     {
@@ -41,6 +56,27 @@ public class MyPlayerController : PlayerController
                 return;
 
             C_Attack attack = new C_Attack();
+            // 범위 내 적이 있는지 검사 
+            Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(transform.position, 1.5f);
+            foreach (Collider2D collider in collider2Ds)
+            {
+                // 다른 player를 발견한 경우
+                if (collider.tag == "Player" && collider.GetComponent<MyPlayerController>() == null)
+                {
+                    PlayerController enemy = collider.GetComponent<PlayerController>();
+
+                    PlayerInfo enemyInfo = new PlayerInfo()
+                    {
+                        PlayerId = enemy.Id,
+                        Name = enemy.name,
+                        Speed = enemy.Speed,
+                        Power = enemy.Power,
+                        PosInfo = enemy.PosInfo
+                    };
+                    attack.Enemys.Add(enemyInfo);
+                }
+            }    
+            
             Managers.Network.Send(attack);
 
             Attack();
@@ -166,5 +202,10 @@ public class MyPlayerController : PlayerController
             Managers.Network.Send(movePacket);
             _updated = false;
         }
+    }
+
+    public void Kill(int killCount)
+    {
+        KillCount = killCount;
     }
 }

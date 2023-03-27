@@ -23,6 +23,7 @@ enum MsgId {
 	S_INVALID_NAME = 16;
 	S_DUPLICATE_NAME = 17;
 	C_LEAVE_GAME = 18;
+	S_DEAD = 19;
 }
 
 enum PlayerState{
@@ -105,7 +106,7 @@ message S_Move{
 }
 
 message C_Attack{
-
+	repeated PlayerInfo enemys = 1;
 }
 message S_Attack{
 	int32 playerId = 1;
@@ -113,6 +114,11 @@ message S_Attack{
 
 message C_Fake{
 	
+}
+
+message S_Dead{
+	PlayerInfo killerPlayer = 1;
+	PlayerInfo KilledPlayer = 2;
 }
 
 message S_Fake{
@@ -124,7 +130,8 @@ message PlayerInfo{
 	string name = 2;
 	float speed = 3;
 	int32 power = 4;
-	PositionInfo posInfo = 5;
+	int32 killCount = 5;
+	PositionInfo posInfo = 6;
 }
 
 message PositionInfo{

@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     // UI
     public TMP_Text powerText;
 
-    // Info
+    #region INFO
     public string Name { get; set; }
     public int Id { get; set; }
     int _power = 0;
@@ -21,21 +21,13 @@ public class PlayerController : MonoBehaviour
         get { return _power; }
         set
         {
+            if (value < 0)
+                return;
             _power = value;
             powerText.text = value.ToString();
         }
     }
-   
-    // 공격 쿨타임 
-    protected Coroutine _coAttack;
 
-    // 죽은 척 쿨타임
-    protected Coroutine _coFake;
-
-    // dirty flag
-    protected bool _updated = false;
-
-    public Grid _grid; // map grid
     float _speed = 10.0f;
     public float Speed
     {
@@ -63,11 +55,11 @@ public class PlayerController : MonoBehaviour
             _updated = true;
         }
     }
-    
+
     // 좌표 상의 실제 위치 
     public Vector3Int CellPos
     {
-        get { return new Vector3Int(PosInfo.PosX, PosInfo.PosY,0); }
+        get { return new Vector3Int(PosInfo.PosX, PosInfo.PosY, 0); }
         set
         {
             if (PosInfo.PosX == value.x && PosInfo.PosY == value.y)
@@ -111,6 +103,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // dirty flag
+    protected bool _updated = false;
+    #endregion
+
+    // 공격 쿨타임 
+    protected Coroutine _coAttack;
+
+    // 죽은 척 쿨타임
+    protected Coroutine _coFake;
+
     // 이동 관련 
     protected float _x = 1;
     protected float _y = 0;
@@ -150,12 +152,21 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        if (State == PlayerState.Dead)
+            return;
+
         if(_coFake == null)
             UpdateController();
     }
 
     void UpdateAnimation()
     {
+        if(State == PlayerState.Dead)
+        {
+            _animator.Play("Dead");
+            return;
+        }
+            
         if (Dir == MoveDir.Idle)
         {
             _animator.Play("Idle");
@@ -228,6 +239,12 @@ public class PlayerController : MonoBehaviour
         _coFake = StartCoroutine("CoStartFake");
     }
 
+    public void Killed()
+    {
+        State = PlayerState.Dead;
+        StopAllCoroutines();
+        _animator.Play("Killed");
+    }
 
     IEnumerator CoStartAttack()
     {
@@ -236,7 +253,7 @@ public class PlayerController : MonoBehaviour
         // TODO : 피격 판정
 
         yield return new WaitForSeconds(1.2f);
-        if (_coFake == null)
+        if (_coFake == null && State != PlayerState.Dead)
         {
             UpdateAnimation();
         }

@@ -48,7 +48,9 @@ class PacketManager
 		_onRecv.Add((ushort)MsgId.SInvalidName, MakePacket<S_InvalidName>);
 		_handler.Add((ushort)MsgId.SInvalidName, PacketHandler.S_InvalidNameHandler);		
 		_onRecv.Add((ushort)MsgId.SDuplicateName, MakePacket<S_DuplicateName>);
-		_handler.Add((ushort)MsgId.SDuplicateName, PacketHandler.S_DuplicateNameHandler);
+		_handler.Add((ushort)MsgId.SDuplicateName, PacketHandler.S_DuplicateNameHandler);		
+		_onRecv.Add((ushort)MsgId.SDead, MakePacket<S_Dead>);
+		_handler.Add((ushort)MsgId.SDead, PacketHandler.S_DeadHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

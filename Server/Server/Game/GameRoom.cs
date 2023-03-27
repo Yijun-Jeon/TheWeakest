@@ -3,6 +3,7 @@ using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -17,6 +18,8 @@ namespace Server
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
         Map _map = new Map();
+
+        float _attackRange = 1.5f;
 
         public void Init(int mapId)
         {
@@ -99,6 +102,7 @@ namespace Server
                 myPlayer.Info.Name = enterGamePacket.Name;
                 myPlayer.Info.Speed = 10.0f;
                 myPlayer.Info.Power = 0;
+                myPlayer.Info.KillCount = 0;
                 myPlayer.Info.PosInfo.State = PlayerState.Alive;
                 myPlayer.Info.PosInfo.MoveDir = MoveDir.Idle;
                 myPlayer.Info.PosInfo.PosX = 0;
@@ -240,15 +244,68 @@ namespace Server
                 if (info.PosInfo.State == PlayerState.Fake || info.PosInfo.State == PlayerState.Dead)
                     return;
 
-                // TODO : 쿨타임, 상대방 공격력 체크
-                
                 // 공격 패킷 전송 
                 S_Attack attack = new S_Attack();
                 attack.PlayerId = player.Info.PlayerId;
                 Broadcast(attack);
 
-                // TODO : 둘 중 하나 사망 처리
+                // 공격 범위 내 상대방이 있는지 체크
+                foreach (PlayerInfo p in attackPacket.Enemys)
+                {
+                    if (GetDistance(info.PosInfo, p.PosInfo) <= _attackRange)
+                    {
+                        Player enemy = null;
+                        if (_players.TryGetValue(p.PlayerId, out enemy) == false)
+                            return;
+
+                        // 상대방이 이미 죽은 상태라면 패스
+                        if (enemy.Info.PosInfo.State == PlayerState.Dead)
+                            continue;
+
+                        HandleDead(player, enemy);
+                    }
+                }
             }
+        }
+
+        // 플레이어 사망 처리
+        public void HandleDead(Player player, Player enemy)
+        {
+            // 공격자의 공격력이 더 높음
+            if(player.Info.Power > enemy.Info.Power)
+            {
+                // 사망 처리
+                enemy.Info.PosInfo.State = PlayerState.Dead;
+                // 킬러 플레이어 킬카운트 증가
+                player.Info.KillCount += 1;
+
+                S_Dead deadPacket = new S_Dead();
+                deadPacket.KillerPlayer = player.Info;
+                deadPacket.KilledPlayer = enemy.Info;
+
+                Broadcast(deadPacket);
+            }
+            // 공격자의 공격력이 더 낮음
+            else if(player.Info.Power < enemy.Info.Power)
+            {
+                // 사망 처리
+                player.Info.PosInfo.State = PlayerState.Dead;
+                // 킬러 플에이어 킬카운트 증가
+                enemy.Info.KillCount += 1;
+
+                S_Dead deadPacket = new S_Dead();
+                deadPacket.KillerPlayer = enemy.Info;
+                deadPacket.KilledPlayer = player.Info;
+
+                Broadcast(deadPacket);
+            }
+            // lobby 에서의 공격 
+            else
+            {
+                return;
+            }
+
+            // TODO : 남은 플레이어들 스탯, 시야 조정
         }
 
         // 플레이어 죽은 척 처리
@@ -272,6 +329,11 @@ namespace Server
                 fake.PlayerId = player.Info.PlayerId;
                 Broadcast(fake);
             }
+        }
+
+        public float GetDistance(PositionInfo myPos, PositionInfo enemyPos)
+        {
+            return (float)Math.Sqrt(Math.Pow(enemyPos.PosX - myPos.PosX, 2) + Math.Pow(enemyPos.PosY - myPos.PosY, 2));
         }
     }
 }

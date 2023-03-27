@@ -150,6 +150,59 @@ class PacketHandler
             pc.Speed = player.Speed;
         }
 
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("StartBtn").gameObject.SetActive(false);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(false);
         Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(false);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").gameObject.SetActive(true);
+    }
+
+    public static void S_DeadHandler(PacketSession session, IMessage packet)
+    {
+        S_Dead deadPacket = packet as S_Dead;
+        ServerSession serverSession = session as ServerSession;
+
+        // 사망 플레이어 
+        GameObject killed = Managers.Object.FindById(deadPacket.KilledPlayer.PlayerId);
+        if (killed == null)
+            return;
+
+        // 킬한 플레이어
+        GameObject killer = Managers.Object.FindById(deadPacket.KillerPlayer.PlayerId);
+        if (killer == null)
+            return;
+
+        // 사망 플레이어가 내 플레이어 
+        if (deadPacket.KilledPlayer.PlayerId == Managers.Object.MyPlayer.Id)
+        {
+            MyPlayerController mp = killed.GetComponent<MyPlayerController>();
+            if (mp != null)
+            {
+                mp.Killed();
+            }
+            Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(true);
+        }
+        // 사망 플레이어가 다른 플레이어 
+        else
+        {
+            PlayerController pc = killed.GetComponent<PlayerController>();
+            if (pc != null)
+            {
+                pc.Killed();
+            }
+        }
+        // 사망 플레이어 파워 공개 
+        killed.transform.Find("Canvas").transform.Find("PowerText").gameObject.SetActive(true);
+        // 킬로그 추가
+        Managers.Network.UpdateKillFeed(deadPacket.KilledPlayer.PlayerId);
+
+        // 킬한 내 플레이어 킬 카운트 증가 
+        if (deadPacket.KillerPlayer.PlayerId == Managers.Object.MyPlayer.Id)
+        {
+            MyPlayerController mp = killer.GetComponent<MyPlayerController>();
+            if (mp != null)
+            {
+                mp.Kill(deadPacket.KillerPlayer.KillCount);
+            }
+        }
     }
 }

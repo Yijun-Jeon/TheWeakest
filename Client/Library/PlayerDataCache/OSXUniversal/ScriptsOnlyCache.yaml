@@ -9,6 +9,8 @@ ScriptsOnlyBuild:
     - EnterButtonController
     - FieldOfView
     - GameScene
+    - KillInfo
+    - KillInfoAdapter
     - LeaveGameButtonController
     - LoginScene
     - MyPlayerController
@@ -87,8 +89,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -251,31 +255,35 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4494}
     - Class: 114
-      Script: {instanceID: 5428}
+      Script: {instanceID: 5378}
     - Class: 114
-      Script: {instanceID: 8084}
+      Script: {instanceID: 5430}
     - Class: 114
-      Script: {instanceID: 8470}
+      Script: {instanceID: 8086}
     - Class: 114
-      Script: {instanceID: 8602}
+      Script: {instanceID: 8472}
     - Class: 114
-      Script: {instanceID: 9222}
+      Script: {instanceID: 8604}
     - Class: 114
-      Script: {instanceID: 9832}
+      Script: {instanceID: 9224}
     - Class: 114
-      Script: {instanceID: 10272}
+      Script: {instanceID: 9834}
     - Class: 114
-      Script: {instanceID: 10414}
+      Script: {instanceID: 10274}
     - Class: 114
-      Script: {instanceID: 10798}
+      Script: {instanceID: 10416}
     - Class: 114
-      Script: {instanceID: 11140}
+      Script: {instanceID: 10800}
     - Class: 114
-      Script: {instanceID: 12356}
+      Script: {instanceID: 11142}
     - Class: 114
-      Script: {instanceID: 51236}
+      Script: {instanceID: 12236}
     - Class: 114
-      Script: {instanceID: 60988}
+      Script: {instanceID: 12360}
+    - Class: 114
+      Script: {instanceID: 49564}
+    - Class: 114
+      Script: {instanceID: 49580}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -378,93 +386,95 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4970}
     - Class: 114
-      Script: {instanceID: 5422}
+      Script: {instanceID: 5424}
     - Class: 114
-      Script: {instanceID: 5428}
+      Script: {instanceID: 5430}
     - Class: 114
-      Script: {instanceID: 5450}
+      Script: {instanceID: 5452}
     - Class: 114
-      Script: {instanceID: 5494}
+      Script: {instanceID: 5496}
     - Class: 114
-      Script: {instanceID: 5584}
+      Script: {instanceID: 5586}
     - Class: 114
-      Script: {instanceID: 5656}
+      Script: {instanceID: 5658}
     - Class: 114
-      Script: {instanceID: 6008}
+      Script: {instanceID: 6010}
     - Class: 114
-      Script: {instanceID: 6856}
+      Script: {instanceID: 6858}
     - Class: 114
-      Script: {instanceID: 6930}
+      Script: {instanceID: 6932}
     - Class: 114
-      Script: {instanceID: 7656}
+      Script: {instanceID: 7658}
     - Class: 114
-      Script: {instanceID: 7718}
+      Script: {instanceID: 7720}
     - Class: 114
-      Script: {instanceID: 7778}
+      Script: {instanceID: 7780}
     - Class: 114
-      Script: {instanceID: 7914}
+      Script: {instanceID: 7916}
     - Class: 114
-      Script: {instanceID: 8084}
+      Script: {instanceID: 8086}
     - Class: 114
-      Script: {instanceID: 8602}
+      Script: {instanceID: 8604}
     - Class: 114
-      Script: {instanceID: 8648}
+      Script: {instanceID: 8650}
     - Class: 114
-      Script: {instanceID: 8696}
+      Script: {instanceID: 8698}
     - Class: 114
-      Script: {instanceID: 8894}
+      Script: {instanceID: 8896}
     - Class: 114
-      Script: {instanceID: 8916}
+      Script: {instanceID: 8918}
     - Class: 114
-      Script: {instanceID: 8980}
+      Script: {instanceID: 8982}
     - Class: 114
-      Script: {instanceID: 9222}
+      Script: {instanceID: 9224}
     - Class: 114
-      Script: {instanceID: 9314}
+      Script: {instanceID: 9316}
     - Class: 114
-      Script: {instanceID: 9338}
+      Script: {instanceID: 9340}
     - Class: 114
-      Script: {instanceID: 9424}
+      Script: {instanceID: 9426}
     - Class: 114
-      Script: {instanceID: 9482}
+      Script: {instanceID: 9484}
     - Class: 114
-      Script: {instanceID: 9560}
+      Script: {instanceID: 9562}
     - Class: 114
-      Script: {instanceID: 9626}
+      Script: {instanceID: 9628}
     - Class: 114
-      Script: {instanceID: 9832}
+      Script: {instanceID: 9834}
     - Class: 114
-      Script: {instanceID: 10088}
+      Script: {instanceID: 10090}
     - Class: 114
-      Script: {instanceID: 10216}
+      Script: {instanceID: 10218}
     - Class: 114
-      Script: {instanceID: 10272}
+      Script: {instanceID: 10274}
     - Class: 114
-      Script: {instanceID: 10456}
+      Script: {instanceID: 10458}
     - Class: 114
-      Script: {instanceID: 10702}
+      Script: {instanceID: 10704}
     - Class: 114
-      Script: {instanceID: 10792}
+      Script: {instanceID: 10794}
     - Class: 114
-      Script: {instanceID: 10798}
+      Script: {instanceID: 10800}
     - Class: 114
-      Script: {instanceID: 10976}
+      Script: {instanceID: 10978}
     - Class: 114
-      Script: {instanceID: 11014}
+      Script: {instanceID: 11016}
     - Class: 114
-      Script: {instanceID: 11134}
+      Script: {instanceID: 11136}
     - Class: 114
-      Script: {instanceID: 11224}
+      Script: {instanceID: 11226}
     - Class: 114
-      Script: {instanceID: 11304}
+      Script: {instanceID: 11306}
     - Class: 114
-      Script: {instanceID: 11418}
+      Script: {instanceID: 11420}
     - Class: 114
-      Script: {instanceID: 11824}
+      Script: {instanceID: 11826}
     - Class: 114
-      Script: {instanceID: 12356}
+      Script: {instanceID: 12360}
     - Class: 114
-      Script: {instanceID: 12562}
+      Script: {instanceID: 12566}
+    - Class: 114
+      Script: {instanceID: 49564}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1110,6 +1120,12 @@ ScriptsOnlyBuild:
     className: AnimatorMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: StartGameButtonController
+  - hash:
+      serializedVersion: 2
       Hash: 8d35f16c5022311c6f4d9432be73bfcf
     assemblyName: Unity.RenderPipelines.Core.Runtime.dll
     namespaceName: UnityEngine.Rendering.UI
@@ -1122,7 +1138,7 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
-      Hash: 8a029abf74249550d436b4c4d47c0f93
+      Hash: e226a44c59ae37e0f52502fb371acd40
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1644,7 +1660,7 @@ ScriptsOnlyBuild:
     className: UnityOnScrollMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 8a029abf74249550d436b4c4d47c0f93
+      Hash: e226a44c59ae37e0f52502fb371acd40
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MyPlayerController
@@ -2202,6 +2218,12 @@ ScriptsOnlyBuild:
     className: PostProcessData
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LeaveGameButtonController
+  - hash:
+      serializedVersion: 2
       Hash: fe1080a47424fcd6eb9d2fc078dce299
     assemblyName: Unity.RenderPipelines.Universal.Runtime.dll
     namespaceName: UnityEngine.Rendering.Universal
@@ -2250,18 +2272,18 @@ ScriptsOnlyBuild:
     className: UnityOnSliderValueChangedMessageListener
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 333f128784e07ce249a1d7ac8f8f6507
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: StartGameButtonController
+    className: KillInfo
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: e87040f4d6acfd395adb694a2809d007
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: LeaveGameButtonController
+    className: KillInfoAdapter
   platform: 2
   scenePathNames:
   - Assets/Scenes/LoginScene.unity
   - Assets/Scenes/GameScene.unity
-  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client2/Client2.app
+  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client3/Client3.app
