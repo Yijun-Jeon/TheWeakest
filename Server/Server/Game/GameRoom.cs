@@ -21,6 +21,8 @@ namespace Server
 
         float _attackRange = 1.5f;
 
+        bool _isPlaying = false;
+
         public void Init(int mapId)
         {
             _map.LoadMap(mapId, "../../../../Common/MapData");
@@ -65,6 +67,8 @@ namespace Server
                     startGamePacket.Players.Add(p.Info);
                 }
                 Broadcast(startGamePacket);
+
+                _isPlaying = true;
             }
             
         }
@@ -290,7 +294,7 @@ namespace Server
             {
                 // 사망 처리
                 player.Info.PosInfo.State = PlayerState.Dead;
-                // 킬러 플에이어 킬카운트 증가
+                // 킬러 플레이어 킬카운트 증가
                 enemy.Info.KillCount += 1;
 
                 S_Dead deadPacket = new S_Dead();
@@ -328,6 +332,30 @@ namespace Server
                 S_Fake fake = new S_Fake();
                 fake.PlayerId = player.Info.PlayerId;
                 Broadcast(fake);
+            }
+        }
+
+        // 카메라 관전모드 처리
+        public void HandleWatch(Player player, C_WatchOther watchPacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                Player targetPlayer = null;
+                if (_players.TryGetValue(watchPacket.TargetId, out targetPlayer) == false)
+                    return;
+
+                PlayerInfo info = player.Info;
+
+                // 관전을 할 수 있는 상태 
+                if (_isPlaying == false || info.PosInfo.State == PlayerState.Dead)
+                {
+                    S_WatchOther watchOther = new S_WatchOther();
+                    watchOther.TargetId = targetPlayer.Info.PlayerId;
+                    player.Session.Send(watchOther);
+                }    
             }
         }
 

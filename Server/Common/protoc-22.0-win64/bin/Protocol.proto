@@ -24,6 +24,8 @@ enum MsgId {
 	S_DUPLICATE_NAME = 17;
 	C_LEAVE_GAME = 18;
 	S_DEAD = 19;
+	C_WATCH_OTHER = 20;
+	S_WATCH_OTHER = 21;
 }
 
 enum PlayerState{
@@ -123,6 +125,14 @@ message S_Dead{
 
 message S_Fake{
 	int32 playerId = 1;
+}
+
+message C_WatchOther{
+	int32 targetId = 1;
+}
+
+message S_WatchOther{
+	int32 targetId = 1;
 }
 
 message PlayerInfo{

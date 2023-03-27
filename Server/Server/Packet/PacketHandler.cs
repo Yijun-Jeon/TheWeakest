@@ -95,4 +95,20 @@ class PacketHandler
 
         room.HandleFake(player, fakePacket);
     }
+
+    public static void C_WatchOtherHandler(PacketSession session, IMessage packet)
+    {
+        C_WatchOther watchPacket = packet as C_WatchOther;
+        ClientSession clientSession = session as ClientSession;
+
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
+
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
+
+        room.HandleWatch(player, watchPacket);
+    }
 }
