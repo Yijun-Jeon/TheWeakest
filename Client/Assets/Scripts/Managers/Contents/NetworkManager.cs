@@ -68,4 +68,10 @@ public class NetworkManager : MonoBehaviour
         Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").
             transform.Find("KillList").GetComponent<KillInfoAdapter>().AddKillInfo(playerId);
     }
+
+    public void ChangeTargetPlayer(int playerId)
+    {
+        PlayerController targetPlayer = Managers.Object.FindById(playerId).GetComponent<PlayerController>();
+        Camera.main.GetComponent<CameraController>().SetTargetPlayer(targetPlayer);
+    }
 }

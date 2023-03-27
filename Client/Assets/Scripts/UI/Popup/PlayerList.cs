@@ -9,21 +9,25 @@ public class PlayerList : MonoBehaviour
     TMP_Text nickName;
     [SerializeField]
     TMP_Text power;
+    [SerializeField]
+    SpriteRenderer SPRD;
+    int _playerId;
 
     public void SetInfo(int playerId)
     {
+        _playerId = playerId;
         GameObject player = Managers.Object.FindById(playerId);
         nickName.text = player.name;
         power.text = player.GetComponent<PlayerController>().Power.ToString();
     }
 
-    //public void setColor(Color color)
-    //{
-    //    SPRD.color = color;
-    //}
+    public void setColor(Color color)
+    {
+        SPRD.color = color;
+    }
 
     public void changeCamera()
     {
-        // TODO
+        Managers.Network.ChangeTargetPlayer(_playerId);
     }
 }
