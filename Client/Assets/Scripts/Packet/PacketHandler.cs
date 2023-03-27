@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -154,6 +155,10 @@ class PacketHandler
         Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(false);
         Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(false);
         Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").gameObject.SetActive(true);
+
+        int playerCount = startGamePacket.RoomInfo.PlayerCount;
+        int aliveCount = startGamePacket.RoomInfo.AliveCount;
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("RemainText").GetComponent<TMP_Text>().text = aliveCount + "/" + playerCount;
     }
 
     public static void S_DeadHandler(PacketSession session, IMessage packet)
@@ -220,5 +225,15 @@ class PacketHandler
             return;
 
         Managers.Network.ChangeTargetPlayer(watchOther.TargetId);
+    }
+
+    public static void S_PlayingRoomInfoChangeHandler(PacketSession session, IMessage packet)
+    {
+        S_PlayingRoomInfoChange roomInfoPacket = packet as S_PlayingRoomInfoChange;
+        ServerSession serverSession = session as ServerSession;
+
+        int playerCount = roomInfoPacket.RoomInfo.PlayerCount;
+        int aliveCount = roomInfoPacket.RoomInfo.AliveCount;
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("RemainText").GetComponent<TMP_Text>().text = aliveCount + "/" + playerCount;
     }
 }

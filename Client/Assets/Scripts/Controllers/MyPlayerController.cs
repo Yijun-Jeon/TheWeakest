@@ -35,6 +35,7 @@ public class MyPlayerController : PlayerController
             if (value < 0)
                 return;
             _killCount = value;
+            Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("KillText").GetComponent<TMP_Text>().text = "Kill : " + KillCount;
         }
     }
 
