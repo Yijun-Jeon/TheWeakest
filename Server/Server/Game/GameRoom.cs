@@ -21,7 +21,9 @@ namespace Server
 
         float _attackRange = 1.5f;
 
+        // 인게임 방 정보 
         bool _isPlaying = false;
+        PlayingRoomInfo _playingRoomInfo;
 
         public void Init(int mapId)
         {
@@ -30,7 +32,7 @@ namespace Server
 
         public void StartGame()
         {
-            lock(_lock )
+            lock(_lock)
             {
                 int numOfPlayers = _players.Count;
 
@@ -60,12 +62,21 @@ namespace Server
                     // TODO : 시작 위치, 시야, 속도 조절
                 }
 
+                _playingRoomInfo = new PlayingRoomInfo()
+                {
+                    RoomId = RoomId,
+                    PlayerCount = _players.Count,
+                    AliveCount = _players.Count,
+                    // TODO : 남은 시간, 꼴등 정보
+                };
+
                 // 게임 시작 모두에게 알림
                 S_StartGame startGamePacket = new S_StartGame();
                 foreach (Player p in _players.Values)
                 {
                     startGamePacket.Players.Add(p.Info);
                 }
+                startGamePacket.RoomInfo = _playingRoomInfo;
                 Broadcast(startGamePacket);
 
                 _isPlaying = true;
@@ -77,6 +88,9 @@ namespace Server
         {
             Player myPlayer = null;
             string playerName = enterGamePacket.Name;
+
+            if (_isPlaying)
+                return;
 
             // 유효하지 않은 이름 
             if (string.IsNullOrEmpty(playerName))
@@ -179,11 +193,22 @@ namespace Server
                 {
                     S_Despawn despawnPacket = new S_Despawn();
                     despawnPacket.PlayerIds.Add(player.Info.PlayerId);
+
                     foreach(Player p in _players.Values)
                     {
                         if (player != p)
                             p.Session.Send(despawnPacket);
                     }
+                }
+
+                // 게임 도중 떠날 경우 
+                if (_isPlaying)
+                {
+                    _playingRoomInfo.AliveCount -= 1;
+
+                    S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
+                    roomInfoChange.RoomInfo = _playingRoomInfo;
+                    Broadcast(roomInfoChange);
                 }
             }
         }
@@ -308,6 +333,12 @@ namespace Server
             {
                 return;
             }
+
+            _playingRoomInfo.AliveCount -= 1;
+
+            S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
+            roomInfoChange.RoomInfo = _playingRoomInfo;
+            Broadcast(roomInfoChange);
 
             // TODO : 남은 플레이어들 스탯, 시야 조정
         }

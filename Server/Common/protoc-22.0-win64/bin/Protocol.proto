@@ -26,6 +26,7 @@ enum MsgId {
 	S_DEAD = 19;
 	C_WATCH_OTHER = 20;
 	S_WATCH_OTHER = 21;
+	S_PLAYING_ROOM_INFO_CHANGE = 22;
 }
 
 enum PlayerState{
@@ -88,6 +89,7 @@ message C_StartGame{
 
 message S_StartGame{
 	repeated PlayerInfo players = 1;
+	PlayingRoomInfo roomInfo = 2;
 }
 
 message S_Spawn{
@@ -135,6 +137,10 @@ message S_WatchOther{
 	int32 targetId = 1;
 }
 
+message S_PlayingRoomInfoChange{
+	PlayingRoomInfo roomInfo = 1;
+}
+
 message PlayerInfo{
 	int32 playerId = 1;
 	string name = 2;
@@ -149,4 +155,10 @@ message PositionInfo{
 	MoveDir moveDir = 2;
 	int32 posX = 3;
 	int32 posY = 4;
+}
+
+message PlayingRoomInfo{
+	int32 roomId = 1;
+	int32 playerCount = 2;
+	int32 aliveCount = 3;
 }
