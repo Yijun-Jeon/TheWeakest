@@ -117,7 +117,8 @@ message C_Fake{
 }
 
 message S_Dead{
-	PlayerInfo player = 1;
+	PlayerInfo killerPlayer = 1;
+	PlayerInfo KilledPlayer = 2;
 }
 
 message S_Fake{
@@ -129,7 +130,8 @@ message PlayerInfo{
 	string name = 2;
 	float speed = 3;
 	int32 power = 4;
-	PositionInfo posInfo = 5;
+	int32 killCount = 5;
+	PositionInfo posInfo = 6;
 }
 
 message PositionInfo{

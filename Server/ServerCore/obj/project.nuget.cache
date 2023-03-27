@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wVrYiKArhm02UHDgK97wnN5L6HgMwc/ggMWlJIe72IVMmpgw3GfuaVdKO4n95wXsOUreHF/IJ53Hcxd+ZrzhVw==",
+  "dgSpecHash": "Ab4EP0e8YA8cyiZq1OlBPOzBT6Aw5yvfDJxvIoNvR8qsxos6JBw9sm0a4K7ln9A3S6rJORrKhioxxo+45Kf7Jw==",
   "success": true,
-  "projectFilePath": "/Users/Yijun/Desktop/Project/TheWeakest/Server/ServerCore/ServerCore.csproj",
-  "expectedPackageFiles": [
-    "/Users/Yijun/.nuget/packages/microsoft.aspnetcore.app.ref/3.1.10/microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
-    "/Users/Yijun/.nuget/packages/microsoft.netcore.app.ref/3.1.0/microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
-  ],
+  "projectFilePath": "D:\\Project\\TheWeakest\\Server\\ServerCore\\ServerCore.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

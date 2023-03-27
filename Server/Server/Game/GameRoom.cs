@@ -102,6 +102,7 @@ namespace Server
                 myPlayer.Info.Name = enterGamePacket.Name;
                 myPlayer.Info.Speed = 10.0f;
                 myPlayer.Info.Power = 0;
+                myPlayer.Info.KillCount = 0;
                 myPlayer.Info.PosInfo.State = PlayerState.Alive;
                 myPlayer.Info.PosInfo.MoveDir = MoveDir.Idle;
                 myPlayer.Info.PosInfo.PosX = 0;
@@ -256,6 +257,11 @@ namespace Server
                         Player enemy = null;
                         if (_players.TryGetValue(p.PlayerId, out enemy) == false)
                             return;
+
+                        // 상대방이 이미 죽은 상태라면 패스
+                        if (enemy.Info.PosInfo.State == PlayerState.Dead)
+                            continue;
+
                         HandleDead(player, enemy);
                     }
                 }
@@ -268,26 +274,38 @@ namespace Server
             // 공격자의 공격력이 더 높음
             if(player.Info.Power > enemy.Info.Power)
             {
+                // 사망 처리
                 enemy.Info.PosInfo.State = PlayerState.Dead;
+                // 킬러 플레이어 킬카운트 증가
+                player.Info.KillCount += 1;
+
                 S_Dead deadPacket = new S_Dead();
-                deadPacket.Player = enemy.Info;
+                deadPacket.KillerPlayer = player.Info;
+                deadPacket.KilledPlayer = enemy.Info;
 
                 Broadcast(deadPacket);
             }
             // 공격자의 공격력이 더 낮음
             else if(player.Info.Power < enemy.Info.Power)
             {
+                // 사망 처리
                 player.Info.PosInfo.State = PlayerState.Dead;
+                // 킬러 플에이어 킬카운트 증가
+                enemy.Info.KillCount += 1;
+
                 S_Dead deadPacket = new S_Dead();
-                deadPacket.Player = player.Info;
+                deadPacket.KillerPlayer = enemy.Info;
+                deadPacket.KilledPlayer = player.Info;
 
                 Broadcast(deadPacket);
             }
-            // lobby 에서의 공
+            // lobby 에서의 공격 
             else
             {
                 return;
             }
+
+            // TODO : 남은 플레이어들 스탯, 시야 조정
         }
 
         // 플레이어 죽은 척 처리
