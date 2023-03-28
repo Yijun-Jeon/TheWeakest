@@ -8,6 +8,7 @@ using TMPro;
 public class ObjectManager 
 {
     public MyPlayerController MyPlayer { get; set; }
+    public PlayerController TheWeakest { get; set; }
     Dictionary<int, GameObject> _objects = new Dictionary<int, GameObject>();
 
     public void Add(PlayerInfo info, bool myPlayer = false)
@@ -93,6 +94,24 @@ public class ObjectManager
         GameObject go = null;
         _objects.TryGetValue(id, out go);
         return go;
+    }
+
+    public void SetTheWeakest(PlayerController theWeakest)
+    {
+        if (TheWeakest != null && TheWeakest.Id == theWeakest.Id)
+            return;
+
+        TheWeakest = theWeakest;
+
+        // 꼴등 이름 업데이트 
+        Managers.UI.UpdateWeakestText(TheWeakest.name);
+
+        // 내 플레이어가 꼴등 
+        if (TheWeakest == MyPlayer)
+            Managers.UI.UpdateRunText(true);
+        // 다른 플레이어가 꼴등 
+        else
+            Managers.UI.UpdateRunText(false);
     }
 
     public void Clear()

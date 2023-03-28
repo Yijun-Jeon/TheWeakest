@@ -246,7 +246,7 @@ public class PlayerController : MonoBehaviour
         _animator.Play("Killed");
 
         // 사망 플레이어 플레이어 리스트 회색 처리 
-        Managers.Network.UpdatePlayerList();
+        Managers.UI.UpdatePlayerList();
     }
 
     IEnumerator CoStartAttack()

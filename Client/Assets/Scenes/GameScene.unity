@@ -242,6 +242,10 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3541334415236020071, guid: f8e5446dc59884daa84c4841e96eec04, type: 3}
+      propertyPath: m_Name
+      value: RunText
+      objectReference: {fileID: 0}
     - target: {fileID: 3541334415947935769, guid: f8e5446dc59884daa84c4841e96eec04, type: 3}
       propertyPath: m_sharedMaterial
       value: 
@@ -249,6 +253,10 @@ PrefabInstance:
     - target: {fileID: 3541334415947935769, guid: f8e5446dc59884daa84c4841e96eec04, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541334415947935775, guid: f8e5446dc59884daa84c4841e96eec04, type: 3}
+      propertyPath: m_Name
+      value: WeakestText
       objectReference: {fileID: 0}
     - target: {fileID: 3541334415947935775, guid: f8e5446dc59884daa84c4841e96eec04, type: 3}
       propertyPath: m_IsActive
