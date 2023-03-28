@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace Server
@@ -71,8 +72,11 @@ namespace Server
                     PlayerCount = _players.Count,
                     AliveCount = _players.Count,
                     // TODO : 남은 시간, 꼴등 정보
-                    TheWeakest = GetTheWeakest().Info
+                    AllPlayerSpeed = 10.0f
                 };
+
+                SetAllPlayerSpeed();
+                _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
                 // 게임 시작 모두에게 알림
                 S_StartGame startGamePacket = new S_StartGame();
@@ -213,6 +217,8 @@ namespace Server
                 {
                     _playingRoomInfo.AliveCount -= 1;
                     _players.Remove(playerId);
+
+                    SetAllPlayerSpeed();
                     _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
                     S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
@@ -346,6 +352,7 @@ namespace Server
             }
 
             _playingRoomInfo.AliveCount -= 1;
+            SetAllPlayerSpeed();
             _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
             S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
@@ -368,8 +375,6 @@ namespace Server
                 // 죽은 척 할 수 없는 상태
                 if (info.PosInfo.State == PlayerState.Fake || info.PosInfo.State == PlayerState.Dead)
                     return;
-
-                // TODO : 쿨타임
 
                 // 죽은 척 패킷 전송
                 S_Fake fake = new S_Fake();
@@ -402,7 +407,7 @@ namespace Server
             }
         }
 
-        public float GetDistance(PositionInfo myPos, PositionInfo enemyPos)
+        float GetDistance(PositionInfo myPos, PositionInfo enemyPos)
         {
             return (float)Math.Sqrt(Math.Pow(enemyPos.PosX - myPos.PosX, 2) + Math.Pow(enemyPos.PosY - myPos.PosY, 2));
         }
@@ -417,6 +422,22 @@ namespace Server
                 // 현재 꼴등 플레이어 
                 Player weakest = _players.Where(p => p.Value.Info.Power == minPower).First().Value;
                 return weakest;
+            }
+        }
+
+        void SetAllPlayerSpeed()
+        {
+            lock (_lock)
+            {
+                _playingRoomInfo.AllPlayerSpeed = 12f - _playingRoomInfo.AliveCount * 0.3f;
+                // 꼴등 이속 버프 
+                float weakestBuff = Math.Max(0, _playingRoomInfo.AliveCount - 2) * 0.2f;
+                foreach (Player p in _players.Values)
+                {
+                    p.Info.Speed = _playingRoomInfo.AllPlayerSpeed;
+                    if (p.Info.PlayerId == _playingRoomInfo.TheWeakest.PlayerId)
+                        p.Info.Speed += weakestBuff;
+                }
             }
         }
     }
