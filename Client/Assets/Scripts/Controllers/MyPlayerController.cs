@@ -67,6 +67,7 @@ public class MyPlayerController : PlayerController
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log(Speed);
             SetIsControl(true);
             // 공격 패킷 연타 부하 방지 
             if (_coAttack != null)

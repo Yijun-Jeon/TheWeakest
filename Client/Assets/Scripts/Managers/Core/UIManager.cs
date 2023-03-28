@@ -198,4 +198,9 @@ public class UIManager
     {
         Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(false);
     }
+
+    public void UpdateViewDistance(float speed)
+    {
+        Camera.main.GetComponent<CameraController>().UpdateViewDistance(speed);
+    }
 }

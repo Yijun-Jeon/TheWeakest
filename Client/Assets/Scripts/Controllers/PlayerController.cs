@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float _speed = 10.0f;
+    float _speed = 6.0f;
     public float Speed
     {
         get { return _speed; }

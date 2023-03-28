@@ -248,7 +248,12 @@ class PacketHandler
         if (theWeakest == null)
             return;
 
+        theWeakest.Speed = roomInfoPacket.RoomInfo.TheWeakest.Speed;
+
         Managers.Object.SetTheWeakest(theWeakest);
         Managers.UI.UpdateRemainText(roomInfoPacket.RoomInfo.PlayerCount, roomInfoPacket.RoomInfo.AliveCount);
+
+        // 플레이어 속도 조정 
+        Managers.Object.SetAllPlayerSpeed(roomInfoPacket.RoomInfo);
     }
 }

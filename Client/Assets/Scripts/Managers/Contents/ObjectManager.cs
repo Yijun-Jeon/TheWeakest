@@ -30,6 +30,7 @@ public class ObjectManager
             MyPlayer.KillCount = info.KillCount;
 
             MyPlayer.SyncsPos();
+            Managers.UI.UpdateViewDistance(MyPlayer.Speed);
         }
         // 다른 플레이어 
         else
@@ -108,10 +109,23 @@ public class ObjectManager
 
         // 내 플레이어가 꼴등 
         if (TheWeakest == MyPlayer)
+        {
             Managers.UI.UpdateRunText(true);
+            Managers.UI.UpdateViewDistance(MyPlayer.Speed);
+        }
         // 다른 플레이어가 꼴등 
         else
             Managers.UI.UpdateRunText(false);
+    }
+
+    public void SetAllPlayerSpeed(PlayingRoomInfo playingRoomInfo)
+    {
+        foreach (GameObject obj in _objects.Values)
+        {
+            PlayerController pc = obj.GetComponent<PlayerController>();
+            if(pc.Id != TheWeakest.Id)
+                pc.Speed = playingRoomInfo.AllPlayerSpeed;
+        }
     }
 
     public void Clear()

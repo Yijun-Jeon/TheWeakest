@@ -72,7 +72,8 @@ namespace Server
                     PlayerCount = _players.Count,
                     AliveCount = _players.Count,
                     // TODO : 남은 시간, 꼴등 정보
-                    AllPlayerSpeed = 10.0f
+                    TheWeakest = GetTheWeakest().Info,
+                    AllPlayerSpeed = 6.0f
                 };
 
                 SetAllPlayerSpeed();
@@ -129,7 +130,7 @@ namespace Server
                 myPlayer = PlayerManager.Instance.Add();
 
                 myPlayer.Info.Name = enterGamePacket.Name;
-                myPlayer.Info.Speed = 10.0f;
+                myPlayer.Info.Speed = 6.0f;
                 myPlayer.Info.Power = 0;
                 myPlayer.Info.KillCount = 0;
                 myPlayer.Info.PosInfo.State = PlayerState.Alive;
@@ -429,14 +430,17 @@ namespace Server
         {
             lock (_lock)
             {
-                _playingRoomInfo.AllPlayerSpeed = 12f - _playingRoomInfo.AliveCount * 0.3f;
+                _playingRoomInfo.AllPlayerSpeed = 10f - _playingRoomInfo.AliveCount * 0.3f;
                 // 꼴등 이속 버프 
                 float weakestBuff = Math.Max(0, _playingRoomInfo.AliveCount - 2) * 0.2f;
                 foreach (Player p in _players.Values)
                 {
                     p.Info.Speed = _playingRoomInfo.AllPlayerSpeed;
                     if (p.Info.PlayerId == _playingRoomInfo.TheWeakest.PlayerId)
+                    {
                         p.Info.Speed += weakestBuff;
+                        _playingRoomInfo.TheWeakest.Speed = p.Info.Speed;
+                    }
                 }
             }
         }

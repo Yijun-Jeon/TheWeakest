@@ -45,4 +45,9 @@ public class CameraController : MonoBehaviour
         else
             _myPlayer.SetIsControl(false);
     }
+
+    public void UpdateViewDistance(float speed)
+    {
+        fieldOfView.SetViewDistance(speed * 1.5f);
+    }
 }
