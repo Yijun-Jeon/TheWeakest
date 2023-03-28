@@ -11,12 +11,14 @@ namespace Server
 {
     public class GameRoom
     {
+        const int MAX_PLAYER = 20;
+
         object _lock = new object();
         public int RoomId { get; set; }
         Random _random = new Random();
 
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
-
+        Dictionary<int,int> _powers = new Dictionary<int, int>();
         Map _map = new Map();
 
         float _attackRange = 1.5f;
@@ -59,6 +61,7 @@ namespace Server
                 foreach (Player p in _players.Values)
                 {
                     p.Info.Power = powerArr[idx++];
+                    _powers.Add(p.Info.PlayerId, p.Info.Power);
                     // TODO : 시작 위치, 시야, 속도 조절
                 }
 
@@ -68,6 +71,7 @@ namespace Server
                     PlayerCount = _players.Count,
                     AliveCount = _players.Count,
                     // TODO : 남은 시간, 꼴등 정보
+                    TheWeakest = GetTheWeakest().Info
                 };
 
                 // 게임 시작 모두에게 알림
@@ -90,6 +94,9 @@ namespace Server
             string playerName = enterGamePacket.Name;
 
             if (_isPlaying)
+                return;
+
+            if (_players.Count == MAX_PLAYER)
                 return;
 
             // 유효하지 않은 이름 
@@ -205,6 +212,8 @@ namespace Server
                 if (_isPlaying)
                 {
                     _playingRoomInfo.AliveCount -= 1;
+                    _players.Remove(playerId);
+                    _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
                     S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
                     roomInfoChange.RoomInfo = _playingRoomInfo;
@@ -305,6 +314,7 @@ namespace Server
             {
                 // 사망 처리
                 enemy.Info.PosInfo.State = PlayerState.Dead;
+                _powers.Remove(enemy.Info.PlayerId);
                 // 킬러 플레이어 킬카운트 증가
                 player.Info.KillCount += 1;
 
@@ -319,6 +329,7 @@ namespace Server
             {
                 // 사망 처리
                 player.Info.PosInfo.State = PlayerState.Dead;
+                _powers.Remove(player.Info.PlayerId);
                 // 킬러 플레이어 킬카운트 증가
                 enemy.Info.KillCount += 1;
 
@@ -335,6 +346,7 @@ namespace Server
             }
 
             _playingRoomInfo.AliveCount -= 1;
+            _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
             S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
             roomInfoChange.RoomInfo = _playingRoomInfo;
@@ -393,6 +405,19 @@ namespace Server
         public float GetDistance(PositionInfo myPos, PositionInfo enemyPos)
         {
             return (float)Math.Sqrt(Math.Pow(enemyPos.PosX - myPos.PosX, 2) + Math.Pow(enemyPos.PosY - myPos.PosY, 2));
+        }
+
+        Player GetTheWeakest()
+        {
+            lock (_lock)
+            {
+                List<int> powers = _powers.Values.ToList();
+                int minPower = powers.Min();
+
+                // 현재 꼴등 플레이어 
+                Player weakest = _players.Where(p => p.Value.Info.Power == minPower).First().Value;
+                return weakest;
+            }
         }
     }
 }

@@ -51,22 +51,23 @@ namespace Google.Protobuf.Protocol {
             "b2NvbC5Qb3NpdGlvbkluZm8idAoMUG9zaXRpb25JbmZvEiQKBXN0YXRlGAEg",
             "ASgOMhUuUHJvdG9jb2wuUGxheWVyU3RhdGUSIgoHbW92ZURpchgCIAEoDjIR",
             "LlByb3RvY29sLk1vdmVEaXISDAoEcG9zWBgDIAEoBRIMCgRwb3NZGAQgASgF",
-            "IkoKD1BsYXlpbmdSb29tSW5mbxIOCgZyb29tSWQYASABKAUSEwoLcGxheWVy",
-            "Q291bnQYAiABKAUSEgoKYWxpdmVDb3VudBgDIAEoBSqTAwoFTXNnSWQSFAoQ",
-            "U19DT05ORUNUX1NFUlZFUhAAEhAKDENfRU5URVJfR0FNRRABEhAKDFNfRU5U",
-            "RVJfR0FNRRACEhAKDFNfTEVBVkVfR0FNRRADEgsKB1NfU1BBV04QBBINCglT",
-            "X0RFU1BBV04QBRIKCgZDX01PVkUQBhIKCgZTX01PVkUQBxIMCghDX0FUVEFD",
-            "SxAIEgwKCFNfQVRUQUNLEAkSCgoGQ19GQUtFEAoSCgoGU19GQUtFEAsSEAoM",
-            "Q19TVEFSVF9HQU1FEAwSEAoMU19TVEFSVF9HQU1FEA0SEQoNQ19MT0FEX1BM",
-            "QVlFUhAOEhEKDVNfTE9BRF9QTEFZRVIQDxISCg5TX0lOVkFMSURfTkFNRRAQ",
-            "EhQKEFNfRFVQTElDQVRFX05BTUUQERIQCgxDX0xFQVZFX0dBTUUQEhIKCgZT",
-            "X0RFQUQQExIRCg1DX1dBVENIX09USEVSEBQSEQoNU19XQVRDSF9PVEhFUhAV",
-            "Eh4KGlNfUExBWUlOR19ST09NX0lORk9fQ0hBTkdFEBYqNwoLUGxheWVyU3Rh",
-            "dGUSCQoFUkVBRFkQABIJCgVBTElWRRABEggKBEZBS0UQAhIICgRERUFEEAMq",
-            "cAoHTW92ZURpchIICgRJRExFEAASBgoCVVAQARIICgRET1dOEAISCAoETEVG",
-            "VBADEgkKBVJJR0hUEAQSCgoGVVBMRUZUEAUSCwoHVVBSSUdIVBAGEgwKCERP",
-            "V05MRUZUEAcSDQoJRE9XTlJJR0hUEAhCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Q",
-            "cm90b2NvbGIGcHJvdG8z"));
+            "InQKD1BsYXlpbmdSb29tSW5mbxIOCgZyb29tSWQYASABKAUSEwoLcGxheWVy",
+            "Q291bnQYAiABKAUSEgoKYWxpdmVDb3VudBgDIAEoBRIoCgp0aGVXZWFrZXN0",
+            "GAQgASgLMhQuUHJvdG9jb2wuUGxheWVySW5mbyqTAwoFTXNnSWQSFAoQU19D",
+            "T05ORUNUX1NFUlZFUhAAEhAKDENfRU5URVJfR0FNRRABEhAKDFNfRU5URVJf",
+            "R0FNRRACEhAKDFNfTEVBVkVfR0FNRRADEgsKB1NfU1BBV04QBBINCglTX0RF",
+            "U1BBV04QBRIKCgZDX01PVkUQBhIKCgZTX01PVkUQBxIMCghDX0FUVEFDSxAI",
+            "EgwKCFNfQVRUQUNLEAkSCgoGQ19GQUtFEAoSCgoGU19GQUtFEAsSEAoMQ19T",
+            "VEFSVF9HQU1FEAwSEAoMU19TVEFSVF9HQU1FEA0SEQoNQ19MT0FEX1BMQVlF",
+            "UhAOEhEKDVNfTE9BRF9QTEFZRVIQDxISCg5TX0lOVkFMSURfTkFNRRAQEhQK",
+            "EFNfRFVQTElDQVRFX05BTUUQERIQCgxDX0xFQVZFX0dBTUUQEhIKCgZTX0RF",
+            "QUQQExIRCg1DX1dBVENIX09USEVSEBQSEQoNU19XQVRDSF9PVEhFUhAVEh4K",
+            "GlNfUExBWUlOR19ST09NX0lORk9fQ0hBTkdFEBYqNwoLUGxheWVyU3RhdGUS",
+            "CQoFUkVBRFkQABIJCgVBTElWRRABEggKBEZBS0UQAhIICgRERUFEEAMqcAoH",
+            "TW92ZURpchIICgRJRExFEAASBgoCVVAQARIICgRET1dOEAISCAoETEVGVBAD",
+            "EgkKBVJJR0hUEAQSCgoGVVBMRUZUEAUSCwoHVVBSSUdIVBAGEgwKCERPV05M",
+            "RUZUEAcSDQoJRE9XTlJJR0hUEAhCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90",
+            "b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.PlayerState), typeof(global::Google.Protobuf.Protocol.MoveDir), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -95,7 +96,7 @@ namespace Google.Protobuf.Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PlayingRoomInfoChange), global::Google.Protobuf.Protocol.S_PlayingRoomInfoChange.Parser, new[]{ "RoomInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PlayerInfo), global::Google.Protobuf.Protocol.PlayerInfo.Parser, new[]{ "PlayerId", "Name", "Speed", "Power", "KillCount", "PosInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PositionInfo), global::Google.Protobuf.Protocol.PositionInfo.Parser, new[]{ "State", "MoveDir", "PosX", "PosY" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PlayingRoomInfo), global::Google.Protobuf.Protocol.PlayingRoomInfo.Parser, new[]{ "RoomId", "PlayerCount", "AliveCount" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PlayingRoomInfo), global::Google.Protobuf.Protocol.PlayingRoomInfo.Parser, new[]{ "RoomId", "PlayerCount", "AliveCount", "TheWeakest" }, null, null, null, null)
           }));
     }
     #endregion
@@ -5127,6 +5128,7 @@ namespace Google.Protobuf.Protocol {
       roomId_ = other.roomId_;
       playerCount_ = other.playerCount_;
       aliveCount_ = other.aliveCount_;
+      theWeakest_ = other.theWeakest_ != null ? other.theWeakest_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -5172,6 +5174,18 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+    /// <summary>Field number for the "theWeakest" field.</summary>
+    public const int TheWeakestFieldNumber = 4;
+    private global::Google.Protobuf.Protocol.PlayerInfo theWeakest_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.Protocol.PlayerInfo TheWeakest {
+      get { return theWeakest_; }
+      set {
+        theWeakest_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -5190,6 +5204,7 @@ namespace Google.Protobuf.Protocol {
       if (RoomId != other.RoomId) return false;
       if (PlayerCount != other.PlayerCount) return false;
       if (AliveCount != other.AliveCount) return false;
+      if (!object.Equals(TheWeakest, other.TheWeakest)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -5200,6 +5215,7 @@ namespace Google.Protobuf.Protocol {
       if (RoomId != 0) hash ^= RoomId.GetHashCode();
       if (PlayerCount != 0) hash ^= PlayerCount.GetHashCode();
       if (AliveCount != 0) hash ^= AliveCount.GetHashCode();
+      if (theWeakest_ != null) hash ^= TheWeakest.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5230,6 +5246,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(24);
         output.WriteInt32(AliveCount);
       }
+      if (theWeakest_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(TheWeakest);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -5252,6 +5272,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(24);
         output.WriteInt32(AliveCount);
       }
+      if (theWeakest_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(TheWeakest);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -5270,6 +5294,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (AliveCount != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(AliveCount);
+      }
+      if (theWeakest_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TheWeakest);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5291,6 +5318,12 @@ namespace Google.Protobuf.Protocol {
       }
       if (other.AliveCount != 0) {
         AliveCount = other.AliveCount;
+      }
+      if (other.theWeakest_ != null) {
+        if (theWeakest_ == null) {
+          TheWeakest = new global::Google.Protobuf.Protocol.PlayerInfo();
+        }
+        TheWeakest.MergeFrom(other.TheWeakest);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -5319,6 +5352,13 @@ namespace Google.Protobuf.Protocol {
             AliveCount = input.ReadInt32();
             break;
           }
+          case 34: {
+            if (theWeakest_ == null) {
+              TheWeakest = new global::Google.Protobuf.Protocol.PlayerInfo();
+            }
+            input.ReadMessage(TheWeakest);
+            break;
+          }
         }
       }
     #endif
@@ -5344,6 +5384,13 @@ namespace Google.Protobuf.Protocol {
           }
           case 24: {
             AliveCount = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            if (theWeakest_ == null) {
+              TheWeakest = new global::Google.Protobuf.Protocol.PlayerInfo();
+            }
+            input.ReadMessage(TheWeakest);
             break;
           }
         }
