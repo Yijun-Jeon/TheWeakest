@@ -216,15 +216,18 @@ namespace Server
                 // 게임 도중 떠날 경우 
                 if (_isPlaying)
                 {
-                    _playingRoomInfo.AliveCount -= 1;
-                    _players.Remove(playerId);
+                    // 이미 죽은 플레이어가 나갈 경우에는 인게임 지장 X
+                    if (player.Info.PosInfo.State != PlayerState.Dead)
+                    {
+                        _playingRoomInfo.AliveCount -= 1;
 
-                    SetAllPlayerSpeed();
-                    _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
+                        SetAllPlayerSpeed();
+                        _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
-                    S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
-                    roomInfoChange.RoomInfo = _playingRoomInfo;
-                    Broadcast(roomInfoChange);
+                        S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
+                        roomInfoChange.RoomInfo = _playingRoomInfo;
+                        Broadcast(roomInfoChange);
+                    }
                 }
             }
         }
