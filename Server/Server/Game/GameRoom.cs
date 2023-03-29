@@ -429,7 +429,7 @@ namespace Server
         // 종료시간 타이머
         public void HandleTIme()
         {
-            if (_isPlaying == false && _playingRoomInfo.AliveCount <= 1)
+            if (_isPlaying == false || _playingRoomInfo.AliveCount <= 1)
                 return;
 
             S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();

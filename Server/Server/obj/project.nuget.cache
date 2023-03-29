@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "ohJs5Nmi3jHmovQlNigJGuCAlEUvs064XMqiWjdIR/VG0WK4RyebFSTMqrrrIdNIBO+poHKD+JFPo84ltClo3A==",
+  "dgSpecHash": "ZGvsJqKRT1/R60xpkusaxmjsTYcyOy4l1q7MvqRsCs3rXnhvdd5gQ9Q4Gm8z0+elnEsGUe3dbHoIe53SRDWOOw==",
   "success": true,
-  "projectFilePath": "D:\\Project\\TheWeakest\\Server\\Server\\Server.csproj",
+  "projectFilePath": "/Users/Yijun/Desktop/Project/TheWeakest/Server/Server/Server.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\jhobb\\.nuget\\packages\\google.protobuf\\3.22.0\\google.protobuf.3.22.0.nupkg.sha512",
-    "C:\\Users\\jhobb\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
-    "C:\\Users\\jhobb\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
+    "/Users/Yijun/.nuget/packages/google.protobuf/3.22.0/google.protobuf.3.22.0.nupkg.sha512",
+    "/Users/Yijun/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
+    "/Users/Yijun/.nuget/packages/system.runtime.compilerservices.unsafe/4.5.2/system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
+    "/Users/Yijun/.nuget/packages/microsoft.aspnetcore.app.ref/3.1.10/microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "/Users/Yijun/.nuget/packages/microsoft.netcore.app.host.osx-x64/3.1.32/microsoft.netcore.app.host.osx-x64.3.1.32.nupkg.sha512",
+    "/Users/Yijun/.nuget/packages/microsoft.netcore.app.ref/3.1.0/microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
   ],
   "logs": []
 }

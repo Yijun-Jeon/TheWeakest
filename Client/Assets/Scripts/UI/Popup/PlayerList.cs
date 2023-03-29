@@ -32,5 +32,6 @@ public class PlayerList : MonoBehaviour
         C_WatchOther watchPacket = new C_WatchOther();
         watchPacket.TargetId = _playerId;
         Managers.Network.Send(watchPacket);
+        Debug.Log("Send");
     }
 }
