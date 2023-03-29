@@ -9,8 +9,22 @@ using static UnityEngine.UI.Image;
 public class MyPlayerController : PlayerController
 {
     AttackRange attackRange;
-    FieldOfView fieldOfView;
     CameraController cameraController;
+    bool _isControl = true;
+    public bool IsControl
+    {
+        get { return _isControl; }
+        set
+        {
+            if (_isControl == value)
+                return;
+            _isControl = value;
+
+            // 다른 플레이어 관전에서 내 플레이어 카메라로 돌아옴 
+            if (_isControl)
+                cameraController.SetTargetPlayer(this);
+        }
+    }
 
     int _killCount = 0;
     public int KillCount
@@ -21,26 +35,28 @@ public class MyPlayerController : PlayerController
             if (value < 0)
                 return;
             _killCount = value;
-            Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("KillText").GetComponent<TMP_Text>().text = "Kill : " + value.ToString();
+            Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("KillText").GetComponent<TMP_Text>().text = "Kill : " + KillCount;
         }
     }
 
     protected override void Start()
     {
         base.Start();
-        fieldOfView = GameObject.Find("FieldOfView").GetComponent<FieldOfView>();
+
         attackRange = transform.Find("AttackRange").gameObject.GetComponent<AttackRange>();
 
         cameraController = Camera.main.GetComponent<CameraController>();
+        // for MyPlayer target 
         cameraController.SetMyPlayer(this);
+        // for 관전 
+        cameraController.SetTargetPlayer(this);
     }
 
     protected override void UpdateController()
     {
-        // 시야 범위 위치 세팅 
-        fieldOfView.SetOrigin(transform.position);
         // 공격 범위 위치 세팅 
-        attackRange.SetOrigin(transform.position);
+        if (State != PlayerState.Dead)
+            attackRange.SetOrigin(transform.position);
 
         GetDirInput();
         base.UpdateController();
@@ -51,6 +67,8 @@ public class MyPlayerController : PlayerController
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log(Speed);
+            SetIsControl(true);
             // 공격 패킷 연타 부하 방지 
             if (_coAttack != null)
                 return;
@@ -83,6 +101,7 @@ public class MyPlayerController : PlayerController
         }
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            SetIsControl(true);
             if (_coFake != null)
                 return;
 
@@ -197,6 +216,7 @@ public class MyPlayerController : PlayerController
     {
         if (_updated)
         {
+            SetIsControl(true);
             C_Move movePacket = new C_Move();
             movePacket.PosInfo = PosInfo;
             Managers.Network.Send(movePacket);
@@ -207,5 +227,10 @@ public class MyPlayerController : PlayerController
     public void Kill(int killCount)
     {
         KillCount = killCount;
+    }
+
+    public void SetIsControl(bool isControl)
+    {
+        IsControl = isControl;
     }
 }

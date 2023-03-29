@@ -5,21 +5,28 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace Server
 {
     public class GameRoom
     {
+        const int MAX_PLAYER = 20;
+
         object _lock = new object();
         public int RoomId { get; set; }
         Random _random = new Random();
 
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
-
+        Dictionary<int,int> _powers = new Dictionary<int, int>();
         Map _map = new Map();
 
         float _attackRange = 1.5f;
+
+        // 인게임 방 정보 
+        bool _isPlaying = false;
+        PlayingRoomInfo _playingRoomInfo;
 
         public void Init(int mapId)
         {
@@ -28,7 +35,7 @@ namespace Server
 
         public void StartGame()
         {
-            lock(_lock )
+            lock(_lock)
             {
                 int numOfPlayers = _players.Count;
 
@@ -55,8 +62,22 @@ namespace Server
                 foreach (Player p in _players.Values)
                 {
                     p.Info.Power = powerArr[idx++];
+                    _powers.Add(p.Info.PlayerId, p.Info.Power);
                     // TODO : 시작 위치, 시야, 속도 조절
                 }
+
+                _playingRoomInfo = new PlayingRoomInfo()
+                {
+                    RoomId = RoomId,
+                    PlayerCount = _players.Count,
+                    AliveCount = _players.Count,
+                    // TODO : 남은 시간, 꼴등 정보
+                    TheWeakest = GetTheWeakest().Info,
+                    AllPlayerSpeed = 6.0f
+                };
+
+                SetAllPlayerSpeed();
+                _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
                 // 게임 시작 모두에게 알림
                 S_StartGame startGamePacket = new S_StartGame();
@@ -64,7 +85,10 @@ namespace Server
                 {
                     startGamePacket.Players.Add(p.Info);
                 }
+                startGamePacket.RoomInfo = _playingRoomInfo;
                 Broadcast(startGamePacket);
+
+                _isPlaying = true;
             }
             
         }
@@ -73,6 +97,12 @@ namespace Server
         {
             Player myPlayer = null;
             string playerName = enterGamePacket.Name;
+
+            if (_isPlaying)
+                return;
+
+            if (_players.Count == MAX_PLAYER)
+                return;
 
             // 유효하지 않은 이름 
             if (string.IsNullOrEmpty(playerName))
@@ -100,7 +130,7 @@ namespace Server
                 myPlayer = PlayerManager.Instance.Add();
 
                 myPlayer.Info.Name = enterGamePacket.Name;
-                myPlayer.Info.Speed = 10.0f;
+                myPlayer.Info.Speed = 6.0f;
                 myPlayer.Info.Power = 0;
                 myPlayer.Info.KillCount = 0;
                 myPlayer.Info.PosInfo.State = PlayerState.Alive;
@@ -175,10 +205,28 @@ namespace Server
                 {
                     S_Despawn despawnPacket = new S_Despawn();
                     despawnPacket.PlayerIds.Add(player.Info.PlayerId);
+
                     foreach(Player p in _players.Values)
                     {
                         if (player != p)
                             p.Session.Send(despawnPacket);
+                    }
+                }
+
+                // 게임 도중 떠날 경우 
+                if (_isPlaying)
+                {
+                    // 이미 죽은 플레이어가 나갈 경우에는 인게임 지장 X
+                    if (player.Info.PosInfo.State != PlayerState.Dead)
+                    {
+                        _playingRoomInfo.AliveCount -= 1;
+
+                        SetAllPlayerSpeed();
+                        _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
+
+                        S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
+                        roomInfoChange.RoomInfo = _playingRoomInfo;
+                        Broadcast(roomInfoChange);
                     }
                 }
             }
@@ -276,6 +324,7 @@ namespace Server
             {
                 // 사망 처리
                 enemy.Info.PosInfo.State = PlayerState.Dead;
+                _powers.Remove(enemy.Info.PlayerId);
                 // 킬러 플레이어 킬카운트 증가
                 player.Info.KillCount += 1;
 
@@ -290,7 +339,8 @@ namespace Server
             {
                 // 사망 처리
                 player.Info.PosInfo.State = PlayerState.Dead;
-                // 킬러 플에이어 킬카운트 증가
+                _powers.Remove(player.Info.PlayerId);
+                // 킬러 플레이어 킬카운트 증가
                 enemy.Info.KillCount += 1;
 
                 S_Dead deadPacket = new S_Dead();
@@ -304,6 +354,14 @@ namespace Server
             {
                 return;
             }
+
+            _playingRoomInfo.AliveCount -= 1;
+            SetAllPlayerSpeed();
+            _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
+
+            S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
+            roomInfoChange.RoomInfo = _playingRoomInfo;
+            Broadcast(roomInfoChange);
 
             // TODO : 남은 플레이어들 스탯, 시야 조정
         }
@@ -322,8 +380,6 @@ namespace Server
                 if (info.PosInfo.State == PlayerState.Fake || info.PosInfo.State == PlayerState.Dead)
                     return;
 
-                // TODO : 쿨타임
-
                 // 죽은 척 패킷 전송
                 S_Fake fake = new S_Fake();
                 fake.PlayerId = player.Info.PlayerId;
@@ -331,9 +387,65 @@ namespace Server
             }
         }
 
-        public float GetDistance(PositionInfo myPos, PositionInfo enemyPos)
+        // 카메라 관전모드 처리
+        public void HandleWatch(Player player, C_WatchOther watchPacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                Player targetPlayer = null;
+                if (_players.TryGetValue(watchPacket.TargetId, out targetPlayer) == false)
+                    return;
+
+                PlayerInfo info = player.Info;
+
+                // 관전을 할 수 있는 상태 
+                if (_isPlaying == false || info.PosInfo.State == PlayerState.Dead)
+                {
+                    S_WatchOther watchOther = new S_WatchOther();
+                    watchOther.TargetId = targetPlayer.Info.PlayerId;
+                    player.Session.Send(watchOther);
+                }    
+            }
+        }
+
+        float GetDistance(PositionInfo myPos, PositionInfo enemyPos)
         {
             return (float)Math.Sqrt(Math.Pow(enemyPos.PosX - myPos.PosX, 2) + Math.Pow(enemyPos.PosY - myPos.PosY, 2));
+        }
+
+        Player GetTheWeakest()
+        {
+            lock (_lock)
+            {
+                List<int> powers = _powers.Values.ToList();
+                int minPower = powers.Min();
+
+                // 현재 꼴등 플레이어 
+                Player weakest = _players.Where(p => p.Value.Info.Power == minPower).First().Value;
+                return weakest;
+            }
+        }
+
+        void SetAllPlayerSpeed()
+        {
+            lock (_lock)
+            {
+                _playingRoomInfo.AllPlayerSpeed = 10f - _playingRoomInfo.AliveCount * 0.3f;
+                // 꼴등 이속 버프 
+                float weakestBuff = Math.Max(0, _playingRoomInfo.AliveCount - 2) * 0.2f;
+                foreach (Player p in _players.Values)
+                {
+                    p.Info.Speed = _playingRoomInfo.AllPlayerSpeed;
+                    if (p.Info.PlayerId == _playingRoomInfo.TheWeakest.PlayerId)
+                    {
+                        p.Info.Speed += weakestBuff;
+                        _playingRoomInfo.TheWeakest.Speed = p.Info.Speed;
+                    }
+                }
+            }
         }
     }
 }

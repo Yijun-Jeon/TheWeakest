@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +16,7 @@ class PacketHandler
         S_ConnectServer connectServerPacket = packet as S_ConnectServer;
         ServerSession serverSession = session as ServerSession;
 
-        Managers.Network.OnConnectSuccess(connectServerPacket.IsConnected);
+        Managers.UI.OnConnectSuccess(connectServerPacket.IsConnected);
     }
 
     public static void S_InvalidNameHandler(PacketSession session, IMessage packet)
@@ -23,7 +24,7 @@ class PacketHandler
         S_InvalidName invalidNamePacket = packet as S_InvalidName;
         ServerSession serverSession = session as ServerSession;
 
-        Managers.Network.AlertMessage("유효하지 않은 이름입니다.");
+        Managers.UI.AlertMessage("유효하지 않은 이름입니다.");
     }
 
     public static void S_DuplicateNameHandler(PacketSession session, IMessage packet)
@@ -31,7 +32,7 @@ class PacketHandler
         S_DuplicateName duplicateNamePacket = packet as S_DuplicateName;
         ServerSession serverSession = session as ServerSession;
 
-        Managers.Network.AlertMessage("중복되는 이름입니다. 다른 이름을 입력해주세요.");
+        Managers.UI.AlertMessage("중복되는 이름입니다. 다른 이름을 입력해주세요.");
     }
 
     public static void S_EnterGameHandler(PacketSession session, IMessage packet)
@@ -51,7 +52,7 @@ class PacketHandler
         ServerSession serverSession = session as ServerSession;
 
         Managers.Object.Add(loadPacket.Player, myPlayer: true);
-        Managers.Network.UpdatePlayerList();
+        Managers.UI.UpdatePlayerList();
     }
 
     public static void S_LeaveGameHandler(PacketSession session, IMessage packet)
@@ -72,7 +73,7 @@ class PacketHandler
         {
             Managers.Object.Add(player, myPlayer: false);
         }
-        Managers.Network.UpdatePlayerList();
+        Managers.UI.UpdatePlayerList();
     }
 
     public static void S_DespawnHandler(PacketSession session, IMessage packet)
@@ -84,7 +85,7 @@ class PacketHandler
         {
             Managers.Object.Remove(id);
         }
-        Managers.Network.UpdatePlayerList();
+        Managers.UI.UpdatePlayerList();
     }
 
     public static void S_MoveHandler(PacketSession session, IMessage packet)
@@ -150,10 +151,22 @@ class PacketHandler
             pc.Speed = player.Speed;
         }
 
-        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("StartBtn").gameObject.SetActive(false);
-        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(false);
-        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(false);
-        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").gameObject.SetActive(true);
+        Managers.UI.ActiveStartBtn(false);
+        Managers.UI.ActiveCancelBtn(false);
+        Managers.UI.ActivePlayerListPanel(false);
+        Managers.UI.ActiveInGamePanel(true);
+        Managers.UI.UpdateRemainText(startGamePacket.RoomInfo.PlayerCount, startGamePacket.RoomInfo.AliveCount);
+
+        GameObject weakestObject = Managers.Object.FindById(startGamePacket.RoomInfo.TheWeakest.PlayerId);
+        if (weakestObject == null)
+            return;
+
+        PlayerController theWeakest = weakestObject.GetComponent<PlayerController>();
+        if (theWeakest == null)
+            return;
+
+        Managers.Object.SetTheWeakest(theWeakest);
+        Managers.UI.UpdateRemainText(startGamePacket.RoomInfo.PlayerCount, startGamePacket.RoomInfo.AliveCount);
     }
 
     public static void S_DeadHandler(PacketSession session, IMessage packet)
@@ -179,7 +192,7 @@ class PacketHandler
             {
                 mp.Killed();
             }
-            Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(true);
+            Managers.UI.ActivePlayerListPanel(true);
         }
         // 사망 플레이어가 다른 플레이어 
         else
@@ -193,7 +206,7 @@ class PacketHandler
         // 사망 플레이어 파워 공개 
         killed.transform.Find("Canvas").transform.Find("PowerText").gameObject.SetActive(true);
         // 킬로그 추가
-        Managers.Network.UpdateKillFeed(deadPacket.KilledPlayer.PlayerId);
+        Managers.UI.UpdateKillFeed(deadPacket.KilledPlayer.PlayerId);
 
         // 킬한 내 플레이어 킬 카운트 증가 
         if (deadPacket.KillerPlayer.PlayerId == Managers.Object.MyPlayer.Id)
@@ -204,5 +217,43 @@ class PacketHandler
                 mp.Kill(deadPacket.KillerPlayer.KillCount);
             }
         }
+    }
+
+    public static void S_WatchOtherHandler(PacketSession session, IMessage packet)
+    {
+        S_WatchOther watchOther = packet as S_WatchOther;
+        ServerSession serverSession = session as ServerSession;
+
+        GameObject go = Managers.Object.FindById(watchOther.TargetId);
+        if (go == null)
+            return;
+
+        PlayerController pc = go.GetComponent<PlayerController>();
+        if (pc == null)
+            return;
+
+        Managers.UI.UpdateTargetPlayer(watchOther.TargetId);
+    }
+
+    public static void S_PlayingRoomInfoChangeHandler(PacketSession session, IMessage packet)
+    {
+        S_PlayingRoomInfoChange roomInfoPacket = packet as S_PlayingRoomInfoChange;
+        ServerSession serverSession = session as ServerSession;
+
+        GameObject go = Managers.Object.FindById(roomInfoPacket.RoomInfo.TheWeakest.PlayerId);
+        if (go == null)
+            return;
+
+        PlayerController theWeakest = go.GetComponent<PlayerController>();
+        if (theWeakest == null)
+            return;
+
+        theWeakest.Speed = roomInfoPacket.RoomInfo.TheWeakest.Speed;
+
+        Managers.Object.SetTheWeakest(theWeakest);
+        Managers.UI.UpdateRemainText(roomInfoPacket.RoomInfo.PlayerCount, roomInfoPacket.RoomInfo.AliveCount);
+
+        // 플레이어 속도 조정 
+        Managers.Object.SetAllPlayerSpeed(roomInfoPacket.RoomInfo);
     }
 }

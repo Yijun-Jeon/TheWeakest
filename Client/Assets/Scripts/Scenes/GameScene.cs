@@ -17,6 +17,8 @@ public class GameScene : BaseScene
 
         Application.runInBackground = true;
 
+        Camera.main.GetComponent<CameraController>().SetFieldOfView();
+
         //Managers.UI.ShowSceneUI<UI_Inven>();
         //Dictionary<int, Data.Stat> dict = Managers.Data.StatDict;
         //gameObject.GetOrAddComponent<CursorController>();

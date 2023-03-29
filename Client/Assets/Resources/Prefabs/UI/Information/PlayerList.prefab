@@ -428,8 +428,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInfo, Assembly-CSharp
+      - m_Target: {fileID: 8936813453817593698}
+        m_TargetAssemblyTypeName: PlayerList, Assembly-CSharp
         m_MethodName: changeCamera
         m_Mode: 1
         m_Arguments:
@@ -454,3 +454,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickName: {fileID: 1770980405807578422}
   power: {fileID: 1770980405402020159}
+  SPRD: {fileID: 1770980406349751083}

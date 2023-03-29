@@ -20,15 +20,13 @@ public class PlayerListAdapter : MonoBehaviour
 
         foreach (int playerId in Managers.Object.FindAllPlayers())
         {
-            GameObject curPlayer = Instantiate<GameObject>(this.playerInfo, contents.transform);
-            curPlayer.GetComponent<PlayerList>().SetInfo(playerId);
+            GameObject go = Instantiate<GameObject>(this.playerInfo, contents.transform);
+            go.GetComponent<PlayerList>().SetInfo(playerId);
 
-            // TODO : 사망시 색깔 처리 
-            //object curProp;
-            //if (player.CustomProperties.TryGetValue("dead", out curProp) && (bool)curProp)
-            //    curPlayer.GetComponent<PlayerInfo>().setColor(Color.grey);
-            //else
-            //    curPlayer.GetComponent<PlayerInfo>().setColor(Color.red);
+            PlayerController player = Managers.Object.FindById(playerId).GetComponent<PlayerController>();
+            // TODO : 사망시 색깔 처리
+            if (player.State == PlayerState.Dead)
+                go.GetComponent<PlayerList>().setColor(Color.grey);
         }
     }
 }

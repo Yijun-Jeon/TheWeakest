@@ -14,7 +14,7 @@ public class NetworkManager : MonoBehaviour
 
     public void Init()
     {
-        AlertMessage("서버 접속을 시도하는 중입니다....");
+        Managers.UI.AlertMessage("서버 접속을 시도하는 중입니다....");
 
         // DNS
         //string host = Dns.GetHostName();
@@ -42,30 +42,5 @@ public class NetworkManager : MonoBehaviour
             if (handler != null)
                 handler.Invoke(_session, packet.Message);
         }
-    }
-
-    public void OnConnectSuccess(bool isConnected)
-    {
-        if (isConnected == false)
-            return;
-
-        AlertMessage("서버 접속에 성공했습니다.");
-    }
-
-    public void AlertMessage(string message)
-    {
-        GameObject.FindWithTag("Alert").GetComponent<AlertListAdapter>().AddAlert(message);
-    }
-
-    public void UpdatePlayerList()
-    {
-        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").
-            transform.Find("PlayerList").GetComponent<PlayerListAdapter>().UpdateList();
-    }
-
-    public void UpdateKillFeed(int playerId)
-    {
-        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").
-            transform.Find("KillList").GetComponent<KillInfoAdapter>().AddKillInfo(playerId);
     }
 }

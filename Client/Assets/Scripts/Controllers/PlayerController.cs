@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float _speed = 10.0f;
+    float _speed = 6.0f;
     public float Speed
     {
         get { return _speed; }
@@ -244,6 +244,9 @@ public class PlayerController : MonoBehaviour
         State = PlayerState.Dead;
         StopAllCoroutines();
         _animator.Play("Killed");
+
+        // 사망 플레이어 플레이어 리스트 회색 처리 
+        Managers.UI.UpdatePlayerList();
     }
 
     IEnumerator CoStartAttack()

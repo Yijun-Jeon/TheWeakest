@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager
 {
+    #region NOT_USE
     int _order = 10;
 
     Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
@@ -129,5 +131,76 @@ public class UIManager
     {
         CloseAllPopupUI();
         _sceneUI = null;
+    }
+    #endregion
+    public void OnConnectSuccess(bool isConnected)
+    {
+        if (isConnected == false)
+            return;
+
+        AlertMessage("서버 접속에 성공했습니다.");
+    }
+
+    public void AlertMessage(string message)
+    {
+        GameObject.FindWithTag("Alert").GetComponent<AlertListAdapter>().AddAlert(message);
+    }
+
+    public void UpdatePlayerList()
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").
+            transform.Find("PlayerList").GetComponent<PlayerListAdapter>().UpdateList();
+    }
+
+    public void UpdateKillFeed(int playerId)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").
+            transform.Find("KillList").GetComponent<KillInfoAdapter>().AddKillInfo(playerId);
+    }
+
+    public void UpdateTargetPlayer(int playerId)
+    {
+        PlayerController targetPlayer = Managers.Object.FindById(playerId).GetComponent<PlayerController>();
+        Camera.main.GetComponent<CameraController>().SetTargetPlayer(targetPlayer);
+    }
+
+    public void UpdateWeakestText(string name)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("WeakestText").GetComponent<TMP_Text>().text = "현재 꼴등 : " + name;
+    }
+
+    public void UpdateRunText(bool isMe)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("RunText").gameObject.SetActive(isMe);
+    }
+
+    public void UpdateRemainText(int playerCount, int aliveCount)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("RemainText").GetComponent<TMP_Text>().text = aliveCount + "/" + playerCount;
+    }
+
+    public void ActivePlayerListPanel(bool active)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").gameObject.SetActive(active);
+    }
+
+    public void ActiveInGamePanel(bool active)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").gameObject.SetActive(active);
+    }
+
+    public void ActiveStartBtn(bool active)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("StartBtn").gameObject.SetActive(active);
+    }
+
+    public void ActiveCancelBtn(bool active)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(false);
+    }
+
+    public void UpdateViewDistance(float speed)
+    {
+        Camera.main.GetComponent<CameraController>().UpdateViewDistance(speed);
     }
 }
