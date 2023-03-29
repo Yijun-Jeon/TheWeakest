@@ -1,15 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "kjeyEWK3y667z+C8bcOV8dTdhTI36tly+Wwwfvo5qcBzFGzgW/bQ4AL06kGIPc7iV/fiXnhsdUCaSsObDStoPg==",
+  "dgSpecHash": "0LFFlia16nXDjpXwWwD6QmExnF++0zaVfThQRgiGriyfjNPYn0nJ6wjwBnhQXM+Rz6O5NrxikM4KLC+IfQ3vrQ==",
   "success": true,
-  "projectFilePath": "/Users/Yijun/Desktop/Project/TheWeakest/Server/DummyClient/DummyClient.csproj",
+  "projectFilePath": "D:\\Project\\TheWeakest\\Server\\DummyClient\\DummyClient.csproj",
   "expectedPackageFiles": [
-    "/Users/Yijun/.nuget/packages/google.protobuf/3.22.0/google.protobuf.3.22.0.nupkg.sha512",
-    "/Users/Yijun/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
-    "/Users/Yijun/.nuget/packages/system.runtime.compilerservices.unsafe/4.5.2/system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
-    "/Users/Yijun/.nuget/packages/microsoft.aspnetcore.app.ref/3.1.10/microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
-    "/Users/Yijun/.nuget/packages/microsoft.netcore.app.host.osx-x64/3.1.32/microsoft.netcore.app.host.osx-x64.3.1.32.nupkg.sha512",
-    "/Users/Yijun/.nuget/packages/microsoft.netcore.app.ref/3.1.0/microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
+    "C:\\Users\\jhobb\\.nuget\\packages\\google.protobuf\\3.22.0\\google.protobuf.3.22.0.nupkg.sha512",
+    "C:\\Users\\jhobb\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\jhobb\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
   ],
   "logs": []
 }

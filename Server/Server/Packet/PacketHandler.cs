@@ -12,7 +12,27 @@ class PacketHandler
         C_EnterGame enterGamePacket = packet as C_EnterGame;
         ClientSession clientSession = session as ClientSession;
 
-        RoomManager.Instance.Find(1).EnterGame(clientSession, enterGamePacket);
+        int roomId = 1;
+        // 룸 아이디를 1씩 증가하면서 검사해서 그 아이디의 룸이 없다면 그 룸을 생성해서 접속
+        // 그 아이디의 룸이 있다면, 게임중이지 않을 때 접속 가능
+        // 룸이 게임중이라면, 다음 룸 검사
+        while (true)
+        {
+            GameRoom room = RoomManager.Instance.Find(roomId);
+
+            
+            if (room == null)
+            {
+                roomId = RoomManager.Instance.Add(1).RoomId;
+                break;
+            }
+
+            if (room.IsPlaying == false)
+                break;
+
+            roomId++;
+        }
+        RoomManager.Instance.Find(roomId).EnterGame(clientSession, enterGamePacket);
     }
 
     public static void C_LeaveGameHandler(PacketSession session, IMessage packet)

@@ -27,6 +27,7 @@ enum MsgId {
 	C_WATCH_OTHER = 20;
 	S_WATCH_OTHER = 21;
 	S_PLAYING_ROOM_INFO_CHANGE = 22;
+	S_END_GAME = 23;
 }
 
 enum PlayerState{
@@ -139,6 +140,10 @@ message S_WatchOther{
 
 message S_PlayingRoomInfoChange{
 	PlayingRoomInfo roomInfo = 1;
+}
+
+message S_EndGame{
+	int32 winnerId = 1;
 }
 
 message PlayerInfo{
