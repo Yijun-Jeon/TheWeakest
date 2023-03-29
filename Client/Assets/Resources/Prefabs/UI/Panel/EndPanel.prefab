@@ -175,6 +175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4214221989816683298}
   - component: {fileID: 4214221989816683296}
+  - component: {fileID: 1063850718871039340}
   m_Layer: 0
   m_Name: PlayerResultLayout
   m_TagString: Untagged
@@ -226,6 +227,20 @@ MonoBehaviour:
   m_Spacing: {x: 50, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 2
+--- !u!114 &1063850718871039340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214221989816683299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a5b1227bd474eaf88397dfc47354df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerResultInfo: {fileID: 6898174051109603181, guid: 4bbdc3a110f7c476eab0c44de18084c3, type: 3}
+  winnerPlayerResultInfo: {fileID: 4308197298595050247}
 --- !u!1 &4214221990209101022
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6898174051109603181, guid: 4bbdc3a110f7c476eab0c44de18084c3, type: 3}
       propertyPath: m_Name
-      value: PlayerResult
+      value: WinnerPlayerResult
       objectReference: {fileID: 0}
     - target: {fileID: 9074326787912952516, guid: 4bbdc3a110f7c476eab0c44de18084c3, type: 3}
       propertyPath: m_Pivot.x
@@ -557,5 +572,10 @@ PrefabInstance:
 --- !u!224 &1845502215169924782 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9074326787912952516, guid: 4bbdc3a110f7c476eab0c44de18084c3, type: 3}
+  m_PrefabInstance: {fileID: 7238118436306072682}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4308197298595050247 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6898174051109603181, guid: 4bbdc3a110f7c476eab0c44de18084c3, type: 3}
   m_PrefabInstance: {fileID: 7238118436306072682}
   m_PrefabAsset: {fileID: 0}

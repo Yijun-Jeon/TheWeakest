@@ -17,6 +17,8 @@ ScriptsOnlyBuild:
     - PlayerController
     - PlayerList
     - PlayerListAdapter
+    - PlayerResultAdapter
+    - PlayerResultInfo
     - StartGameButtonController
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
@@ -261,6 +263,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3166}
     - Class: 114
+      Script: {instanceID: 3774}
+    - Class: 114
       Script: {instanceID: 4500}
     - Class: 114
       Script: {instanceID: 5384}
@@ -283,11 +287,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10806}
     - Class: 114
-      Script: {instanceID: 11148}
+      Script: {instanceID: 11146}
     - Class: 114
       Script: {instanceID: 12242}
     - Class: 114
       Script: {instanceID: 12366}
+    - Class: 114
+      Script: {instanceID: 12406}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -382,6 +388,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3412}
     - Class: 114
+      Script: {instanceID: 3774}
+    - Class: 114
       Script: {instanceID: 3930}
     - Class: 114
       Script: {instanceID: 4500}
@@ -462,21 +470,23 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10806}
     - Class: 114
-      Script: {instanceID: 10984}
+      Script: {instanceID: 10982}
     - Class: 114
-      Script: {instanceID: 11022}
+      Script: {instanceID: 11020}
     - Class: 114
-      Script: {instanceID: 11142}
+      Script: {instanceID: 11140}
     - Class: 114
-      Script: {instanceID: 11232}
+      Script: {instanceID: 11230}
     - Class: 114
-      Script: {instanceID: 11312}
+      Script: {instanceID: 11310}
     - Class: 114
-      Script: {instanceID: 11426}
+      Script: {instanceID: 11424}
     - Class: 114
       Script: {instanceID: 11832}
     - Class: 114
       Script: {instanceID: 12366}
+    - Class: 114
+      Script: {instanceID: 12406}
     - Class: 114
       Script: {instanceID: 12574}
     - Class: 115
@@ -896,7 +906,7 @@ ScriptsOnlyBuild:
     className: SpriteShapeGeometryCache
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: a9e54a4ac9205bc0704e52a2428aba6e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerResultAdapter
@@ -2174,6 +2184,12 @@ ScriptsOnlyBuild:
     className: UnityOnCollisionExitMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: GameUIManager
+  - hash:
+      serializedVersion: 2
       Hash: fc29f975ab35a5033d05bcfda3c82435
     assemblyName: Unity.2D.Tilemap.Extras.dll
     namespaceName: UnityEngine
@@ -2270,7 +2286,7 @@ ScriptsOnlyBuild:
     className: PlayerList
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 1b46f5d95f765cd40ce9e975c2d3b485
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerResultInfo
@@ -2298,14 +2314,8 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: GameUIManager
   platform: 2
   scenePathNames:
   - Assets/Scenes/LoginScene.unity
   - Assets/Scenes/GameScene.unity
-  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client4/Client4.app
+  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client3/Client3.app

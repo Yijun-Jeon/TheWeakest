@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager
 {
+    double _endTime;
+
     #region NOT_USE
     int _order = 10;
 
@@ -196,11 +199,33 @@ public class UIManager
 
     public void ActiveCancelBtn(bool active)
     {
-        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(false);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("PlayerListPanel").transform.Find("CancelBtn").gameObject.SetActive(active);
     }
 
     public void UpdateViewDistance(float speed)
     {
         Camera.main.GetComponent<CameraController>().UpdateViewDistance(speed);
+    }
+
+    public void UpdateTime(double time)
+    {
+        if (_endTime == time)
+            return;
+
+        _endTime = time;
+        string minuteText = ((int)time / 60 % 60).ToString();
+        string secondText = ((int)time % 60).ToString();
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("TimerText").GetComponent<TMP_Text>().text = $"{minuteText} : {secondText.PadLeft(2,'0')}";
+        if(time < 30f)
+        {
+            Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("TimerText").GetComponent<TMP_Text>().color = Color.red;
+        }
+    }
+
+    public void ActiveEndGamePanel(int winnerId)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").gameObject.SetActive(false);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("EndPanel").gameObject.SetActive(true);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("EndPanel").transform.Find("PlayerResultLayout").GetComponent<PlayerResultAdapter>().UpdateItems();
     }
 }

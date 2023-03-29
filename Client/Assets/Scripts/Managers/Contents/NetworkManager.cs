@@ -6,11 +6,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviour
 {
     ServerSession _session = new ServerSession();
     MyPlayerController _myPlayer;
+
+    Coroutine _coGoToLogin;
 
     public void Init()
     {

@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
+using UnityEngine.UI;
 public class PlayerResultInfo : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TMP_Text powerText;
+    public TMP_Text nickNameText;
+    public Image backgroundImage;
+    public Image skullIcon;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //TODO : 생존 시간
+    //public TMP_Text survivalTimeText;
 }

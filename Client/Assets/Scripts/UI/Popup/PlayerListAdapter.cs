@@ -24,7 +24,8 @@ public class PlayerListAdapter : MonoBehaviour
             go.GetComponent<PlayerList>().SetInfo(playerId);
 
             PlayerController player = Managers.Object.FindById(playerId).GetComponent<PlayerController>();
-            // TODO : 사망시 색깔 처리
+
+            // 사망 시 회색 처리 
             if (player.State == PlayerState.Dead)
                 go.GetComponent<PlayerList>().setColor(Color.grey);
         }
