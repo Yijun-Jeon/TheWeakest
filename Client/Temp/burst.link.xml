@@ -32,5 +32,11 @@
   <type fullname="Unity.Collections.LowLevel.Unsafe.UnsafeUtility">
    <method name="Malloc"/>
   </type>
+  <type fullname="Unity.Profiling.LowLevel.Unsafe.ProfilerUnsafeUtility">
+   <method name="BeginSample"/>
+  </type>
+  <type fullname="Unity.Profiling.LowLevel.Unsafe.ProfilerUnsafeUtility">
+   <method name="EndSample"/>
+  </type>
  </assembly>
 </linker>
