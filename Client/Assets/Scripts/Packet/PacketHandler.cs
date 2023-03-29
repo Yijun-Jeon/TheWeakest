@@ -61,7 +61,7 @@ class PacketHandler
         S_LeaveGame leaveGamePacket = packet as S_LeaveGame;
         ServerSession serverSession = session as ServerSession;
 
-        Managers.Object.MyPlayer.GoToLogin();
+        Managers.Object.MyPlayer.GoToLogin(0f);
     }
 
     public static void S_SpawnHandler(PacketSession session, IMessage packet)
@@ -274,6 +274,6 @@ class PacketHandler
             return;
 
         Managers.UI.ActiveEndGamePanel(winner.Id);
-        Managers.Object.MyPlayer.GoToLogin();
+        Managers.Object.MyPlayer.GoToLogin(15.0f);
     }
 }

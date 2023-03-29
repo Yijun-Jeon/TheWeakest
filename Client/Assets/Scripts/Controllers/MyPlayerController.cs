@@ -234,14 +234,14 @@ public class MyPlayerController : PlayerController
         IsControl = isControl;
     }
 
-    public void GoToLogin()
+    public void GoToLogin(float time)
     {
-        StartCoroutine("CoGoToLoginScene");
+        StartCoroutine("CoGoToLoginScene",time);
     }
 
-    IEnumerator CoGoToLoginScene()
+    IEnumerator CoGoToLoginScene(float time)
     {
-        yield return new WaitForSeconds(15.0f);
+        yield return new WaitForSeconds(time);
 
         Managers.Object.Clear();
         SceneManager.LoadScene("LoginScene");
