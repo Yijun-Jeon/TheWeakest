@@ -17,6 +17,8 @@ ScriptsOnlyBuild:
     - PlayerController
     - PlayerList
     - PlayerListAdapter
+    - PlayerResultAdapter
+    - PlayerResultInfo
     - StartGameButtonController
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
@@ -261,6 +263,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 3166}
     - Class: 114
+      Script: {instanceID: 3774}
+    - Class: 114
       Script: {instanceID: 4500}
     - Class: 114
       Script: {instanceID: 5384}
@@ -288,6 +292,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12242}
     - Class: 114
       Script: {instanceID: 12366}
+    - Class: 114
+      Script: {instanceID: 12406}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -381,6 +387,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 3286}
     - Class: 114
       Script: {instanceID: 3412}
+    - Class: 114
+      Script: {instanceID: 3774}
     - Class: 114
       Script: {instanceID: 3930}
     - Class: 114
@@ -477,6 +485,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11832}
     - Class: 114
       Script: {instanceID: 12366}
+    - Class: 114
+      Script: {instanceID: 12406}
     - Class: 114
       Script: {instanceID: 12574}
     - Class: 115
@@ -896,7 +906,7 @@ ScriptsOnlyBuild:
     className: SpriteShapeGeometryCache
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: a9e54a4ac9205bc0704e52a2428aba6e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerResultAdapter
@@ -2276,7 +2286,7 @@ ScriptsOnlyBuild:
     className: PlayerList
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: 1b46f5d95f765cd40ce9e975c2d3b485
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerResultInfo
@@ -2308,4 +2318,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/LoginScene.unity
   - Assets/Scenes/GameScene.unity
-  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client2/Client2.app
+  playerPath: /Users/Yijun/Desktop/Project/TheWeakest/Client/Builds/MacOS/Client3/Client3.app

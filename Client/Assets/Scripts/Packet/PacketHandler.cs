@@ -2,6 +2,7 @@
 using Google.Protobuf.Protocol;
 using ServerCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -60,8 +61,7 @@ class PacketHandler
         S_LeaveGame leaveGamePacket = packet as S_LeaveGame;
         ServerSession serverSession = session as ServerSession;
 
-        Managers.Object.Clear();
-        SceneManager.LoadScene("LoginScene");
+        Managers.Object.MyPlayer.GoToLogin();
     }
 
     public static void S_SpawnHandler(PacketSession session, IMessage packet)
@@ -258,5 +258,22 @@ class PacketHandler
         // 플레이어 속도 조정 
         Managers.Object.SetAllPlayerSpeed(roomInfoPacket.RoomInfo);
 
+    }
+
+    public static void S_EndGameHandler(PacketSession session, IMessage packet)
+    {
+        S_EndGame endPacket = packet as S_EndGame;
+        ServerSession serverSession = session as ServerSession;
+
+        GameObject go = Managers.Object.FindById(endPacket.WinnerId);
+        if (go == null)
+            return;
+
+        PlayerController winner = go.GetComponent<PlayerController>();
+        if (winner == null)
+            return;
+
+        Managers.UI.ActiveEndGamePanel(winner.Id);
+        Managers.Object.MyPlayer.GoToLogin();
     }
 }

@@ -96,6 +96,8 @@ namespace Server
 
                 _isPlaying = true;
                 JobTimer.Instance.Push(HandleTIme, 1000);
+
+                CheckEndGame();
             }
 
         }
@@ -119,39 +121,44 @@ namespace Server
                 return;
             }
 
-            // 중복되는 이름
-            var temp = _players.Where(p => p.Value.Info.Name == playerName).ToList();
-            if (temp.Count != 0)
+
+            lock (_lock)
             {
-                Console.WriteLine(_players.Where(x => x.Value.Info.Name == playerName).ToString());
-                S_DuplicateName duplicatePacket = new S_DuplicateName();
-                session.Send(duplicatePacket);
-                return;
+                // 중복되는 이름
+                var temp = _players.Where(p => p.Value.Info.Name == playerName).ToList();
+                if (temp.Count != 0)
+                {
+                    Console.WriteLine(_players.Where(x => x.Value.Info.Name == playerName).ToString());
+                    S_DuplicateName duplicatePacket = new S_DuplicateName();
+                    session.Send(duplicatePacket);
+                    return;
+                }
+
+                // clientSession의 MyPlayer가 이미 존재하는 경우
+                if (session.MyPlayer != null)
+                    myPlayer = session.MyPlayer;
+                else
+                {
+                    myPlayer = PlayerManager.Instance.Add();
+
+                    myPlayer.Info.Name = enterGamePacket.Name;
+                    myPlayer.Info.Speed = 6.0f;
+                    myPlayer.Info.Power = 0;
+                    myPlayer.Info.KillCount = 0;
+                    myPlayer.Info.PosInfo.State = PlayerState.Alive;
+                    myPlayer.Info.PosInfo.MoveDir = MoveDir.Idle;
+                    myPlayer.Info.PosInfo.PosX = 0;
+                    myPlayer.Info.PosInfo.PosY = 0;
+
+                    myPlayer.Session = session;
+                    myPlayer.Session.MyPlayer = myPlayer;
+                }
+
+                S_EnterGame enterPacket = new S_EnterGame();
+                enterPacket.EnterCompleted = true;
+                myPlayer.Session.Send(enterPacket);
             }
-
-            // clientSession의 MyPlayer가 이미 존재하는 경우
-            if (session.MyPlayer != null)
-                myPlayer = session.MyPlayer;
-            else
-            {
-                myPlayer = PlayerManager.Instance.Add();
-
-                myPlayer.Info.Name = enterGamePacket.Name;
-                myPlayer.Info.Speed = 6.0f;
-                myPlayer.Info.Power = 0;
-                myPlayer.Info.KillCount = 0;
-                myPlayer.Info.PosInfo.State = PlayerState.Alive;
-                myPlayer.Info.PosInfo.MoveDir = MoveDir.Idle;
-                myPlayer.Info.PosInfo.PosX = 0;
-                myPlayer.Info.PosInfo.PosY = 0;
-
-                myPlayer.Session = session;
-                myPlayer.Session.MyPlayer = myPlayer;
-            }
-
-            S_EnterGame enterPacket = new S_EnterGame();
-            enterPacket.EnterCompleted = true;
-            myPlayer.Session.Send(enterPacket);
+            
         }
 
         public void LoadPlayer(Player newPlayer)
@@ -460,20 +467,20 @@ namespace Server
         // 게임종료 처리
         public void CheckEndGame()
         {
-            if (_isPlaying == false || _playingRoomInfo.AliveCount <= 1 || _playingRoomInfo.RemainTime <= 0)
-                return;
-
-            lock (_lock)
+            if (_isPlaying == true && (_playingRoomInfo.AliveCount <= 1 || _playingRoomInfo.RemainTime <= 0))
             {
-                S_EndGame endGame = new S_EndGame();
-                Player theWeakest = GetTheWeakest();
-                if (theWeakest == null)
-                    return;
-                endGame.WinnerId = theWeakest.Info.PlayerId;
-                Broadcast(endGame);
+                lock (_lock)
+                {
+                    S_EndGame endGame = new S_EndGame();
+                    Player theWeakest = GetTheWeakest();
+                    if (theWeakest == null)
+                        return;
+                    endGame.WinnerId = theWeakest.Info.PlayerId;
+                    Broadcast(endGame);
 
-                _isPlaying = false;
-                ClearRoom();
+                    _isPlaying = false;
+                    ClearRoom();
+                }
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager
 {
@@ -219,5 +220,12 @@ public class UIManager
         {
             Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").transform.Find("TimerText").GetComponent<TMP_Text>().color = Color.red;
         }
+    }
+
+    public void ActiveEndGamePanel(int winnerId)
+    {
+        Camera.main.transform.Find("CameraCanvas").transform.Find("InGamePanel").gameObject.SetActive(false);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("EndPanel").gameObject.SetActive(true);
+        Camera.main.transform.Find("CameraCanvas").transform.Find("EndPanel").transform.Find("PlayerResultLayout").GetComponent<PlayerResultAdapter>().UpdateItems();
     }
 }

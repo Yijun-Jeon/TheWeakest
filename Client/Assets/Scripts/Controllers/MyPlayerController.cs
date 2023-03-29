@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Google.Protobuf.Protocol;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static Define;
 using static UnityEngine.UI.Image;
 
@@ -67,7 +68,6 @@ public class MyPlayerController : PlayerController
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log(Speed);
             SetIsControl(true);
             // 공격 패킷 연타 부하 방지 
             if (_coAttack != null)
@@ -232,5 +232,18 @@ public class MyPlayerController : PlayerController
     public void SetIsControl(bool isControl)
     {
         IsControl = isControl;
+    }
+
+    public void GoToLogin()
+    {
+        StartCoroutine("CoGoToLoginScene");
+    }
+
+    IEnumerator CoGoToLoginScene()
+    {
+        yield return new WaitForSeconds(15.0f);
+
+        Managers.Object.Clear();
+        SceneManager.LoadScene("LoginScene");
     }
 }
