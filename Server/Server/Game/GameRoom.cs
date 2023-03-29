@@ -19,7 +19,7 @@ namespace Server
         Random _random = new Random();
 
         Dictionary<int, Player> _players = new Dictionary<int, Player>();
-        Dictionary<int,int> _powers = new Dictionary<int, int>();
+        Dictionary<int, int> _powers = new Dictionary<int, int>();
         Map _map = new Map();
 
         float _attackRange = 1.5f;
@@ -35,7 +35,7 @@ namespace Server
 
         public void StartGame()
         {
-            lock(_lock)
+            lock (_lock)
             {
                 int numOfPlayers = _players.Count;
 
@@ -78,6 +78,10 @@ namespace Server
                 };
 
                 SetAllPlayerSpeed();
+
+                Player theWeakest = GetTheWeakest();
+                if (theWeakest == null)
+                    return;
                 _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
                 // 게임 시작 모두에게 알림
@@ -92,7 +96,7 @@ namespace Server
                 _isPlaying = true;
                 JobTimer.Instance.Push(HandleTIme, 1000);
             }
-            
+
         }
 
         public void EnterGame(ClientSession session, C_EnterGame enterGamePacket)
@@ -115,8 +119,8 @@ namespace Server
             }
 
             // 중복되는 이름
-            var temp = _players.Where(p => p.Value.Info.Name== playerName).ToList();
-            if(temp.Count != 0)
+            var temp = _players.Where(p => p.Value.Info.Name == playerName).ToList();
+            if (temp.Count != 0)
             {
                 Console.WriteLine(_players.Where(x => x.Value.Info.Name == playerName).ToString());
                 S_DuplicateName duplicatePacket = new S_DuplicateName();
@@ -125,7 +129,7 @@ namespace Server
             }
 
             // clientSession의 MyPlayer가 이미 존재하는 경우
-            if(session.MyPlayer != null)
+            if (session.MyPlayer != null)
                 myPlayer = session.MyPlayer;
             else
             {
@@ -156,7 +160,7 @@ namespace Server
 
             lock (_lock)
             {
-                _players.Add(newPlayer.Info.PlayerId,newPlayer);
+                _players.Add(newPlayer.Info.PlayerId, newPlayer);
                 newPlayer.Room = this;
 
                 // 본인에게 정보 전송
@@ -167,9 +171,9 @@ namespace Server
 
                     // 타인들 정보
                     S_Spawn spawnPacket = new S_Spawn();
-                    foreach(Player p in _players.Values)
+                    foreach (Player p in _players.Values)
                     {
-                        if(newPlayer != p)
+                        if (newPlayer != p)
                             spawnPacket.Players.Add(p.Info);
                     }
                     newPlayer.Session.Send(spawnPacket);
@@ -181,7 +185,7 @@ namespace Server
                     spawnPacket.Players.Add(newPlayer.Info);
                     foreach (Player p in _players.Values)
                     {
-                        if(newPlayer != p)
+                        if (newPlayer != p)
                             p.Session.Send(spawnPacket);
                     }
                 }
@@ -208,7 +212,7 @@ namespace Server
                     S_Despawn despawnPacket = new S_Despawn();
                     despawnPacket.PlayerIds.Add(player.Info.PlayerId);
 
-                    foreach(Player p in _players.Values)
+                    foreach (Player p in _players.Values)
                     {
                         if (player != p)
                             p.Session.Send(despawnPacket);
@@ -221,9 +225,14 @@ namespace Server
                     // 이미 죽은 플레이어가 나갈 경우에는 인게임 지장 X
                     if (player.Info.PosInfo.State != PlayerState.Dead)
                     {
+                        _powers.Remove(playerId);
                         _playingRoomInfo.AliveCount -= 1;
 
                         SetAllPlayerSpeed();
+
+                        Player theWeakest = GetTheWeakest();
+                        if (theWeakest == null)
+                            return;
                         _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
                         S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
@@ -238,7 +247,7 @@ namespace Server
         {
             lock (_lock)
             {
-                foreach(Player p in _players.Values)
+                foreach (Player p in _players.Values)
                 {
                     p.Session.Send(packet);
                 }
@@ -246,7 +255,7 @@ namespace Server
         }
 
         // 플레이어 이동 처리
-        public void HandleMove(Player player,C_Move movePacket)
+        public void HandleMove(Player player, C_Move movePacket)
         {
             if (player == null)
                 return;
@@ -259,7 +268,7 @@ namespace Server
                 PlayerInfo info = player.Info;
 
                 // 다른 좌표로 이동하려는 경우, 갈 수 있는 곳인지 체크
-                if(movePosInfo.PosX != info.PosInfo.PosX || movePosInfo.PosY != info.PosInfo.PosY)
+                if (movePosInfo.PosX != info.PosInfo.PosX || movePosInfo.PosY != info.PosInfo.PosY)
                 {
                     // 갈 수 없는 곳 
                     if (_map.CanGo(new Vector2Int(movePosInfo.PosX, movePosInfo.PosY)) == false)
@@ -322,7 +331,7 @@ namespace Server
         public void HandleDead(Player player, Player enemy)
         {
             // 공격자의 공격력이 더 높음
-            if(player.Info.Power > enemy.Info.Power)
+            if (player.Info.Power > enemy.Info.Power)
             {
                 // 사망 처리
                 enemy.Info.PosInfo.State = PlayerState.Dead;
@@ -337,7 +346,7 @@ namespace Server
                 Broadcast(deadPacket);
             }
             // 공격자의 공격력이 더 낮음
-            else if(player.Info.Power < enemy.Info.Power)
+            else if (player.Info.Power < enemy.Info.Power)
             {
                 // 사망 처리
                 player.Info.PosInfo.State = PlayerState.Dead;
@@ -359,6 +368,10 @@ namespace Server
 
             _playingRoomInfo.AliveCount -= 1;
             SetAllPlayerSpeed();
+
+            Player theWeakest = GetTheWeakest();
+            if (theWeakest == null)
+                return;
             _playingRoomInfo.TheWeakest = GetTheWeakest().Info;
 
             S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
@@ -409,7 +422,7 @@ namespace Server
                     S_WatchOther watchOther = new S_WatchOther();
                     watchOther.TargetId = targetPlayer.Info.PlayerId;
                     player.Session.Send(watchOther);
-                }    
+                }
             }
         }
 
@@ -420,9 +433,11 @@ namespace Server
                 return;
 
             S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
-            roomInfoChange.RoomInfo.RemainTime -= 1.0f;
+            _playingRoomInfo.RemainTime -= 1.0f;
+            roomInfoChange.RoomInfo = _playingRoomInfo;
             Broadcast(roomInfoChange);
-            
+
+            // 1초마다 전송
             JobTimer.Instance.Push(HandleTIme, 1000);
         }
 
@@ -436,6 +451,9 @@ namespace Server
             lock (_lock)
             {
                 List<int> powers = _powers.Values.ToList();
+                if (powers.Count == 0)
+                    return null;
+
                 int minPower = powers.Min();
 
                 // 현재 꼴등 플레이어 
@@ -448,6 +466,9 @@ namespace Server
         {
             lock (_lock)
             {
+                if (_playingRoomInfo.TheWeakest == null)
+                    return;
+
                 _playingRoomInfo.AllPlayerSpeed = 10f - _playingRoomInfo.AliveCount * 0.3f;
                 // 꼴등 이속 버프 
                 float weakestBuff = Math.Max(0, _playingRoomInfo.AliveCount - 2) * 0.2f;
