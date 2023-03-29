@@ -51,23 +51,24 @@ namespace Google.Protobuf.Protocol {
             "b2NvbC5Qb3NpdGlvbkluZm8idAoMUG9zaXRpb25JbmZvEiQKBXN0YXRlGAEg",
             "ASgOMhUuUHJvdG9jb2wuUGxheWVyU3RhdGUSIgoHbW92ZURpchgCIAEoDjIR",
             "LlByb3RvY29sLk1vdmVEaXISDAoEcG9zWBgDIAEoBRIMCgRwb3NZGAQgASgF",
-            "IowBCg9QbGF5aW5nUm9vbUluZm8SDgoGcm9vbUlkGAEgASgFEhMKC3BsYXll",
+            "IqABCg9QbGF5aW5nUm9vbUluZm8SDgoGcm9vbUlkGAEgASgFEhMKC3BsYXll",
             "ckNvdW50GAIgASgFEhIKCmFsaXZlQ291bnQYAyABKAUSKAoKdGhlV2Vha2Vz",
             "dBgEIAEoCzIULlByb3RvY29sLlBsYXllckluZm8SFgoOYWxsUGxheWVyU3Bl",
-            "ZWQYBSABKAIqkwMKBU1zZ0lkEhQKEFNfQ09OTkVDVF9TRVJWRVIQABIQCgxD",
-            "X0VOVEVSX0dBTUUQARIQCgxTX0VOVEVSX0dBTUUQAhIQCgxTX0xFQVZFX0dB",
-            "TUUQAxILCgdTX1NQQVdOEAQSDQoJU19ERVNQQVdOEAUSCgoGQ19NT1ZFEAYS",
-            "CgoGU19NT1ZFEAcSDAoIQ19BVFRBQ0sQCBIMCghTX0FUVEFDSxAJEgoKBkNf",
-            "RkFLRRAKEgoKBlNfRkFLRRALEhAKDENfU1RBUlRfR0FNRRAMEhAKDFNfU1RB",
-            "UlRfR0FNRRANEhEKDUNfTE9BRF9QTEFZRVIQDhIRCg1TX0xPQURfUExBWUVS",
-            "EA8SEgoOU19JTlZBTElEX05BTUUQEBIUChBTX0RVUExJQ0FURV9OQU1FEBES",
-            "EAoMQ19MRUFWRV9HQU1FEBISCgoGU19ERUFEEBMSEQoNQ19XQVRDSF9PVEhF",
-            "UhAUEhEKDVNfV0FUQ0hfT1RIRVIQFRIeChpTX1BMQVlJTkdfUk9PTV9JTkZP",
-            "X0NIQU5HRRAWKjcKC1BsYXllclN0YXRlEgkKBVJFQURZEAASCQoFQUxJVkUQ",
-            "ARIICgRGQUtFEAISCAoEREVBRBADKnAKB01vdmVEaXISCAoESURMRRAAEgYK",
-            "AlVQEAESCAoERE9XThACEggKBExFRlQQAxIJCgVSSUdIVBAEEgoKBlVQTEVG",
-            "VBAFEgsKB1VQUklHSFQQBhIMCghET1dOTEVGVBAHEg0KCURPV05SSUdIVBAI",
-            "QhuqAhhHb29nbGUuUHJvdG9idWYuUHJvdG9jb2xiBnByb3RvMw=="));
+            "ZWQYBSABKAISEgoKcmVtYWluVGltZRgGIAEoASqTAwoFTXNnSWQSFAoQU19D",
+            "T05ORUNUX1NFUlZFUhAAEhAKDENfRU5URVJfR0FNRRABEhAKDFNfRU5URVJf",
+            "R0FNRRACEhAKDFNfTEVBVkVfR0FNRRADEgsKB1NfU1BBV04QBBINCglTX0RF",
+            "U1BBV04QBRIKCgZDX01PVkUQBhIKCgZTX01PVkUQBxIMCghDX0FUVEFDSxAI",
+            "EgwKCFNfQVRUQUNLEAkSCgoGQ19GQUtFEAoSCgoGU19GQUtFEAsSEAoMQ19T",
+            "VEFSVF9HQU1FEAwSEAoMU19TVEFSVF9HQU1FEA0SEQoNQ19MT0FEX1BMQVlF",
+            "UhAOEhEKDVNfTE9BRF9QTEFZRVIQDxISCg5TX0lOVkFMSURfTkFNRRAQEhQK",
+            "EFNfRFVQTElDQVRFX05BTUUQERIQCgxDX0xFQVZFX0dBTUUQEhIKCgZTX0RF",
+            "QUQQExIRCg1DX1dBVENIX09USEVSEBQSEQoNU19XQVRDSF9PVEhFUhAVEh4K",
+            "GlNfUExBWUlOR19ST09NX0lORk9fQ0hBTkdFEBYqNwoLUGxheWVyU3RhdGUS",
+            "CQoFUkVBRFkQABIJCgVBTElWRRABEggKBEZBS0UQAhIICgRERUFEEAMqcAoH",
+            "TW92ZURpchIICgRJRExFEAASBgoCVVAQARIICgRET1dOEAISCAoETEVGVBAD",
+            "EgkKBVJJR0hUEAQSCgoGVVBMRUZUEAUSCwoHVVBSSUdIVBAGEgwKCERPV05M",
+            "RUZUEAcSDQoJRE9XTlJJR0hUEAhCG6oCGEdvb2dsZS5Qcm90b2J1Zi5Qcm90",
+            "b2NvbGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Google.Protobuf.Protocol.MsgId), typeof(global::Google.Protobuf.Protocol.PlayerState), typeof(global::Google.Protobuf.Protocol.MoveDir), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -96,7 +97,7 @@ namespace Google.Protobuf.Protocol {
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.S_PlayingRoomInfoChange), global::Google.Protobuf.Protocol.S_PlayingRoomInfoChange.Parser, new[]{ "RoomInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PlayerInfo), global::Google.Protobuf.Protocol.PlayerInfo.Parser, new[]{ "PlayerId", "Name", "Speed", "Power", "KillCount", "PosInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PositionInfo), global::Google.Protobuf.Protocol.PositionInfo.Parser, new[]{ "State", "MoveDir", "PosX", "PosY" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PlayingRoomInfo), global::Google.Protobuf.Protocol.PlayingRoomInfo.Parser, new[]{ "RoomId", "PlayerCount", "AliveCount", "TheWeakest", "AllPlayerSpeed" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Google.Protobuf.Protocol.PlayingRoomInfo), global::Google.Protobuf.Protocol.PlayingRoomInfo.Parser, new[]{ "RoomId", "PlayerCount", "AliveCount", "TheWeakest", "AllPlayerSpeed", "RemainTime" }, null, null, null, null)
           }));
     }
     #endregion
@@ -5130,6 +5131,7 @@ namespace Google.Protobuf.Protocol {
       aliveCount_ = other.aliveCount_;
       theWeakest_ = other.theWeakest_ != null ? other.theWeakest_.Clone() : null;
       allPlayerSpeed_ = other.allPlayerSpeed_;
+      remainTime_ = other.remainTime_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -5199,6 +5201,18 @@ namespace Google.Protobuf.Protocol {
       }
     }
 
+    /// <summary>Field number for the "remainTime" field.</summary>
+    public const int RemainTimeFieldNumber = 6;
+    private double remainTime_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public double RemainTime {
+      get { return remainTime_; }
+      set {
+        remainTime_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -5219,6 +5233,7 @@ namespace Google.Protobuf.Protocol {
       if (AliveCount != other.AliveCount) return false;
       if (!object.Equals(TheWeakest, other.TheWeakest)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AllPlayerSpeed, other.AllPlayerSpeed)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(RemainTime, other.RemainTime)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -5231,6 +5246,7 @@ namespace Google.Protobuf.Protocol {
       if (AliveCount != 0) hash ^= AliveCount.GetHashCode();
       if (theWeakest_ != null) hash ^= TheWeakest.GetHashCode();
       if (AllPlayerSpeed != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AllPlayerSpeed);
+      if (RemainTime != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(RemainTime);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -5269,6 +5285,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(45);
         output.WriteFloat(AllPlayerSpeed);
       }
+      if (RemainTime != 0D) {
+        output.WriteRawTag(49);
+        output.WriteDouble(RemainTime);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -5299,6 +5319,10 @@ namespace Google.Protobuf.Protocol {
         output.WriteRawTag(45);
         output.WriteFloat(AllPlayerSpeed);
       }
+      if (RemainTime != 0D) {
+        output.WriteRawTag(49);
+        output.WriteDouble(RemainTime);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -5323,6 +5347,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (AllPlayerSpeed != 0F) {
         size += 1 + 4;
+      }
+      if (RemainTime != 0D) {
+        size += 1 + 8;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -5353,6 +5380,9 @@ namespace Google.Protobuf.Protocol {
       }
       if (other.AllPlayerSpeed != 0F) {
         AllPlayerSpeed = other.AllPlayerSpeed;
+      }
+      if (other.RemainTime != 0D) {
+        RemainTime = other.RemainTime;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -5392,6 +5422,10 @@ namespace Google.Protobuf.Protocol {
             AllPlayerSpeed = input.ReadFloat();
             break;
           }
+          case 49: {
+            RemainTime = input.ReadDouble();
+            break;
+          }
         }
       }
     #endif
@@ -5428,6 +5462,10 @@ namespace Google.Protobuf.Protocol {
           }
           case 45: {
             AllPlayerSpeed = input.ReadFloat();
+            break;
+          }
+          case 49: {
+            RemainTime = input.ReadDouble();
             break;
           }
         }

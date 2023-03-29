@@ -73,7 +73,8 @@ namespace Server
                     AliveCount = _players.Count,
                     // TODO : 남은 시간, 꼴등 정보
                     TheWeakest = GetTheWeakest().Info,
-                    AllPlayerSpeed = 6.0f
+                    AllPlayerSpeed = 6.0f,
+                    RemainTime = 90.0f
                 };
 
                 SetAllPlayerSpeed();
@@ -89,6 +90,7 @@ namespace Server
                 Broadcast(startGamePacket);
 
                 _isPlaying = true;
+                JobTimer.Instance.Push(HandleTIme, 1000);
             }
             
         }
@@ -409,6 +411,19 @@ namespace Server
                     player.Session.Send(watchOther);
                 }    
             }
+        }
+
+        // 종료시간 타이머
+        public void HandleTIme()
+        {
+            if (_isPlaying == false && _playingRoomInfo.AliveCount <= 1)
+                return;
+
+            S_PlayingRoomInfoChange roomInfoChange = new S_PlayingRoomInfoChange();
+            roomInfoChange.RoomInfo.RemainTime -= 1.0f;
+            Broadcast(roomInfoChange);
+            
+            JobTimer.Instance.Push(HandleTIme, 1000);
         }
 
         float GetDistance(PositionInfo myPos, PositionInfo enemyPos)
